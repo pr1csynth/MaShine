@@ -24,7 +24,7 @@ public class DeviceElement extends Element{
 
 	public DeviceElement (Drawable parent, Device device) {
 		// TODO : generalize translate + push/popMatrix in elements/elements sublclass
-		super(parent, device.getX() + 10, device.getY() + 50, device.getWidth(), device.getHeight());
+		super(parent, device.getX(), device.getY(), device.getWidth(), device.getHeight());
 		this.d = device;
 		this.devFeatures = device.getFeatures();
 	}

@@ -31,13 +31,6 @@ public class UIBox extends Drawable{
 		elements.add(new CloseButton(this));
 	}
 
-	public boolean mouseIn(){
-		return  M.mouseX >= x &&
-				M.mouseX < x + width &&
-				M.mouseY >= y &&
-				M.mouseY < y + height;
-	}
-
 	protected void drawContent(){
 
 		drawFrame();

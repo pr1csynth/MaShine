@@ -37,7 +37,7 @@ public class Element extends Focusable{
 		return (M.inputs.getState("mouse.left.hold") && focus && P.hasFocus()) || (
 				P.mouseX() >= x &&
 				P.mouseX() < x + width &&
-				P.mouseY() >= x &&
+				P.mouseY() >= y &&
 				P.mouseY() < y + height);
 	}
 

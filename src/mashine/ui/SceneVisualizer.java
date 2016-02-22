@@ -22,7 +22,6 @@ public class SceneVisualizer extends Drawable {
 
 	public SceneVisualizer(MaShine m){
 		super(m, 10, 50, m.width - 10, m.height - 50);
-		focus = true;
 		deviceElements = new HashMap<String, DeviceElement>();
 		selectedDevices = new HashMap<String, Device>();
 	}

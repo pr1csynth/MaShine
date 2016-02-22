@@ -17,7 +17,7 @@ public abstract class Drawable extends Focusable{
 
 	public Drawable(MaShine m, PGraphics parent, int x, int y, int width, int height){
 		super(m);
-		canvas = M.createGraphics(width, height, M.P2D);
+		canvas = M.createGraphics(width + 1, height + 1, M.P2D);
 
 		this.parent = parent;
 		this.x = x;
@@ -43,7 +43,7 @@ public abstract class Drawable extends Focusable{
 		canvas.endDraw();
 		//parent.beginDraw();
 
-		parent.image(canvas, x, y, width, height);
+		parent.image(canvas, x, y, width +1 , height + 1);
 	}
 
 	protected void drawContent(){
@@ -51,6 +51,14 @@ public abstract class Drawable extends Focusable{
 	}
 
 	public void tick(){}
+
+
+	public boolean mouseIn(){
+		return  M.mouseX >= x &&
+				M.mouseX < x + width &&
+				M.mouseY >= y &&
+				M.mouseY < y + height;
+	}
 
 	protected int mouseX() {
 		return M.mouseX - x;

@@ -34,9 +34,9 @@ public class UI{
 			boolean mouseInA = a.mouseIn();
 			boolean mouseInB = b.mouseIn();
 			if(a.hasFocus() && a.M.mousePressed)
-				return 1;
+				return 1; // b get drawn first, a on top
 			else if (b.hasFocus() && a.M.mousePressed)
-				return -1;
+				return -1; // b on top
 			else
 				if(mouseInA == mouseInB)
 					return 0;
@@ -44,7 +44,7 @@ public class UI{
 					if(mouseInA)
 						return 1; // b get drawn first, a on top
 					else
-						return -1;
+						return -1; // b on top
 		}
 	}
 
@@ -67,7 +67,6 @@ public class UI{
 		uiElements.put("DataViewer", new DataViewer(M));
 		uiElements.put("DeviceEditor", new DeviceEditor(M));
 		openedUiElements = new LinkedList<Focusable>();
-		openedUiElements.add(sceneVisualizer);
 		open("EventViewer");open("DataViewer");open("DeviceEditor");
 	}
 
@@ -109,11 +108,9 @@ public class UI{
 		openedUiElements.sort(new SortByFocus());
 
 		for(Focusable el : openedUiElements){
-			M.pushMatrix();
 			el.tick();
 			el.draw();
 			el.defocus();
-			M.popMatrix();
 		}
 
 		if(!openedUiElements.isEmpty())
