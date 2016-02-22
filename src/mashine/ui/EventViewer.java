@@ -1,0 +1,61 @@
+/**
+ *  Interface to link actions to inputs
+ *
+ *	@author procsynth - Antoine Pintout
+ *	@since  13-02-2016`
+ */
+
+package mashine.ui;
+
+import mashine.*;
+import java.util.*;
+
+public class EventViewer extends UIBox{
+
+	private HashMap<String,Integer> highlight;
+
+	public EventViewer (MaShine m) {
+		super(m, "EVENT VIEWER", 50, 50, 300, 600);
+		highlight = new HashMap();
+	}
+
+	public void drawUI(){
+		canvas.noStroke();
+		int offset = 26;
+		canvas.textAlign(canvas.LEFT, canvas.TOP);
+		ArrayList<String> stateInputsName = new ArrayList(M.inputs.getStateSet());
+		Collections.sort(stateInputsName);
+
+		for(String a : stateInputsName){
+			if(M.inputs.getState(a)){
+				highlight.put(a, 255);
+			}
+
+			if(!highlight.containsKey(a)){
+				highlight.put(a, 0);
+			}
+			
+			FlatColor.fill(canvas,Colors.MATERIAL.ORANGE.A400.withAlpha(highlight.get(a)));
+			canvas.rect(0, offset - 3, width, 14);
+
+			FlatColor.fill(canvas,Colors.WHITE);
+			canvas.text(a, 5, offset);
+			offset += 14;
+		}
+
+		for(String h : highlight.keySet()){
+			Integer newVal;
+			if(h.contains("encod") || h.contains("beat") ){
+				newVal = highlight.get(h) - 35;
+			}else{
+				newVal = highlight.get(h) - 10;
+			}
+			newVal = M.max(0, newVal);
+			highlight.put(h, newVal);
+		}
+
+
+		//canvas.rect(mouseX(), mouseY(), 20, 20);
+	}
+
+}

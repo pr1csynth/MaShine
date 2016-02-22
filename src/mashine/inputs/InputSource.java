@@ -1,0 +1,36 @@
+/**
+ *  Mother class for all inputs
+ *
+ *	@author procsynth - Antoine Pintout
+ *	@since  13-02-2016`
+ */
+
+package mashine.inputs;
+
+import mashine.*;
+import java.util.HashMap; 
+
+public class InputSource {
+
+	protected MaShine M;
+	protected HashMap<String,Boolean> states;
+	protected HashMap<String,Float> ranges;
+
+	public InputSource (MaShine m) {
+		M = m;
+		states = new HashMap<String,Boolean>();
+		ranges = new HashMap<String,Float>();
+	}
+
+	public void tick(){}
+	public void clear(){}
+
+	public HashMap<String,Boolean> pollStates() {
+		return states;
+	}
+
+	public HashMap<String,Float> pollRanges() {
+		return ranges;
+	}
+
+}
