@@ -21,7 +21,7 @@ public class DataViewer extends UIBox{
 	public void drawUI(){
 		canvas.noStroke();
 		canvas.textAlign(M.LEFT, M.TOP);
-		int offset = 0;
+		int offset = 30;
 		ArrayList<String> rangeInputsName = new ArrayList(M.inputs.getRangeSet());
 		Collections.sort(rangeInputsName);
 
@@ -32,14 +32,14 @@ public class DataViewer extends UIBox{
 			// if 0.0 to 1.0 range
 			FlatColor.fill(canvas, Colors.MATERIAL.ORANGE.A400);
 			if(val <= 1 && (val % 1 != 0)){
-				canvas.rect(-5, offset - 3, (int) (width * val), 14);
+				canvas.rect(1, offset - 3, M.min(width-1,(int) (width * val)), 14);
 
 			// if 0-127 range (midi) 
 			}else{
-				canvas.rect(-5, offset - 3, (int) (width * (float) (val/256)), 14);
+				canvas.rect(1, offset - 3, M.min(width-1,(int) (width * (float) (val/256))), 14);
 			}
 			FlatColor.fill(canvas, Colors.WHITE);
-			canvas.text(a + " " + (float) Math.round(val*100000)/100000 , 0, offset);
+			canvas.text(a + " " + (float) Math.round(val*100000)/100000 , 5, offset);
 			offset += 14;
 		}
 	}

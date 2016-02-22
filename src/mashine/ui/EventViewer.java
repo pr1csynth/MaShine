@@ -21,7 +21,7 @@ public class EventViewer extends UIBox{
 
 	public void drawUI(){
 		canvas.noStroke();
-		int offset = 26;
+		int offset = 30;
 		canvas.textAlign(canvas.LEFT, canvas.TOP);
 		ArrayList<String> stateInputsName = new ArrayList(M.inputs.getStateSet());
 		Collections.sort(stateInputsName);
@@ -36,7 +36,7 @@ public class EventViewer extends UIBox{
 			}
 			
 			FlatColor.fill(canvas,Colors.MATERIAL.ORANGE.A400.withAlpha(highlight.get(a)));
-			canvas.rect(0, offset - 3, width, 14);
+			canvas.rect(1, offset - 3, width - 1, 14);
 
 			FlatColor.fill(canvas,Colors.WHITE);
 			canvas.text(a, 5, offset);
