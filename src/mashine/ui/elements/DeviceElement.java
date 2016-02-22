@@ -56,6 +56,7 @@ public class DeviceElement extends Element{
 					// special case color, coordinates, ...
 				if(feature instanceof ColorFeature){
 					FlatColor.fill(P.canvas, ((ColorFeature)feature).getColor());
+					P.canvas.noStroke();
 				}else{
 					for(String f : featureFields.keySet()){
 						devFields.put(feature.getType() +"."+ f, featureFields.get(f));
@@ -70,8 +71,6 @@ public class DeviceElement extends Element{
 				if(feature instanceof ColorFeature){
 
 					FlatColor.stroke(P.canvas, Colors.MATERIAL.GREY._700);
-					M.line(d.getX(), d.getHeight() + d.getY(), d.getWidth() +d.getX(), d.getY());
-					M.noStroke();
 						// draw the background in grey
 					FlatColor.fill(P.canvas, Colors.MATERIAL.GREY._800);
 
@@ -88,8 +87,8 @@ public class DeviceElement extends Element{
 		}
 
 			// actually draws the device in the canvas
-
 		P.canvas.rect(d.getX(), d.getY(), d.getWidth(), d.getHeight());
+		P.canvas.line(d.getX(), d.getHeight() + d.getY(), d.getWidth() +d.getX(), d.getY());
 
 			// identifier 
 		FlatColor.fill(P.canvas, Colors.MATERIAL.GREEN.A700);
