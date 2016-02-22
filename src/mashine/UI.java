@@ -9,6 +9,7 @@ package mashine;
 
 import mashine.*;
 import mashine.ui.*;
+import mashine.ui.boxes.*;
 import mashine.scene.Device;
 import mashine.scene.Frame;
 import processing.core.PFont;

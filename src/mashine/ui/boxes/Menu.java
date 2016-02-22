@@ -5,9 +5,10 @@
  *	@since  13-02-2016`
  */
 
-package mashine.ui;
+package mashine.ui.boxes;
 
 import mashine.*;
+import mashine.ui.*;
 import mashine.ui.elements.*;
 import java.util.ArrayList;
 
