@@ -24,8 +24,9 @@ Midi device only tested on Linux. Otherwise it should be crossplateform.
  - 23:21 14 fev 2016 : better device drawing, added menu bar, worked out how frame can work, better focus, commencing UI device editor (2 buttons yeah!)
  - 16:37 18 fev 2016 : basic user text input, should add regEx validation, maxlength check.
  - 16:43 22 fev 2016 : git versionning ! Main UI elements are drawn on separate PGraphics canvas, and it works (soon : scrollable) 
+ - 20:39 22 fev 2016 : TODO device manipulation
 
- # WHICH LICENSE ?
+# WHICH LICENSE ?
 
 This software is licensed under the GNU/LGPL v3 license, a copy is provided in the [LICENSES][licenses] file.
 
