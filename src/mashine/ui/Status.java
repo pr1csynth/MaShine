@@ -58,7 +58,7 @@ public class Status{
 		M.stroke(0x64, 0xFF, 0xDA, beatFade);
 		M.strokeWeight((float)1.1);
 		M.fill(0, M.inputs.getRange("minim.rms")*255);
-		//(tetrahedron.draw(M.width - 13, M.height - 11, 120);
+		tetrahedron.draw(M.width - 13, M.height - 11, 120);
 
 		beatFade = M.max(50, beatFade - 15);
 	}
