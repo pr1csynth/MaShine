@@ -71,6 +71,14 @@ public class RangeInput extends Element{
 	}
 
 	protected void onDefocus(){
+		if(stringValue.length() > 0){
+			value = Float.parseFloat(stringValue);
+			normalize();	
+		}else{
+			value = min;
+		}
+
+		stringValue = Float.toString(value);
 	}
 
 }
