@@ -24,7 +24,7 @@ public class Scene{
 		M = m;
 
 		devices = new HashMap<String,Device>();
-		Device testDevice = new Device("testDevice", 1, 42, 10, 10, 200, 50);
+		Device testDevice = new Device("testDevice", 1, 1, 10, 10, 200, 50);
 		Device testDevice2 = new Device("testDevice2", 6, 42, 10, 65, 200, 60);
 		testDevice.addFeature(new RGBW(255));
 		testDevice.addFeature(new FixedField("strobe", 255));
@@ -33,6 +33,17 @@ public class Scene{
 		testDevice2.addFeature(new FixedField("dimmer", 255));
 		devices.put(testDevice.getIdentifier(), testDevice);
 		devices.put(testDevice2.getIdentifier(), testDevice2);
+		Device testDevice3 = new Device("testDevice3", 1, 42, 215, 10, 200, 50);
+		Device testDevice4 = new Device("testDevice4", 6, 42, 215, 65, 200, 70);
+		testDevice3.addFeature(new RGBW(255));
+		testDevice3.addFeature(new FixedField("strobe", 255));
+		testDevice4.addFeature(new RGBW(255));
+		testDevice4.addFeature(new FixedField("strobe", 255));
+		testDevice4.addFeature(new FixedField("dimmer", 255));
+		testDevice4.addFeature(new FixedField("kelvin", 255));
+		testDevice4.addFeature(new FixedField("test", 255));
+		devices.put(testDevice3.getIdentifier(), testDevice3);
+		devices.put(testDevice4.getIdentifier(), testDevice4);
 		frameZero = new Frame(devices);
 	}
 

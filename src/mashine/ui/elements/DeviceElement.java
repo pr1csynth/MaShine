@@ -95,6 +95,7 @@ public class DeviceElement extends Element{
 		P.canvas.textAlign(P.canvas.LEFT, P.canvas.TOP);
 		P.canvas.text(d.getIdentifier(), d.getX() + 5, d.getY() + 5);
 
+		P.canvas.noStroke();
 
 			// all the fields
 		FlatColor.fill(P.canvas, Colors.MATERIAL.GREEN._400);

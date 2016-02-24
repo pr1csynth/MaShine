@@ -17,7 +17,7 @@ public class TextInput extends Element{
 		P.canvas.noStroke();
 
 
-		if(hasFocus() && P.hasFocus()){
+		if(enabled && hasFocus() && P.hasFocus()){
 			FlatColor.stroke(P.canvas, Colors.MATERIAL.ORANGE.A700);
 			if(M.inputs.getState("keyboard.8.press")){
 				if(value.length() > 0)
@@ -31,12 +31,18 @@ public class TextInput extends Element{
 			}
 		}
 
-		// UIREFORM
-		FlatColor.fill(P.canvas, Colors.WHITE);
+		if(enabled)
+			FlatColor.fill(P.canvas, Colors.WHITE);
+		else
+			FlatColor.fill(P.canvas, Colors.MATERIAL.GREY._400);
 		P.canvas.rect(x, y, width, height);
 		FlatColor.fill(P.canvas, Colors.MATERIAL.BLUE_GREY._900);
 		P.canvas.textAlign(P.canvas.LEFT, P.canvas.CENTER);
-		P.canvas.text(value + (M.millis() % 1200 > 600 && hasFocus() ? "_" : ""), x + 3, y +height/2);
+		P.canvas.text(value + (M.millis() % 1200 > 600 && enabled && hasFocus() ? "_" : ""), x + 3, y +height/2);
+	}
+
+	public void setValue(String v){
+		value = v;
 	}
 
 }
