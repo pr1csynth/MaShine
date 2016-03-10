@@ -3,10 +3,12 @@ package mashine.ui.elements;
 import mashine.*;
 import mashine.ui.*;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 public class TextInput extends Element{
 
 	private String value;
+	private static final String validChar = "[a-zA-Z0-9_ \\-\\@\\#]+";
 
 	public TextInput(Drawable parent, String defaultValue, int x, int y, int width){
 		super(parent, x, y, width, 15);
@@ -26,7 +28,7 @@ public class TextInput extends Element{
 				focus = false;
 			}else if(M.inputs.getState("keyboard.147.press")){
 				value = "";
-			}else if(M.inputs.getLastKey() != ""){
+			}else if(Pattern.matches(validChar, M.inputs.getLastKey())){
 				value += M.inputs.getLastKey();
 			}
 		}
@@ -43,6 +45,10 @@ public class TextInput extends Element{
 
 	public void setValue(String v){
 		value = v;
+	}
+
+	public String value(){
+		return value;
 	}
 
 }

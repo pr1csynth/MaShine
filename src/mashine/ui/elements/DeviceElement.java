@@ -18,7 +18,6 @@ import java.util.HashMap;
 public class DeviceElement extends Element{
 
 	private Device d;
-	private ArrayList<Feature> devFeatures;
 	private HashMap<String,EditableFeature> frameFeatures;
 	private boolean selected = false;
 
@@ -26,7 +25,6 @@ public class DeviceElement extends Element{
 		// TODO : generalize translate + push/popMatrix in elements/elements sublclass
 		super(parent, device.getX(), device.getY(), device.getWidth(), device.getHeight());
 		this.d = device;
-		this.devFeatures = device.getFeatures();
 	}
 
 	public void setFrameFeatures(HashMap<String,EditableFeature> frameFeatures){
@@ -38,10 +36,14 @@ public class DeviceElement extends Element{
 
 	public void drawContent(){
 
+		boolean drawcrossline = false;
+		ArrayList<Feature> devFeatures = d.getFeatures();
 		P.canvas.noStroke();
 
 			// LHM to display all the fields contained in devices
 		LinkedHashMap<String,Integer> devFields = new LinkedHashMap<String,Integer>();
+
+		FlatColor.fill(P.canvas, Colors.MATERIAL.BLUE_GREY._600);
 
 		for(Feature feature : devFeatures){
 
@@ -54,6 +56,7 @@ public class DeviceElement extends Element{
 				feature = frameFeatures.get(d.getIdentifier() +"."+ feature.getType());
 
 					// special case color, coordinates, ...
+
 				if(feature instanceof ColorFeature){
 					FlatColor.fill(P.canvas, ((ColorFeature)feature).getColor());
 					P.canvas.noStroke();
@@ -68,12 +71,11 @@ public class DeviceElement extends Element{
 					//  - draw default place holder
 					//  - display fields in consequences
 
-				if(feature instanceof ColorFeature){
 
-					FlatColor.stroke(P.canvas, Colors.MATERIAL.GREY._700);
+				if(feature instanceof ColorFeature){
 						// draw the background in grey
 					FlatColor.fill(P.canvas, Colors.MATERIAL.GREY._800);
-
+					drawcrossline = true;
 				}else if(feature instanceof FixedField){
 					for(String f : featureFields.keySet()){
 						devFields.put("(f) "+ f, featureFields.get(f));
@@ -87,8 +89,13 @@ public class DeviceElement extends Element{
 		}
 
 			// actually draws the device in the canvas
+
+		//FlatColor.stroke(P.canvas, Colors.MATERIAL.GREY._900);
+		FlatColor.stroke(P.canvas, Colors.MATERIAL.GREY._700);
 		P.canvas.rect(d.getX(), d.getY(), d.getWidth(), d.getHeight());
-		P.canvas.line(d.getX(), d.getHeight() + d.getY(), d.getWidth() +d.getX(), d.getY());
+
+		if(drawcrossline)
+			P.canvas.line(d.getX(), d.getHeight() + d.getY(), d.getWidth() +d.getX(), d.getY());
 
 			// identifier 
 		FlatColor.fill(P.canvas, Colors.MATERIAL.GREEN.A700);

@@ -29,6 +29,10 @@ public class RangeInput extends Element{
 		this(parent, (float) defaultValue, 0f, 255f, 1f, x, y, width);
 	}
 
+	public Float value(){
+		return value;
+	}
+
 	public void setMin(Float min){this.min = min;}
 	public void setMax(Float max){this.max = max;}
 	public void setStep(Float step){this.step = step;}
@@ -73,8 +77,10 @@ public class RangeInput extends Element{
 	}
 
 	private void normalize(){
-		value = M.min(max, M.max(min, value));
-		value = value - value % step;
+		if(value != null){
+			value = M.min(max, M.max(min, value));
+			value = value - value % step;		
+		}
 	}
 
 	protected void onDefocus(){
