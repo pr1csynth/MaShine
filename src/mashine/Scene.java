@@ -54,4 +54,20 @@ public class Scene{
 	public Frame getDefaultFrame(){
 		return new Frame(frameZero);
 	}
+
+	public boolean validateDeviceIdentifier(String identifier){
+		return !devices.containsKey(identifier);
+	}
+
+	public boolean renameDevice(Device device, String newIdentifier){
+		if(devices.containsValue(device) && validateDeviceIdentifier(newIdentifier)){
+			devices.remove(device.getIdentifier());
+			M.println("-"+device.getIdentifier() +"->"+ newIdentifier +"<");
+			M.ui.sceneVisualizer.renameDevice(device.getIdentifier(), newIdentifier);
+			device.setIdentifier(newIdentifier);
+			devices.put(newIdentifier, device);
+			return true;
+		}
+		return false;
+	}
 }

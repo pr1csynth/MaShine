@@ -23,6 +23,7 @@ public class DeviceEditor extends UIBox{
 
 	private String featuresHash = "";
 	private ArrayList<Element> featureElements; 
+	private HashMap<String, RangeInput> featureInputs; 
 	private TextInput deviceIdendifierElement; 
 	private RangeInput universeElement; 
 	private RangeInput addressElement;
@@ -31,10 +32,11 @@ public class DeviceEditor extends UIBox{
 		super(m, "SCENE EDITOR", 50, 50, 200, 450);
 
 		featureElements	= new ArrayList<Element>(); 
+		featureInputs	= new HashMap<String,RangeInput>(); 
 
 		elements.add(new TextButton(this, "delete", 146, 28, 
-			new Do(){public void x(){/*newDevice();*/}}
-			));
+		new Do(){public void x(){/*newDevice();*/}}
+		));
 		elements.add(new TextButton(this, "clone", 5, 48, 
 			new Do(){public void x(){/*newDevice();*/}}
 			));
@@ -52,30 +54,31 @@ public class DeviceEditor extends UIBox{
 		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
 		// add or remove elements
 
-		// dress up a list of common features, order does not matter (?)
 		if(!selectedDevices.isEmpty()){
 
 			Device firstDevice = selectedDevices.values().iterator().next();
-
+			// set common properties inputs
 			if(selectedDevices.size() == 1){
 				deviceIdendifierElement.enable();
-				addressElement.enable();
 			}else{
 				deviceIdendifierElement.disable();
 				deviceIdendifierElement.setValue("("+ selectedDevices.size() + " devices)"); 
-				addressElement.disable();
-				addressElement.setStringValue("_");
-				// if universe differs, do something, I dont know ...
 			}
 
+			// dress up a list of common features, order does not matter
 			ArrayList<Feature> commonFeatures = firstDevice.getFeatures();
 			Integer commonUniverse = firstDevice.getUniverse();
+			Integer commonAddress = firstDevice.getStartAddress();
 			
 			for(String d : selectedDevices.keySet()){
 				ArrayList<Feature> deviceFeatures = selectedDevices.get(d).getFeatures();
 
 				if(commonUniverse != null && selectedDevices.get(d).getUniverse() != commonUniverse){
 					commonUniverse = null;
+				}
+
+				if(commonAddress != null && selectedDevices.get(d).getStartAddress() != commonAddress){
+					commonAddress = null;
 				}
 
 				Iterator<Feature> cfi = commonFeatures.iterator();
@@ -95,27 +98,32 @@ public class DeviceEditor extends UIBox{
 			
 
 			// compare with elements already present
-			String newFeaturesHash = "_" + selectedDevices.size();
-			for(String d : selectedDevices.keySet()){
-				newFeaturesHash += d;
-			}
 
-			// if list doesn't match in content or position; break and renew elements
-			if(!newFeaturesHash.equals(featuresHash)){
+
+			// if list doesn't match in content or position; break and renew elements; else make sure input values match dev values 
+			if(!featuresHash.equals(selectedDevicesHash(selectedDevices))){
+				featuresHash = selectedDevicesHash(selectedDevices);
 
 				if(selectedDevices.size() == 1){
 					deviceIdendifierElement.setValue(firstDevice.getIdentifier()); 
 					addressElement.setValue(firstDevice.getStartAddress());
 					universeElement.setValue(firstDevice.getUniverse());
 				}else{
-					if(commonUniverse != null){
-						universeElement.setValue(commonUniverse);
-					}else{
+					if(commonUniverse == null){
+						universeElement.setValue(null);
 						universeElement.setStringValue("_");	
+					}else{
+						universeElement.setValue(commonUniverse);
+					}
+
+					if(commonAddress == null){
+						addressElement.setValue(null);
+						addressElement.setStringValue("_");	
+					}else{
+						addressElement.setValue(commonAddress);
 					}
 				}
 
-				featuresHash = newFeaturesHash;
 
 				featureElements = new  ArrayList<Element>();
 
@@ -123,16 +131,51 @@ public class DeviceEditor extends UIBox{
 				for(Feature f : commonFeatures){
 					// remove button // eventual input field // (move up/down for later)
 					featureElements.add(new TextButton(this, "delete", 146, offset, 
-						new Do(){public void x(){/*remove feature from selected devices*/}}
-					));
+						new Do(){public void x(){removeFeature(f.getType());}}, true
+						));
 					offset += 17;
 					if(!(f instanceof EditableFeature)){
 						offset -= 17;
 						for(String fi : f.getFields().keySet()){
-							featureElements.add(new RangeInput(this, f.getFields().get(fi), 5, offset, 40));
+
+							RangeInput e = new RangeInput(this, f.getFields().get(fi), 5, offset, 40);
+
+							for(String d : selectedDevices.keySet()){
+
+								Integer devFieldValue = selectedDevices.get(d).getFeatureField(f.getType() +"."+ fi);
+
+								if(devFieldValue == null || !devFieldValue.equals(f.getFields().get(fi))){
+									e.setValue(null);
+									e.setStringValue("_");
+									break;
+								}
+							}
+							featureInputs.put(f.getType() +"."+ fi, e);
+							featureElements.add(e);
 							offset += 17;
 						}
 					}
+				}
+				// else update device objects with new values from inputs
+			}else{
+
+				if(selectedDevices.size() == 1){
+					if(M.scene.validateDeviceIdentifier(deviceIdendifierElement.value())){
+						M.scene.renameDevice(selectedDevices.values().iterator().next(), deviceIdendifierElement.value());
+					}else{
+						// deviceElement shows that new identifier is wrong
+					}
+				}
+				for(String ff : featureInputs.keySet()){
+					if(featureInputs.get(ff).value() != null){
+						updateFeature(ff, Math.round(featureInputs.get(ff).value()));
+					}
+				}
+				if(universeElement.value() != null){
+					updateUniverse(Math.round(universeElement.value()));
+				}
+				if(addressElement.value() != null){
+					updateAddress(Math.round(addressElement.value()));
 				}
 			}
 
@@ -141,11 +184,12 @@ public class DeviceEditor extends UIBox{
 			// draw elements
 			for(Element el : featureElements){
 				el.draw();
-				if(el.mouseIn())
+				if(el.mouseIn()){
 					el.focus();
-				else
+				}else{
 					if(el.hasFocus())
 						el.defocus();
+				}
 			}
 
 			// draw text
@@ -157,18 +201,15 @@ public class DeviceEditor extends UIBox{
 				offset +=17;
 			}
 
-
-			drawUI(selectedDevices);
 		}else{
-			deviceIdendifierElement.enable();
-			deviceIdendifierElement.setValue("newDevice"); // find a valid name using M.scene
-			addressElement.enable();
+			if(!featuresHash.equals(selectedDevicesHash(selectedDevices))){
+				featuresHash = selectedDevicesHash(selectedDevices);
+
+				deviceIdendifierElement.enable();
+				// prefill for new device
+				deviceIdendifierElement.setValue("newDevice"); // find a valid name using M.scene
+			}
 		}
-	}
-
-
-	public void drawUI(HashMap<String, Device> selectedDevices){
-		
 	}
 
 	public void editOneDevice(Device device){
@@ -196,7 +237,40 @@ public class DeviceEditor extends UIBox{
 	}
 
 	private void removeFeature(String featureId){
-		// do stuff;
+		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+		M.println("REMOVE "+ featureId + " from " + selectedDevices.size() + " devices");
+		featuresHash = "";
+		for(String d : selectedDevices.keySet()){
+			selectedDevices.get(d).removeFeature(featureId);
+		}
+
+	}
+
+	private void updateFeature(String featureField, int value){
+		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+		for(String d : selectedDevices.keySet()){
+			selectedDevices.get(d).updateFeature(featureField, value);
+		}
+	}
+	private void updateUniverse(int universe){
+		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+		for(String d : selectedDevices.keySet()){
+			selectedDevices.get(d).setUniverse(universe);
+		}
+	}
+	private void updateAddress(int address){
+		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+		for(String d : selectedDevices.keySet()){
+			selectedDevices.get(d).setStartAddress(address);
+		}
+	}
+
+	private String selectedDevicesHash(HashMap<String,Device> selectedDevices){
+		String newFeaturesHash = "_" + selectedDevices.size();
+		for(String d : selectedDevices.keySet()){
+			newFeaturesHash += d;
+		}
+		return newFeaturesHash;
 	}
 
 }

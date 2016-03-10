@@ -10,6 +10,7 @@ package mashine.scene;
 import mashine.*;
 import mashine.scene.features.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Device{
 
@@ -40,6 +41,41 @@ public class Device{
 		footprint += f.getFootprint();
 	}
 
+	public void removeFeature(String featureType){
+		Iterator<Feature> fi = features.iterator();
+		while(fi.hasNext()){
+			Feature f = fi.next();
+			if(f.getType().equals(featureType)){
+				features.remove(f);
+				break;
+			}
+		}
+	}
+	public void updateFeature(String featureField, int value){
+		String[] ff = featureField.split("\\.");
+		Iterator<Feature> fi = features.iterator();
+		while(fi.hasNext()){
+			Feature f = fi.next();
+			if(f.getType().equals(ff[0])){
+				f.setField(ff[1], value);
+				break;
+			}
+		}
+	}
+
+	public Integer getFeatureField(String featureField){
+		String[] ff = featureField.split("\\.");
+		Iterator<Feature> fi = features.iterator();
+		while(fi.hasNext()){
+			Feature f = fi.next();
+			if(f.getType().equals(ff[0])){
+				return f.getField(ff[1]);
+			}
+		}
+
+		return null;
+	}
+
 	public ArrayList<Feature> getFeatures(){
 		return new ArrayList<Feature>(features);
 	}
@@ -52,6 +88,10 @@ public class Device{
 	public String getIdentifier(){return identifier;}
 	public int getStartAddress(){return startAddress;}
 	public int getUniverse(){return universe;}
+
+	public void setIdentifier(String id){this.identifier = id;}
+	public void setStartAddress(int address){this.startAddress = address;}
+	public void setUniverse(int universe){this.universe = universe;}
 
 
 }

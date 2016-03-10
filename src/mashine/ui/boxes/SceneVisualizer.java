@@ -79,4 +79,8 @@ public class SceneVisualizer extends Drawable {
 		return selectedDevices;
 	}
 
+	public void renameDevice(String oldId, String newId){
+		deviceElements.put(newId, deviceElements.remove(oldId));
+	}
+
 }
