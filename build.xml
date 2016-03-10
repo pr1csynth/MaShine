@@ -40,7 +40,7 @@
 
     <target name="compile">
         <mkdir dir="${classes.dir}" />
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="build.classpath"
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" classpathref="build.classpath"
                includeantruntime="false">
         </javac>
     </target>
