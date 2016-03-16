@@ -11,6 +11,7 @@ import mashine.scene.Frame;
 import mashine.scene.*;
 import mashine.scene.features.*;
 import java.util.HashMap;
+import java.util.List;
 
 public class Scene{
 
@@ -18,6 +19,14 @@ public class Scene{
 	private HashMap<String,Device> devices;     // for the frames
 	private HashMap<String,DeviceGroup> groups; // for the filters
 	private Frame frameZero;
+
+	public static HashMap<String,Class<?>> FEATURES;
+
+	static{
+		FEATURES = new HashMap<String, Class<?>>();
+		FEATURES.put(RGBW.class.getName(), RGBW.class);
+		FEATURES.put(RGB.class.getName(), RGB.class);
+	}
 
 	public Scene(MaShine m){
 
@@ -45,6 +54,13 @@ public class Scene{
 		devices.put(testDevice3.getIdentifier(), testDevice3);
 		devices.put(testDevice4.getIdentifier(), testDevice4);
 		frameZero = new Frame(devices);
+
+		for(String c : Scene.FEATURES.keySet()){
+			M.print(c);
+			M.print(" ");
+		}
+
+		M.println();
 	}
 
 	public HashMap<String,Device> getDevices(){
