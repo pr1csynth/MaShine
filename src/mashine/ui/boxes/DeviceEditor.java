@@ -35,11 +35,11 @@ public class DeviceEditor extends UIBox{
 		featureInputs	= new HashMap<String,RangeInput>(); 
 
 		elements.add(new TextButton(this, "delete", 146, 28, 
-		new Do(){public void x(){/*newDevice();*/}}
+			new Do(){public void x(){/*newDevice();*/}}
 		));
 		elements.add(new TextButton(this, "clone", 5, 48, 
 			new Do(){public void x(){/*newDevice();*/}}
-			));
+		));
 
 		deviceIdendifierElement = new TextInput(this, "devID", 0, 28, 93);
 		universeElement = new RangeInput(this, 42f, 1f, 99f, 1f, 95, 28, 20);
@@ -208,30 +208,6 @@ public class DeviceEditor extends UIBox{
 				deviceIdendifierElement.enable();
 				// prefill for new device
 				deviceIdendifierElement.setValue("newDevice"); // find a valid name using M.scene
-			}
-		}
-	}
-
-	public void editOneDevice(Device device){
-		FlatColor.fill(canvas, Colors.WHITE);
-		canvas.textAlign(M.LEFT, M.TOP);
-		canvas.text(device.getIdentifier()+" selected.", 5, 50);
-
-		int offset = 65; 
-
-		// toDo : addr, identifier, universe edit
-
-		for(Feature fe : device.getFeatures()){
-			
-			if(fe instanceof EditableFeature){
-				// editable : animable in sequences, just list it, to remove it
-				canvas.text(fe.getType(), 30, offset);
-				offset += 15;
-			}else{
-				for(String fi : fe.getFields().keySet()){
-					canvas.text(fe.getType() +"."+ fi, 70, offset);
-					offset+=15;
-				}
 			}
 		}
 	}
