@@ -25,6 +25,7 @@ public class DeviceEditor extends UIBox{
 	private ArrayList<Element> featureElements; 
 	private HashMap<String, RangeInput> featureInputs; 
 	private TextInput deviceIdendifierElement; 
+	private TextInput genericFieldInputElement; 
 	private RangeInput universeElement; 
 	private RangeInput addressElement;
 
@@ -35,18 +36,36 @@ public class DeviceEditor extends UIBox{
 		featureInputs	= new HashMap<String,RangeInput>(); 
 
 		elements.add(new TextButton(this, "delete", 146, 28, 
-			new Do(){public void x(){/*newDevice();*/}}
-		));
+	new Do(){public void x(){/*newDevice();*/}}
+	));
 		elements.add(new TextButton(this, "clone", 5, 48, 
-			new Do(){public void x(){/*newDevice();*/}}
-		));
+	new Do(){public void x(){/*newDevice();*/}}
+	));
+
+		elements.add(new TextButton(this, "fixed", 146, height - 20, 
+	new Do(){public void x(){addFixedField();}}
+	));
+		elements.add(new TextButton(this, "single", 146, height - 37, 
+	new Do(){public void x(){addSingleField();}}
+	));
+
+		int offset = 57;
+		for(String featureClass : Scene.FEATURES.keySet()){
+			String shortName = featureClass.substring(featureClass.lastIndexOf('.') + 1);
+			elements.add(new TextButton(this, shortName, 146, height - offset, 
+				new Do(){public void x(){addFeature(featureClass);}}
+				));
+			offset += 17;
+		}
 
 		deviceIdendifierElement = new TextInput(this, "devID", 0, 28, 93);
 		universeElement = new RangeInput(this, 42f, 1f, 99f, 1f, 95, 28, 20);
 		addressElement = new RangeInput(this, 1f, 1f, 512f, 1f, 117, 28, 27);
+		genericFieldInputElement = new TextInput(this, "generic", 43, height - 20, 100);
 		elements.add(deviceIdendifierElement);
 		elements.add(universeElement);
 		elements.add(addressElement);
+		elements.add(genericFieldInputElement);
 
 	}
 
@@ -228,6 +247,41 @@ public class DeviceEditor extends UIBox{
 			selectedDevices.get(d).updateFeature(featureField, value);
 		}
 	}
+
+	private void addFeature(String featureClassName){
+		if(Scene.FEATURES.containsKey(featureClassName)){
+			HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+			for(String d : selectedDevices.keySet()){
+				try{
+					selectedDevices.get(d).addFeature((Feature) Scene.FEATURES.get(featureClassName).newInstance());
+				}catch(Exception ignore){}
+			}
+			featuresHash = "";
+		}
+	}
+
+	private void addFixedField(){
+		String fieldName = genericFieldInputElement.value();
+		if(fieldName != null){
+			HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+			for(String d : selectedDevices.keySet()){
+				selectedDevices.get(d).addFeature(new FixedField(fieldName));
+			}
+			featuresHash = "";
+		}
+	}
+
+	private void addSingleField(){
+		String fieldName = genericFieldInputElement.value();
+		if(fieldName != null){
+			HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+			for(String d : selectedDevices.keySet()){
+				selectedDevices.get(d).addFeature(new SingleField(fieldName));
+			}
+			featuresHash = "";
+		}
+	}
+
 	private void updateUniverse(int universe){
 		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
 		for(String d : selectedDevices.keySet()){

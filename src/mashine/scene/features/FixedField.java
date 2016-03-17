@@ -8,6 +8,11 @@ public final class FixedField extends Feature {
 		fields.put(fieldName, fixedValue);
 	}
 
+
+	public FixedField(String fieldName){
+		this(fieldName, 255);
+	}
+
 	public FixedField(FixedField f){
 		super(f);
 	}

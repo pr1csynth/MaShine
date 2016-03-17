@@ -36,9 +36,13 @@ public class Device{
 		features = new ArrayList<Feature>();
 	}
 
-	public void addFeature(Feature f){
-		features.add(f);
-		footprint += f.getFootprint();
+	public void addFeature(Feature feature){
+		for(Feature f : features){
+			if(f.getType() == feature.getType())
+				return;
+		}
+		features.add(feature);
+		footprint += feature.getFootprint();
 	}
 
 	public void removeFeature(String featureType){
