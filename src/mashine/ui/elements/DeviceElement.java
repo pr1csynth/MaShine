@@ -36,6 +36,11 @@ public class DeviceElement extends Element{
 
 	public void drawContent(){
 
+		x = d.getX();
+		y = d.getY();
+		width = d.getWidth();
+		height = d.getHeight();
+
 		boolean drawcrossline = false;
 		ArrayList<Feature> devFeatures = d.getFeatures();
 		P.canvas.noStroke();
@@ -79,6 +84,10 @@ public class DeviceElement extends Element{
 				}else if(feature instanceof FixedField){
 					for(String f : featureFields.keySet()){
 						devFields.put("(f) "+ f, featureFields.get(f));
+					}				
+				}else if(feature instanceof SingleField){
+					for(String f : featureFields.keySet()){
+						devFields.put(f, featureFields.get(f));
 					}
 				}else{
 					for(String f : featureFields.keySet()){

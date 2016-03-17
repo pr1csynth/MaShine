@@ -16,7 +16,7 @@ public class Device{
 
 	private int startAddress;
 	private int universe;
-	private int footprint;
+	private int footprint = 0;
 	private int x;
 	private int y;
 	private int w;
@@ -34,6 +34,20 @@ public class Device{
 		this.w = width;
 		this.h = height;
 		features = new ArrayList<Feature>();
+	}
+
+	public Device(Device d, String identifier){
+		this.identifier = identifier;
+		this.startAddress = d.getStartAddress();
+		this.universe = d.getUniverse();
+		features = d.getFeatures();
+		for(Feature f : features){
+			footprint += f.getFootprint();
+		}
+		this.x = d.getX() + 10;
+		this.y = d.getY() + 10;
+		this.w = d.getWidth();
+		this.h = d.getHeight();
 	}
 
 	public void addFeature(Feature feature){
@@ -97,5 +111,8 @@ public class Device{
 	public void setStartAddress(int address){this.startAddress = address;}
 	public void setUniverse(int universe){this.universe = universe;}
 
-
+	public void moveUp(){y --; y = Math.max(0, y);}
+	public void moveDown(){y ++;}
+	public void moveLeft(){x --; x = Math.max(0, x);}
+	public void moveRight(){x ++;}
 }

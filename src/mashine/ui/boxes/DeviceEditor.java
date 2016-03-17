@@ -36,10 +36,10 @@ public class DeviceEditor extends UIBox{
 		featureInputs	= new HashMap<String,RangeInput>(); 
 
 		elements.add(new TextButton(this, "delete", 146, 28, 
-	new Do(){public void x(){/*newDevice();*/}}
+	new Do(){public void x(){removeSelectedDevices();}}
 	));
 		elements.add(new TextButton(this, "clone", 5, 48, 
-	new Do(){public void x(){/*newDevice();*/}}
+	new Do(){public void x(){cloneSelectedDevices();}}
 	));
 
 		elements.add(new TextButton(this, "fixed", 146, height - 20, 
@@ -67,6 +67,10 @@ public class DeviceEditor extends UIBox{
 		elements.add(addressElement);
 		elements.add(genericFieldInputElement);
 
+	}
+
+	public void tick(){
+		moveSelectedDevices();
 	}
 
 	public void drawUI(){
@@ -238,7 +242,20 @@ public class DeviceEditor extends UIBox{
 		for(String d : selectedDevices.keySet()){
 			selectedDevices.get(d).removeFeature(featureId);
 		}
+	}
 
+	private void cloneSelectedDevices(){
+		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+		for(String d : selectedDevices.keySet()){
+			M.scene.addDevice(new Device(selectedDevices.get(d), d+"_c"));
+		}
+	}
+
+	private void removeSelectedDevices(){
+		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+		for(String d : selectedDevices.keySet()){
+			M.scene.removeDevice(selectedDevices.get(d));
+		}
 	}
 
 	private void updateFeature(String featureField, int value){
@@ -301,6 +318,31 @@ public class DeviceEditor extends UIBox{
 			newFeaturesHash += d;
 		}
 		return newFeaturesHash;
+	}
+
+	private void moveSelectedDevices(){
+
+		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+		if(M.inputs.getState("keyboard.38.hold")){
+			for(String d : selectedDevices.keySet()){
+				selectedDevices.get(d).moveUp();
+			}
+		}		
+		if(M.inputs.getState("keyboard.40.hold")){
+			for(String d : selectedDevices.keySet()){
+				selectedDevices.get(d).moveDown();
+			}
+		}		
+		if(M.inputs.getState("keyboard.37.hold")){
+			for(String d : selectedDevices.keySet()){
+				selectedDevices.get(d).moveLeft();
+			}
+		}		
+		if(M.inputs.getState("keyboard.39.hold")){
+			for(String d : selectedDevices.keySet()){
+				selectedDevices.get(d).moveRight();
+			}
+		}
 	}
 
 }

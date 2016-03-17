@@ -54,17 +54,18 @@ public class Scene{
 		devices.put(testDevice3.getIdentifier(), testDevice3);
 		devices.put(testDevice4.getIdentifier(), testDevice4);
 		frameZero = new Frame(devices);
-
-		for(String c : Scene.FEATURES.keySet()){
-			M.print(c);
-			M.print(" ");
-		}
-
-		M.println();
 	}
 
 	public HashMap<String,Device> getDevices(){
 		return new HashMap<String,Device>(devices);
+	}
+	public void addDevice(Device d){
+		if(!devices.containsKey(d.getIdentifier()))
+			devices.put(d.getIdentifier(), d);
+	}
+
+	public void removeDevice(Device d){
+		devices.remove(d.getIdentifier());
 	}
 
 	public Frame getDefaultFrame(){

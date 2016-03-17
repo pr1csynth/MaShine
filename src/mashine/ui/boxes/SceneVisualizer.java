@@ -13,7 +13,8 @@ import mashine.ui.elements.*;
 import mashine.scene.*;
 import mashine.scene.features.*;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Iterator;
 import java.util.ArrayList;
 
 public class SceneVisualizer extends Drawable {
@@ -28,6 +29,8 @@ public class SceneVisualizer extends Drawable {
 	}
 
 	public void drawContent(){
+
+		canvas.background(55, 71, 79);
 
 		Frame frame = new Frame();
 
@@ -67,9 +70,20 @@ public class SceneVisualizer extends Drawable {
 		}
 
 		// remove DeviceElement if Device not here anymore
-		for(String deviceIdentifier : deviceElements.keySet()){
-			if(!devices.containsKey(deviceIdentifier)){
-				deviceElements.remove(deviceIdentifier);
+
+		// Iterator<String> dei = deviceElements.keySet().iterator();
+
+		// while(dei.hasNext()){
+		// 	String deviceIdentifier = dei.next();
+		// 	if(!devices.containsKey(deviceIdentifier)){
+		// 		deviceElements.remove(deviceIdentifier);
+		// 	}
+		// }
+
+		for(Iterator<Map.Entry<String, DeviceElement>> it = deviceElements.entrySet().iterator(); it.hasNext(); ) {
+			Map.Entry<String, DeviceElement> entry = it.next();
+			if(!devices.containsKey(entry.getKey())) {
+				it.remove();
 			}
 		}
 
