@@ -77,6 +77,13 @@ public class DeviceEditor extends UIBox{
 		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
 		// add or remove elements
 
+
+			canvas.textAlign(canvas.LEFT, canvas.TOP);
+			FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._300);
+			canvas.text("id", 74, 45);
+			canvas.text("un", 94, 45);
+			canvas.text("addr", 116, 45);
+
 		if(!selectedDevices.isEmpty()){
 
 			Device firstDevice = selectedDevices.values().iterator().next();
@@ -246,9 +253,16 @@ public class DeviceEditor extends UIBox{
 
 	private void cloneSelectedDevices(){
 		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+		HashMap<String, Device> newSelectedDevices = new HashMap<String, Device>();
 		for(String d : selectedDevices.keySet()){
-			M.scene.addDevice(new Device(selectedDevices.get(d), d+"_c"));
+			Device newDev = new Device(selectedDevices.get(d), d+"_c");
+			if(M.scene.validateDeviceIdentifier(d+"_c")){
+				M.scene.addDevice(newDev);
+				newSelectedDevices.put(d+"_c", newDev);
+			}		
 		}
+
+		M.ui.setSelectedDevices(newSelectedDevices);
 	}
 
 	private void removeSelectedDevices(){
@@ -323,22 +337,22 @@ public class DeviceEditor extends UIBox{
 	private void moveSelectedDevices(){
 
 		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
-		if(M.inputs.getState("keyboard.38.hold")){
+		if(M.inputs.getState("keyboard.38.hold") && !M.inputs.getState("keyboard.16.hold")){
 			for(String d : selectedDevices.keySet()){
 				selectedDevices.get(d).moveUp();
 			}
 		}		
-		if(M.inputs.getState("keyboard.40.hold")){
+		if(M.inputs.getState("keyboard.40.hold") && !M.inputs.getState("keyboard.16.hold")){
 			for(String d : selectedDevices.keySet()){
 				selectedDevices.get(d).moveDown();
 			}
 		}		
-		if(M.inputs.getState("keyboard.37.hold")){
+		if(M.inputs.getState("keyboard.37.hold") && !M.inputs.getState("keyboard.16.hold")){
 			for(String d : selectedDevices.keySet()){
 				selectedDevices.get(d).moveLeft();
 			}
 		}		
-		if(M.inputs.getState("keyboard.39.hold")){
+		if(M.inputs.getState("keyboard.39.hold") && !M.inputs.getState("keyboard.16.hold")){
 			for(String d : selectedDevices.keySet()){
 				selectedDevices.get(d).moveRight();
 			}

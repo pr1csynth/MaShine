@@ -125,5 +125,9 @@ public class UI{
 	public HashMap<String, Device> getSelectedDevices(){
 		return sceneVisualizer.getSelectedDevices();
 	}
+
+	public void setSelectedDevices(HashMap<String, Device> newSelection){
+		sceneVisualizer.setSelectedDevices(newSelection);
+	}
 }
 

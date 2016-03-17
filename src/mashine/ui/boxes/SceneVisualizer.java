@@ -13,18 +13,19 @@ import mashine.ui.elements.*;
 import mashine.scene.*;
 import mashine.scene.features.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Iterator;
 import java.util.ArrayList;
 
 public class SceneVisualizer extends Drawable {
 
-	HashMap<String,DeviceElement> deviceElements;
+	LinkedHashMap<String,DeviceElement> deviceElements;
 	HashMap<String,Device> selectedDevices;
 
 	public SceneVisualizer(MaShine m){
 		super(m, 10, 50, m.width - 10, m.height - 50);
-		deviceElements = new HashMap<String, DeviceElement>();
+		deviceElements = new LinkedHashMap<String, DeviceElement>();
 		selectedDevices = new HashMap<String, Device>();
 	}
 
@@ -92,6 +93,11 @@ public class SceneVisualizer extends Drawable {
 	public HashMap<String,Device> getSelectedDevices(){
 		return selectedDevices;
 	}
+
+	public void setSelectedDevices(HashMap<String, Device> newSelection){
+		selectedDevices = newSelection;
+	}
+
 
 	public void renameDevice(String oldId, String newId){
 		deviceElements.put(newId, deviceElements.remove(oldId));
