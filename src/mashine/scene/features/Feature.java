@@ -59,6 +59,14 @@ public abstract class Feature {
 		return new LinkedHashMap<String,Integer>(fields);
 	}
 
+	public Integer getField(String fieldName){
+		if(fields.containsKey(fieldName)){
+			return fields.get(fieldName);
+		}else{
+			return null;
+		}
+	}
+
 	public void setField(String fieldName, int value){
 		if(fields.containsKey(fieldName))
 			fields.put(fieldName, value);

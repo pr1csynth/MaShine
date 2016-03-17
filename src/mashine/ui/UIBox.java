@@ -39,11 +39,15 @@ public class UIBox extends Drawable{
 
 		for(Element el : elements){
 			el.draw();
-			el.defocus();
+			if(el == elements.getLast() && el.mouseIn())
+				el.focus();
+			else
+				if(el.hasFocus())
+					el.defocus();
 		}
 
-		if(elements.getLast().mouseIn())
-			elements.getLast().focus();
+		// if(elements.getLast().mouseIn())
+		// 	elements.getLast().focus();
 
 		drawUI();
 	}

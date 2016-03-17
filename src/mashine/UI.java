@@ -19,12 +19,12 @@ import java.util.Comparator;
 
 public class UI{
 
-	private Status status;
 	private Menu menu;
-	private SceneVisualizer sceneVisualizer;
 	private HashMap<String,Focusable> uiElements;
 	private LinkedList<Focusable> openedUiElements;
 	private MaShine M;
+	public SceneVisualizer sceneVisualizer;
+	public Status status;
 	public PFont TEXTFONT;
 	public PFont TITLEFONT;
 	public int TEXTSIZE;
@@ -68,7 +68,6 @@ public class UI{
 		uiElements.put("DataViewer", new DataViewer(M));
 		uiElements.put("DeviceEditor", new DeviceEditor(M));
 		openedUiElements = new LinkedList<Focusable>();
-		open("EventViewer");open("DataViewer");open("DeviceEditor");
 	}
 
 	public void close(String uiElementName){
@@ -125,6 +124,10 @@ public class UI{
 
 	public HashMap<String, Device> getSelectedDevices(){
 		return sceneVisualizer.getSelectedDevices();
+	}
+
+	public void setSelectedDevices(HashMap<String, Device> newSelection){
+		sceneVisualizer.setSelectedDevices(newSelection);
 	}
 }
 

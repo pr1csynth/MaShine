@@ -4,8 +4,13 @@ import mashine.scene.*;
 
 public final class FixedField extends Feature {
 	public FixedField(String fieldName, int fixedValue){
-		super("fixed", 1);
+		super(fieldName, 1);
 		fields.put(fieldName, fixedValue);
+	}
+
+
+	public FixedField(String fieldName){
+		this(fieldName, 255);
 	}
 
 	public FixedField(FixedField f){
