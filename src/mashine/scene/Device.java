@@ -11,8 +11,9 @@ import mashine.*;
 import mashine.scene.features.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.io.Serializable;
 
-public class Device{
+public class Device implements Serializable{
 
 	private int startAddress;
 	private int universe;

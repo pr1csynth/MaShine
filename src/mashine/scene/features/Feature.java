@@ -11,8 +11,9 @@ import mashine.scene.*;
 import mashine.*;
 import java.util.LinkedHashMap;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public abstract class Feature {
+public abstract class Feature implements Serializable {
 
 	protected int footprint;
 	protected LinkedHashMap<String,Integer> fields;

@@ -12,6 +12,11 @@ import mashine.scene.*;
 import mashine.scene.features.*;
 import java.util.HashMap;
 import java.util.List;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.IOException;
 
 public class Scene{
 
@@ -86,5 +91,41 @@ public class Scene{
 			return true;
 		}
 		return false;
+	}
+
+	public void save(){
+		try{
+			FileOutputStream fileOut = new FileOutputStream("/tmp/mashine.scene");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(devices);
+			out.close();
+			fileOut.close();
+			M.println("Serialized data is saved in /tmp/mashine.scene");
+		}catch(IOException i){
+			i.printStackTrace();
+		}
+	}
+
+	public void restore(){
+		try
+		{
+			FileInputStream fileIn = new FileInputStream("/tmp/mashine.scene");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			HashMap<String,Device> restoredDevices = (HashMap<String,Device>) in.readObject();
+			in.close();
+			fileIn.close();
+
+			devices = restoredDevices;
+
+		}catch(IOException i)
+		{
+			i.printStackTrace();
+			return;
+		}catch(ClassNotFoundException c)
+		{
+			System.out.println("Some class not found");
+			c.printStackTrace();
+			return;
+		}
 	}
 }

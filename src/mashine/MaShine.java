@@ -40,7 +40,10 @@ public class MaShine extends PApplet{
 		ui = new UI(this);
 
 		inputs.register("mashine.test", new Do(){public void x(){println("TEST");}});
-		inputs.link("mashine.test", "keyboard.32");
+		inputs.register("mashine.save_scene", new Do(){public void x(){scene.save();}});
+		inputs.register("mashine.restore_scene", new Do(){public void x(){scene.restore();}});
+		inputs.link("mashine.save_scene", "keyboard.97.press");
+		inputs.link("mashine.restore_scene", "keyboard.98.press");
 	}
 
 	public void draw() {
