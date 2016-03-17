@@ -71,16 +71,6 @@ public class SceneVisualizer extends Drawable {
 		}
 
 		// remove DeviceElement if Device not here anymore
-
-		// Iterator<String> dei = deviceElements.keySet().iterator();
-
-		// while(dei.hasNext()){
-		// 	String deviceIdentifier = dei.next();
-		// 	if(!devices.containsKey(deviceIdentifier)){
-		// 		deviceElements.remove(deviceIdentifier);
-		// 	}
-		// }
-
 		for(Iterator<Map.Entry<String, DeviceElement>> it = deviceElements.entrySet().iterator(); it.hasNext(); ) {
 			Map.Entry<String, DeviceElement> entry = it.next();
 			if(!devices.containsKey(entry.getKey())) {
@@ -98,9 +88,16 @@ public class SceneVisualizer extends Drawable {
 		selectedDevices = newSelection;
 	}
 
+	public void clearSelectedDevices(){
+		selectedDevices.clear();
+	}
 
 	public void renameDevice(String oldId, String newId){
 		deviceElements.put(newId, deviceElements.remove(oldId));
+	}
+
+	public void reloadElements(){
+		deviceElements.clear();
 	}
 
 }

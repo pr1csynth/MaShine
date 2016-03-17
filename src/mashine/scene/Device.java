@@ -15,6 +15,8 @@ import java.io.Serializable;
 
 public class Device implements Serializable{
 
+	private static final long serialVersionUID = 0xDE410001L;
+
 	private int startAddress;
 	private int universe;
 	private int footprint = 0;

@@ -9,8 +9,11 @@ package mashine.scene;
 
 import mashine.*;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Sequence{
+public class Sequence implements Serializable{
+
+	private static final long serialVersionUID = 0x5E0E0001L;
 
 	private ArrayList<Frame> frames;
 

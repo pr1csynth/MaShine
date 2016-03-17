@@ -12,8 +12,11 @@ import mashine.scene.*;
 import mashine.scene.features.*;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Frame{
+public class Frame implements Serializable{
+
+	private static final long serialVersionUID = 0xF44E0001L;
 
 	private HashMap<String,EditableFeature> features;
 
