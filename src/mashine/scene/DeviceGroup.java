@@ -10,8 +10,11 @@ package mashine.scene;
 import mashine.*;
 import mashine.scene.features.*;
 import java.util.HashMap;
+import java.io.Serializable;
 
-public class DeviceGroup{
+public class DeviceGroup implements Serializable{
+
+	private static final long serialVersionUID = 0xDED00001L;
 
 	private HashMap<Device,Integer> devices;
 	private String identifier;

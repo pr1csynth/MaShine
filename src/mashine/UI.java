@@ -129,5 +129,13 @@ public class UI{
 	public void setSelectedDevices(HashMap<String, Device> newSelection){
 		sceneVisualizer.setSelectedDevices(newSelection);
 	}
+
+	public void clearSelectedDevices(){
+		sceneVisualizer.clearSelectedDevices();
+	}
+
+	public void reloadElements(){
+		sceneVisualizer.reloadElements();
+	}
 }
 

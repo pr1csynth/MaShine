@@ -11,8 +11,11 @@ import mashine.*;
 import mashine.scene.features.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.io.Serializable;
 
-public class Device{
+public class Device implements Serializable{
+
+	private static final long serialVersionUID = 0xDE410001L;
 
 	private int startAddress;
 	private int universe;

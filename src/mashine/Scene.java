@@ -87,4 +87,15 @@ public class Scene{
 		}
 		return false;
 	}
+
+	public Object save(){
+		return devices;
+	}
+
+	public void restore(Object restoredObject){
+		devices = (HashMap<String,Device>) restoredObject;
+
+		M.ui.reloadElements();
+		M.ui.reloadElements();
+	}
 }

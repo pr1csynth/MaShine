@@ -11,8 +11,11 @@ import mashine.scene.*;
 import mashine.*;
 import java.util.LinkedHashMap;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public abstract class Feature {
+public abstract class Feature implements Serializable {
+
+	private static final long serialVersionUID = 0xFEA70001L;
 
 	protected int footprint;
 	protected LinkedHashMap<String,Integer> fields;
@@ -44,6 +47,8 @@ public abstract class Feature {
 			n = new RGBW(f);
 		}else if(f instanceof FixedField){
 			n = new FixedField(f);
+		}else if(f instanceof SingleField){
+			n = new SingleField(f);
 		}
 
 		return n;
