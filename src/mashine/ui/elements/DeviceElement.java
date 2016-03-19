@@ -109,7 +109,7 @@ public class DeviceElement extends Element{
 			// identifier 
 		FlatColor.fill(P.canvas, Colors.MATERIAL.GREEN.A700);
 		P.canvas.textAlign(P.canvas.LEFT, P.canvas.TOP);
-		P.canvas.text(d.getIdentifier(), d.getX() + 5, d.getY() + 5);
+		P.canvas.text(d.getName(), d.getX() + 5, d.getY() + 5);
 
 		P.canvas.noStroke();
 

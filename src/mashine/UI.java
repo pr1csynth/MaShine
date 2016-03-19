@@ -14,6 +14,7 @@ import mashine.scene.Device;
 import mashine.scene.Frame;
 import processing.core.PFont;
 import java.util.HashMap; 
+import java.util.ArrayList; 
 import java.util.LinkedList; 
 import java.util.Comparator; 
 
@@ -122,11 +123,11 @@ public class UI{
 		status.draw();
 	}
 
-	public HashMap<String, Device> getSelectedDevices(){
+	public ArrayList<Device> getSelectedDevices(){
 		return sceneVisualizer.getSelectedDevices();
 	}
 
-	public void setSelectedDevices(HashMap<String, Device> newSelection){
+	public void setSelectedDevices(ArrayList<Device> newSelection){
 		sceneVisualizer.setSelectedDevices(newSelection);
 	}
 

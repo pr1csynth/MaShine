@@ -20,15 +20,15 @@ public class Frame implements Serializable{
 
 	private HashMap<String,EditableFeature> features;
 
-	public Frame(HashMap<String,Device> devices){
+	public Frame(ArrayList<Device> devices){
 
 		features = new HashMap<String,EditableFeature>();
 
-		for(String deviceName : devices.keySet()){
-			ArrayList<Feature> devFeatures = devices.get(deviceName).getFeatures();
+		for(Device d : devices){
+			ArrayList<Feature> devFeatures = d.getFeatures();
 			for(Feature f : devFeatures){
 				if(f instanceof EditableFeature){
-					features.put(deviceName +"."+ f.getType(), (EditableFeature) Feature.cloneFeature(f));
+					features.put(d.getIdentifier() +"."+ f.getType(), (EditableFeature) Feature.cloneFeature(f));
 				}
 			}
 		}

@@ -12,6 +12,7 @@ import mashine.scene.features.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Device implements Serializable{
 
@@ -24,11 +25,12 @@ public class Device implements Serializable{
 	private int y;
 	private int w;
 	private int h;
-	private String identifier;
+	private String id;
+	private String name;
 	private ArrayList<Feature> features;
 
-	public Device(String identifier, int startAddress, int universe, int x, int y, int width, int height){
-		this.identifier = identifier;
+	public Device(String name, int startAddress, int universe, int x, int y, int width, int height){
+		this.name = name;
 		this.startAddress = startAddress;
 		this.universe = universe;
 		footprint = 0;
@@ -36,11 +38,12 @@ public class Device implements Serializable{
 		this.y = y;
 		this.w = width;
 		this.h = height;
+		this.id = UUID.randomUUID().toString();
 		features = new ArrayList<Feature>();
 	}
 
-	public Device(Device d, String identifier){
-		this.identifier = identifier;
+	public Device(Device d, String name){
+		this.name = name;
 		this.startAddress = d.getStartAddress();
 		this.universe = d.getUniverse();
 		features = d.getFeatures();
@@ -51,6 +54,8 @@ public class Device implements Serializable{
 		this.y = d.getY() + 10;
 		this.w = d.getWidth();
 		this.h = d.getHeight();
+		
+		this.id = UUID.randomUUID().toString();
 	}
 
 	public void addFeature(Feature feature){
@@ -106,11 +111,12 @@ public class Device implements Serializable{
 	public int getWidth(){return w;}
 	public int getHeight(){return h;}
 
-	public String getIdentifier(){return identifier;}
+	public String getIdentifier(){return id;}
+	public String getName(){return name;}
 	public int getStartAddress(){return startAddress;}
 	public int getUniverse(){return universe;}
 
-	public void setIdentifier(String id){this.identifier = id;}
+	public void setName(String name){this.name = name;}
 	public void setStartAddress(int address){this.startAddress = address;}
 	public void setUniverse(int universe){this.universe = universe;}
 

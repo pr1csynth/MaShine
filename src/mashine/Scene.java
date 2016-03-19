@@ -12,12 +12,13 @@ import mashine.scene.*;
 import mashine.scene.features.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Scene{
 
 	private MaShine M;
-	private HashMap<String,Device> devices;     // for the frames
-	private HashMap<String,DeviceGroup> groups; // for the filters
+	private ArrayList<Device> devices;     // for the frames
+	private ArrayList<DeviceGroup> groups; // for the filters
 	private Frame frameZero;
 
 	public static HashMap<String,Class<?>> FEATURES;
@@ -32,7 +33,7 @@ public class Scene{
 
 		M = m;
 
-		devices = new HashMap<String,Device>();
+		devices = new ArrayList<Device>();
 		Device testDevice = new Device("testDevice", 1, 1, 10, 10, 200, 50);
 		Device testDevice2 = new Device("testDevice2", 6, 42, 10, 65, 200, 60);
 		testDevice.addFeature(new RGBW(255));
@@ -40,8 +41,8 @@ public class Scene{
 		testDevice2.addFeature(new RGBW(255));
 		testDevice2.addFeature(new FixedField("strobe", 255));
 		testDevice2.addFeature(new FixedField("dimmer", 255));
-		devices.put(testDevice.getIdentifier(), testDevice);
-		devices.put(testDevice2.getIdentifier(), testDevice2);
+		devices.add(testDevice);
+		devices.add(testDevice2);
 		Device testDevice3 = new Device("testDevice3", 1, 42, 215, 10, 200, 50);
 		Device testDevice4 = new Device("testDevice4", 6, 42, 215, 65, 200, 70);
 		testDevice3.addFeature(new RGBW(255));
@@ -51,41 +52,28 @@ public class Scene{
 		testDevice4.addFeature(new FixedField("dimmer", 255));
 		testDevice4.addFeature(new FixedField("kelvin", 255));
 		testDevice4.addFeature(new FixedField("test", 255));
-		devices.put(testDevice3.getIdentifier(), testDevice3);
-		devices.put(testDevice4.getIdentifier(), testDevice4);
+		devices.add(testDevice3);
+		devices.add(testDevice4);
 		frameZero = new Frame(devices);
 	}
 
-	public HashMap<String,Device> getDevices(){
-		return new HashMap<String,Device>(devices);
+	public ArrayList<Device> getDevices(){
+		return new ArrayList<Device>(devices);
 	}
 	public void addDevice(Device d){
-		if(!devices.containsKey(d.getIdentifier()))
-			devices.put(d.getIdentifier(), d);
+		devices.add(d);
 	}
 
 	public void removeDevice(Device d){
-		devices.remove(d.getIdentifier());
+		devices.remove(d);
 	}
 
 	public Frame getDefaultFrame(){
 		return new Frame(frameZero);
 	}
 
-	public boolean validateDeviceIdentifier(String identifier){
-		return !devices.containsKey(identifier);
-	}
-
-	public boolean renameDevice(Device device, String newIdentifier){
-		if(devices.containsValue(device) && validateDeviceIdentifier(newIdentifier)){
-			devices.remove(device.getIdentifier());
-			M.println("-"+device.getIdentifier() +"->"+ newIdentifier +"<");
-			M.ui.sceneVisualizer.renameDevice(device.getIdentifier(), newIdentifier);
-			device.setIdentifier(newIdentifier);
-			devices.put(newIdentifier, device);
-			return true;
-		}
-		return false;
+	public void renameDevice(Device device, String newName){
+		device.setName(newName);
 	}
 
 	public Object save(){
@@ -93,9 +81,8 @@ public class Scene{
 	}
 
 	public void restore(Object restoredObject){
-		devices = (HashMap<String,Device>) restoredObject;
+		devices = (ArrayList<Device>) restoredObject;
 
-		M.ui.reloadElements();
 		M.ui.reloadElements();
 	}
 }

@@ -24,7 +24,7 @@ public class DeviceEditor extends UIBox{
 	private String featuresHash = "";
 	private ArrayList<Element> featureElements; 
 	private HashMap<String, RangeInput> featureInputs; 
-	private TextInput deviceIdendifierElement; 
+	private TextInput deviceNameElement; 
 	private TextInput genericFieldInputElement; 
 	private RangeInput universeElement; 
 	private RangeInput addressElement;
@@ -58,11 +58,11 @@ public class DeviceEditor extends UIBox{
 			offset += 17;
 		}
 
-		deviceIdendifierElement = new TextInput(this, "devID", 0, 28, 93);
+		deviceNameElement = new TextInput(this, "devName", 0, 28, 93);
 		universeElement = new RangeInput(this, 42f, 1f, 99f, 1f, 95, 28, 20);
 		addressElement = new RangeInput(this, 1f, 1f, 512f, 1f, 117, 28, 27);
 		genericFieldInputElement = new TextInput(this, "generic", 43, height - 20, 100);
-		elements.add(deviceIdendifierElement);
+		elements.add(deviceNameElement);
 		elements.add(universeElement);
 		elements.add(addressElement);
 		elements.add(genericFieldInputElement);
@@ -74,7 +74,7 @@ public class DeviceEditor extends UIBox{
 	}
 
 	public void drawUI(){
-		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
 		// add or remove elements
 
 
@@ -86,13 +86,13 @@ public class DeviceEditor extends UIBox{
 
 		if(!selectedDevices.isEmpty()){
 
-			Device firstDevice = selectedDevices.values().iterator().next();
+			Device firstDevice = selectedDevices.get(0);
 			// set common properties inputs
 			if(selectedDevices.size() == 1){
-				deviceIdendifierElement.enable();
+				deviceNameElement.enable();
 			}else{
-				deviceIdendifierElement.disable();
-				deviceIdendifierElement.setValue("("+ selectedDevices.size() + " devices)"); 
+				deviceNameElement.disable();
+				deviceNameElement.setValue("("+ selectedDevices.size() + " devices)"); 
 			}
 
 			// dress up a list of common features, order does not matter
@@ -100,14 +100,14 @@ public class DeviceEditor extends UIBox{
 			Integer commonUniverse = firstDevice.getUniverse();
 			Integer commonAddress = firstDevice.getStartAddress();
 			
-			for(String d : selectedDevices.keySet()){
-				ArrayList<Feature> deviceFeatures = selectedDevices.get(d).getFeatures();
+			for(Device d : selectedDevices){
+				ArrayList<Feature> deviceFeatures = (d).getFeatures();
 
-				if(commonUniverse != null && selectedDevices.get(d).getUniverse() != commonUniverse){
+				if(commonUniverse != null && d.getUniverse() != commonUniverse){
 					commonUniverse = null;
 				}
 
-				if(commonAddress != null && selectedDevices.get(d).getStartAddress() != commonAddress){
+				if(commonAddress != null && d.getStartAddress() != commonAddress){
 					commonAddress = null;
 				}
 
@@ -135,7 +135,7 @@ public class DeviceEditor extends UIBox{
 				featuresHash = selectedDevicesHash(selectedDevices);
 
 				if(selectedDevices.size() == 1){
-					deviceIdendifierElement.setValue(firstDevice.getIdentifier()); 
+					deviceNameElement.setValue(firstDevice.getName()); 
 					addressElement.setValue(firstDevice.getStartAddress());
 					universeElement.setValue(firstDevice.getUniverse());
 				}else{
@@ -155,7 +155,7 @@ public class DeviceEditor extends UIBox{
 				}
 
 
-				featureElements = new  ArrayList<Element>();
+				featureElements = new ArrayList<Element>();
 
 				int offset = 67; 
 				for(Feature f : commonFeatures){
@@ -170,9 +170,9 @@ public class DeviceEditor extends UIBox{
 
 							RangeInput e = new RangeInput(this, f.getFields().get(fi), 5, offset, 40);
 
-							for(String d : selectedDevices.keySet()){
+							for(Device d : selectedDevices){
 
-								Integer devFieldValue = selectedDevices.get(d).getFeatureField(f.getType() +"."+ fi);
+								Integer devFieldValue = (d).getFeatureField(f.getType() +"."+ fi);
 
 								if(devFieldValue == null || !devFieldValue.equals(f.getFields().get(fi))){
 									e.setValue(null);
@@ -190,12 +190,9 @@ public class DeviceEditor extends UIBox{
 			}else{
 
 				if(selectedDevices.size() == 1){
-					if(M.scene.validateDeviceIdentifier(deviceIdendifierElement.value())){
-						M.scene.renameDevice(selectedDevices.values().iterator().next(), deviceIdendifierElement.value());
-					}else{
-						// deviceElement shows that new identifier is wrong
-					}
+						M.scene.renameDevice(selectedDevices.get(0), deviceNameElement.value());
 				}
+
 				for(String ff : featureInputs.keySet()){
 					if(featureInputs.get(ff).value() != null){
 						updateFeature(ff, Math.round(featureInputs.get(ff).value()));
@@ -235,56 +232,55 @@ public class DeviceEditor extends UIBox{
 			if(!featuresHash.equals(selectedDevicesHash(selectedDevices))){
 				featuresHash = selectedDevicesHash(selectedDevices);
 
-				deviceIdendifierElement.enable();
+				deviceNameElement.enable();
 				// prefill for new device
-				deviceIdendifierElement.setValue("newDevice"); // find a valid name using M.scene
+				deviceNameElement.setValue("newDevice"); // find a valid name using M.scene
 			}
 		}
 	}
 
 	private void removeFeature(String featureId){
-		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
 		M.println("REMOVE "+ featureId + " from " + selectedDevices.size() + " devices");
 		featuresHash = "";
-		for(String d : selectedDevices.keySet()){
-			selectedDevices.get(d).removeFeature(featureId);
+		for(Device d : selectedDevices){
+			(d).removeFeature(featureId);
 		}
 	}
 
 	private void cloneSelectedDevices(){
-		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
-		HashMap<String, Device> newSelectedDevices = new HashMap<String, Device>();
-		for(String d : selectedDevices.keySet()){
-			Device newDev = new Device(selectedDevices.get(d), d+"_c");
-			if(M.scene.validateDeviceIdentifier(d+"_c")){
-				M.scene.addDevice(newDev);
-				newSelectedDevices.put(d+"_c", newDev);
-			}		
+		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		ArrayList<Device> newSelectedDevices = new ArrayList<Device>();
+		for(Device d : selectedDevices){
+			Device newDev = new Device(d, d.getName());
+
+			M.scene.addDevice(newDev);
+			newSelectedDevices.add(newDev);		
 		}
 
 		M.ui.setSelectedDevices(newSelectedDevices);
 	}
 
 	private void removeSelectedDevices(){
-		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
-		for(String d : selectedDevices.keySet()){
-			M.scene.removeDevice(selectedDevices.get(d));
+		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		for(Device d : selectedDevices){
+			M.scene.removeDevice((d));
 		}
 	}
 
 	private void updateFeature(String featureField, int value){
-		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
-		for(String d : selectedDevices.keySet()){
-			selectedDevices.get(d).updateFeature(featureField, value);
+		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		for(Device d : selectedDevices){
+			(d).updateFeature(featureField, value);
 		}
 	}
 
 	private void addFeature(String featureClassName){
 		if(Scene.FEATURES.containsKey(featureClassName)){
-			HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
-			for(String d : selectedDevices.keySet()){
+			ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+			for(Device d : selectedDevices){
 				try{
-					selectedDevices.get(d).addFeature((Feature) Scene.FEATURES.get(featureClassName).newInstance());
+					(d).addFeature((Feature) Scene.FEATURES.get(featureClassName).newInstance());
 				}catch(Exception ignore){}
 			}
 			featuresHash = "";
@@ -294,9 +290,9 @@ public class DeviceEditor extends UIBox{
 	private void addFixedField(){
 		String fieldName = genericFieldInputElement.value();
 		if(fieldName != null){
-			HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
-			for(String d : selectedDevices.keySet()){
-				selectedDevices.get(d).addFeature(new FixedField(fieldName));
+			ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+			for(Device d : selectedDevices){
+				(d).addFeature(new FixedField(fieldName));
 			}
 			featuresHash = "";
 		}
@@ -305,56 +301,56 @@ public class DeviceEditor extends UIBox{
 	private void addSingleField(){
 		String fieldName = genericFieldInputElement.value();
 		if(fieldName != null){
-			HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
-			for(String d : selectedDevices.keySet()){
-				selectedDevices.get(d).addFeature(new SingleField(fieldName));
+			ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+			for(Device d : selectedDevices){
+				d.addFeature(new SingleField(fieldName));
 			}
 			featuresHash = "";
 		}
 	}
 
 	private void updateUniverse(int universe){
-		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
-		for(String d : selectedDevices.keySet()){
-			selectedDevices.get(d).setUniverse(universe);
+		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		for(Device d : selectedDevices){
+			(d).setUniverse(universe);
 		}
 	}
 	private void updateAddress(int address){
-		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
-		for(String d : selectedDevices.keySet()){
-			selectedDevices.get(d).setStartAddress(address);
+		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		for(Device d : selectedDevices){
+			(d).setStartAddress(address);
 		}
 	}
 
-	private String selectedDevicesHash(HashMap<String,Device> selectedDevices){
-		String newFeaturesHash = "_" + selectedDevices.size();
-		for(String d : selectedDevices.keySet()){
-			newFeaturesHash += d;
+	private String selectedDevicesHash(ArrayList<Device> selectedDevices){
+		String hash = "_" + selectedDevices.size();
+		for(Device d : selectedDevices){
+			hash += d.getIdentifier();
 		}
-		return newFeaturesHash;
+		return hash;
 	}
 
 	private void moveSelectedDevices(){
 
-		HashMap<String, Device> selectedDevices = M.ui.getSelectedDevices();
+		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
 		if(M.inputs.getState("keyboard.38.hold") && !M.inputs.getState("keyboard.16.hold")){
-			for(String d : selectedDevices.keySet()){
-				selectedDevices.get(d).moveUp();
+			for(Device d : selectedDevices){
+				(d).moveUp();
 			}
 		}		
 		if(M.inputs.getState("keyboard.40.hold") && !M.inputs.getState("keyboard.16.hold")){
-			for(String d : selectedDevices.keySet()){
-				selectedDevices.get(d).moveDown();
+			for(Device d : selectedDevices){
+				(d).moveDown();
 			}
 		}		
 		if(M.inputs.getState("keyboard.37.hold") && !M.inputs.getState("keyboard.16.hold")){
-			for(String d : selectedDevices.keySet()){
-				selectedDevices.get(d).moveLeft();
+			for(Device d : selectedDevices){
+				(d).moveLeft();
 			}
 		}		
 		if(M.inputs.getState("keyboard.39.hold") && !M.inputs.getState("keyboard.16.hold")){
-			for(String d : selectedDevices.keySet()){
-				selectedDevices.get(d).moveRight();
+			for(Device d : selectedDevices){
+				(d).moveRight();
 			}
 		}
 	}
