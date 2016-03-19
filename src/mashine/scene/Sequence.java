@@ -16,6 +16,7 @@ public class Sequence implements Serializable{
 	private static final long serialVersionUID = 0x5E0E0001L;
 
 	private ArrayList<Frame> frames;
+	private String name;
 
 	public Sequence(){
 		frames = new ArrayList<Frame>();

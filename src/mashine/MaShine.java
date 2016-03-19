@@ -26,6 +26,7 @@ public class MaShine extends PApplet{
 	public Inputs inputs;
 	public Outputs outputs;
 	public Scene scene;
+	public Bank bank;
 	public UI ui;
 
 	public static void main(String[] args) {
@@ -45,6 +46,7 @@ public class MaShine extends PApplet{
 		inputs = new Inputs(this);
 		outputs = new Outputs(this);
 		scene = new Scene(this);
+		bank = new Bank(this);
 		ui = new UI(this);
 
 		inputs.register("mashine.test", new Do(){public void x(){println("TEST");}});

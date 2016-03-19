@@ -68,11 +68,12 @@ public class UI{
 		uiElements.put("EventViewer", new EventViewer(M));
 		uiElements.put("DataViewer", new DataViewer(M));
 		uiElements.put("DeviceEditor", new DeviceEditor(M));
+		uiElements.put("SequenceEditor", new SequenceEditor(M));
+		uiElements.put("SequenceSelector", new SequenceSelector(M));
 		openedUiElements = new LinkedList<Focusable>();
 	}
 
 	public void close(String uiElementName){
-		M.println("Close el from name");
 		if(uiElements.containsKey(uiElementName)){
 			Focusable el = uiElements.get(uiElementName);
 			openedUiElements.remove(el);
@@ -81,7 +82,6 @@ public class UI{
 	}
 
 	public void close(Focusable el){
-		M.println("Close el from object");
 		if(uiElements.containsValue(el)){
 			openedUiElements.remove(el);
 			el.defocus();

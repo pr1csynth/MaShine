@@ -25,7 +25,7 @@ public class Menu extends Drawable{
 		focus = true;
 
 		Do switchToScene = new Do(){public void x(){M.ui.open("DeviceEditor");}};
-		Do switchToAnimate = new Do(){public void x(){/*  OPEN SCENE TOOLS HERE  */}};
+		Do switchToAnimate = new Do(){public void x(){M.ui.open("SequenceEditor");M.ui.open("SequenceSelector");}};
 		Do switchToLive = new Do(){public void x(){/*  OPEN SCENE TOOLS HERE  */}};
 		Do openDataViewer = new Do(){public void x(){M.ui.open("DataViewer");}};
 		Do openEventViewer = new Do(){public void x(){M.ui.open("EventViewer");}};
