@@ -20,13 +20,13 @@ import java.util.ArrayList;
 
 public class SceneVisualizer extends Drawable {
 
-	LinkedHashMap<String,DeviceElement> deviceElements;
-	HashMap<String,Device> selectedDevices;
+	LinkedHashMap<Device,DeviceElement> deviceElements;
+	ArrayList<Device> selectedDevices;
 
 	public SceneVisualizer(MaShine m){
 		super(m, 10, 50, m.width - 10, m.height - 50);
-		deviceElements = new LinkedHashMap<String, DeviceElement>();
-		selectedDevices = new HashMap<String, Device>();
+		deviceElements = new LinkedHashMap<Device, DeviceElement>();
+		selectedDevices = new ArrayList<Device>();
 	}
 
 	public void drawContent(){
@@ -35,33 +35,33 @@ public class SceneVisualizer extends Drawable {
 
 		Frame frame = new Frame();
 
-		HashMap<String,Device> devices = M.scene.getDevices();
+		ArrayList<Device> devices = M.scene.getDevices();
 		HashMap<String,EditableFeature> frameFeatures = frame.getFeatures();
 
-		for(String deviceIdentifier : devices.keySet()){
+		for(Device d : devices){
 			// add new DeviceElement if not already present
-			if(!deviceElements.containsKey(deviceIdentifier)){
-				deviceElements.put(deviceIdentifier, new DeviceElement(this, devices.get(deviceIdentifier)));
-				M.println("Adding "+deviceIdentifier);
+			if(!deviceElements.containsKey(d)){
+				deviceElements.put(d, new DeviceElement(this, d));
+				M.println("Adding "+d.getIdentifier());
 			}
 
-			DeviceElement de = deviceElements.get(deviceIdentifier);
+			DeviceElement de = deviceElements.get(d);
 
 			// selected it maybe
-			boolean selected = selectedDevices.containsKey(deviceIdentifier);
+			boolean selected = selectedDevices.contains(d);
 
 			if(M.inputs.getState("keyboard.16.hold") && de.isClicked()){
 				if(selected){
-					selectedDevices.remove(deviceIdentifier);
+					selectedDevices.remove(d);
 					selected = false;
 				}else{
-					selectedDevices.put(deviceIdentifier, devices.get(deviceIdentifier));
+					selectedDevices.add(d);
 					selected = true;				
 				}
 			}else if(de.isClicked()){
 				selectedDevices.clear();
 				selected = true;
-				selectedDevices.put(deviceIdentifier, devices.get(deviceIdentifier));
+				selectedDevices.add(d);
 			}
 
 			// draw it
@@ -71,29 +71,25 @@ public class SceneVisualizer extends Drawable {
 		}
 
 		// remove DeviceElement if Device not here anymore
-		for(Iterator<Map.Entry<String, DeviceElement>> it = deviceElements.entrySet().iterator(); it.hasNext(); ) {
-			Map.Entry<String, DeviceElement> entry = it.next();
-			if(!devices.containsKey(entry.getKey())) {
+		for(Iterator<Map.Entry<Device, DeviceElement>> it = deviceElements.entrySet().iterator(); it.hasNext(); ) {
+			Map.Entry<Device, DeviceElement> entry = it.next();
+			if(!devices.contains(entry.getKey())) {
 				it.remove();
 			}
 		}
 
 	}
 
-	public HashMap<String,Device> getSelectedDevices(){
+	public ArrayList<Device> getSelectedDevices(){
 		return selectedDevices;
 	}
 
-	public void setSelectedDevices(HashMap<String, Device> newSelection){
+	public void setSelectedDevices(ArrayList<Device> newSelection){
 		selectedDevices = newSelection;
 	}
 
 	public void clearSelectedDevices(){
 		selectedDevices.clear();
-	}
-
-	public void renameDevice(String oldId, String newId){
-		deviceElements.put(newId, deviceElements.remove(oldId));
 	}
 
 	public void reloadElements(){
