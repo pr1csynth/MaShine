@@ -25,7 +25,9 @@ Midi device only tested on Linux. Otherwise it should be crossplateform.
  - 16:37 18 fev 2016 : basic user text input, should add regEx validation, maxlength check.
  - 16:43 22 fev 2016 : git versionning ! Main UI elements are drawn on separate PGraphics canvas, and it works (soon : scrollable) 
  - 20:39 22 fev 2016 : TODO device manipulation
- - 13:01 10 mar 2016 : basic device updating, now creation. Better input elements as well (711fc69031e420518df758e4780a2acaf66b9c57)
+ - 13:01 10 mar 2016 : basic device updating, now creation. Better input elements as well.
+ - 16:30 16 mars 2016 : Device editing done, saving mechanism too.
+ - 18:34 20 mars 2016 : Basic device editing done !
 
 # WHICH LICENSE ?
 
