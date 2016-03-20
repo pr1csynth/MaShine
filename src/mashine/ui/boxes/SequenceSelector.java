@@ -11,7 +11,7 @@ import mashine.*;
 import mashine.ui.*;
 import mashine.ui.elements.*;
 import mashine.scene.*;
-import java.util.Map;
+import java.util.List;
 
 public class SequenceSelector extends UIBox{
 
@@ -19,6 +19,22 @@ public class SequenceSelector extends UIBox{
 
 	public SequenceSelector (MaShine m) {
 		super(m, "SEQUENCES", 950, 50, 150, 350);
+
+		selectedSequence = M.bank.getSequence(0);
+
+		elements.add(new TextButton(this, "new", 0, 310, 55, 
+			new Do(){public void x(){newSequence();}}
+		));
+
+		elements.add(new TextButton(this, "delete", 96, 330, 55, 
+			new Do(){public void x(){deleteSequence();}}
+		));
+		elements.add(new TextButton(this, "up", 0, 330, 30, 
+			new Do(){public void x(){moveUpSequence();}}
+		));
+		elements.add(new TextButton(this, "down", 32, 330, 40, 
+			new Do(){public void x(){moveDownSequence();}}
+		));
 	}
 
 	public void tick(){
@@ -32,14 +48,13 @@ public class SequenceSelector extends UIBox{
 		canvas.textAlign(canvas.LEFT, canvas.TOP);
 		
 		if(M.bank.getSequencesSize() != 0){
-			Map<String,Sequence> sequences = M.bank.getSequences();
+			List<Sequence> sequences = M.bank.getSequences();
 
-
-			for(String s : sequences.keySet()){
-				if(selectedSequence == selectedSequence){
+			for(Sequence s : sequences){
+				if(s == selectedSequence){
 					FlatColor.fill(canvas,Colors.MATERIAL.ORANGE.A400);
 				}else{
-					if(index % 2 == 1){
+					if(index % 2 == 0){
 						FlatColor.fill(canvas,Colors.MATERIAL.BLUE_GREY._700);
 					}else{
 						canvas.noFill();
@@ -47,8 +62,12 @@ public class SequenceSelector extends UIBox{
 				}
 				canvas.rect(1, offset - 3, width - 1, 14);
 
+				if(hasFocus() && offset - 3 < mouseY() && mouseY() < offset + 11 && M.inputs.getState("mouse.left.press")){
+					selectedSequence = s;
+				}
+
 				FlatColor.fill(canvas,Colors.WHITE);
-				canvas.text(s, 5, offset);
+				canvas.text(s.getName() + " ("+s.getSize()+")", 5, offset);
 				offset += 14;
 				index ++;
 			}
@@ -60,11 +79,16 @@ public class SequenceSelector extends UIBox{
 		}
 	}
 
-	private void newSequence(){}
+	private void newSequence(){
+		selectedSequence = new Sequence("unamed sequence");
+		M.bank.addSequence(selectedSequence);
+	}
+
 	private void deleteSequence(){}
 	private void nextSequence(){}
 	private void prevSequence(){}
-	public Sequence getSelectedSequence(){
-		return selectedSequence;
-	}
+	private void moveUpSequence(){}
+	private void moveDownSequence(){}
+	public Sequence getSelectedSequence(){return selectedSequence;}
+	public void setSelectedSequence(Sequence s){selectedSequence = s;}
 }

@@ -96,12 +96,12 @@ public class DeviceEditor extends UIBox{
 			}
 
 			// dress up a list of common features, order does not matter
-			ArrayList<Feature> commonFeatures = firstDevice.getFeatures();
+			ArrayList<Feature> commonFeatures = Device.commonFeatures(selectedDevices);
+
 			Integer commonUniverse = firstDevice.getUniverse();
 			Integer commonAddress = firstDevice.getStartAddress();
 			
 			for(Device d : selectedDevices){
-				ArrayList<Feature> deviceFeatures = (d).getFeatures();
 
 				if(commonUniverse != null && d.getUniverse() != commonUniverse){
 					commonUniverse = null;
@@ -109,20 +109,6 @@ public class DeviceEditor extends UIBox{
 
 				if(commonAddress != null && d.getStartAddress() != commonAddress){
 					commonAddress = null;
-				}
-
-				Iterator<Feature> cfi = commonFeatures.iterator();
-				while(cfi.hasNext()){
-					Feature cf = cfi.next();
-					boolean found = false;
-					for(Feature df : deviceFeatures){
-						if(df.getType() == cf.getType())
-							found = true;
-					}
-
-					if(!found){
-						cfi.remove();
-					}
 				}
 			}
 			

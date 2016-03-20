@@ -53,4 +53,24 @@ public class Frame implements Serializable{
 	public HashMap<String,EditableFeature> getFeatures(){
 		return features;
 	}
+
+	public EditableFeature getFeature(Device d, Feature f){
+		if(features.containsKey(d.getIdentifier()+"."+f.getType())){
+			return features.get(d.getIdentifier()+"."+f.getType());
+		}else{
+			return null;
+		}
+	}
+
+	public void addFeature(Device d, EditableFeature f){
+		features.put(d.getIdentifier()+"."+f.getType(), (EditableFeature) Feature.cloneFeature(f));
+	}
+	public void removeFeature(Device d, EditableFeature f){
+		features.remove(d.getIdentifier()+"."+f.getType());
+	}
+
+	public void updateFeature(Device d, String featureType, String fieldName, int value){
+		if(features.containsKey(d.getIdentifier()+"."+featureType))
+			features.get(d.getIdentifier()+"."+featureType).setField(fieldName, value);
+	}
 }

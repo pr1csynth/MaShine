@@ -10,6 +10,7 @@ package mashine.scene;
 import mashine.*;
 import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Sequence implements Serializable{
 
@@ -17,13 +18,19 @@ public class Sequence implements Serializable{
 
 	private ArrayList<Frame> frames;
 	private String name;
+	private String id;
 
-	public Sequence(){
+	public Sequence(String name){
 		frames = new ArrayList<Frame>();
+		frames.add(new Frame());
+		this.name = name;
+		this.id = UUID.randomUUID().toString();
 	}
-	public Sequence(Frame f){
+	public Sequence(String name, Frame f){
 		frames = new ArrayList<Frame>();
 		frames.add(f);
+		this.name = name;
+		this.id = UUID.randomUUID().toString();
 	}
 
 	public Frame getFrame(int index){
@@ -38,7 +45,27 @@ public class Sequence implements Serializable{
 		frames.add(f);
 	}
 
+	public void deleteFrame(int index){
+		if(index < frames.size() && index >= 0){
+			frames.remove(index);
+		}
+		if(frames.size() == 0){
+			addFrame(new Frame());
+		}
+	}
+
 	public void setFrame(int i, Frame f){
 		frames.set(i, f);
+	}
+
+	public String getName(){
+		return name;
+	}
+	public void setName(String name){
+		this.name = name;
+	}
+
+	public String getIdentifier(){
+		return id;
 	}
 }

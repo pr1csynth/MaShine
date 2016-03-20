@@ -10,31 +10,32 @@ import mashine.scene.Frame;
 import mashine.scene.*;
 import mashine.engine.*;
 import mashine.scene.features.*;
-import java.util.LinkedHashMap;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Bank{
 
 	private MaShine M;
-	private LinkedHashMap<String,Sequence> sequences;
-	private HashMap<String,Filter> filters;
+	private ArrayList<Sequence> sequences;
+	private ArrayList<Filter> filters;
 
 	public Bank(MaShine m){
 		M = m;
-		sequences = new LinkedHashMap<String,Sequence>();
-		filters = new HashMap<String,Filter>();
+		sequences = new ArrayList<Sequence>();
+		filters = new ArrayList<Filter>();
+		sequences.add(new Sequence("unamed sequence"));
 	}
 
-	public void newSequence(String name){}
-	public void delSequence(String name){}
-	public void renameSequence(String oldName, String newName){}
+	public void addSequence(Sequence seq){
+		sequences.add(seq);
+	}
+	public void delSequence(Sequence seq){}
 
-	public LinkedHashMap<String,Sequence> getSequences(){
+	public ArrayList<Sequence> getSequences(){
 		return sequences;
 	}
 
-	public Sequence getSequence(String name){
-		return sequences.get(name);
+	public Sequence getSequence(int index){
+		return sequences.get(index);
 	}
 
 	public int getSequencesSize(){

@@ -18,16 +18,21 @@ public class Checkbox extends Element{
 	private FlatColor off;
 	private FlatColor hover;
 
-	public Checkbox (Drawable parent, int x,  int y, FlatColor off, FlatColor on, FlatColor hover) {
-		super(parent, x, y, 15, 15);
+	private Do onEnable;
+	private Do onDisable;
+
+	public Checkbox (Drawable parent, int x,  int y, FlatColor off, FlatColor on, FlatColor hover, Do onEnable, Do onDisable) {
+		super(parent, x, y, 14, 14);
 		this.on = on;
 		this.off = off;
 		this.hover = hover;
+		this.onEnable = onEnable;
+		this.onDisable = onDisable;
 	}	
-	public Checkbox (Drawable parent, int x,  int y) {
+	public Checkbox (Drawable parent, int x,  int y, Do onEnable, Do onDisable) {
 		this(parent, x, y, Colors.MATERIAL.BLUE_GREY._200,
 			Colors.MATERIAL.BLUE_GREY._800,
-			Colors.MATERIAL.BLUE_GREY._100);
+			Colors.MATERIAL.BLUE_GREY._100,onEnable, onDisable);
 
 	}
 
@@ -45,6 +50,11 @@ public class Checkbox extends Element{
 
 		if(isReleased()){
 			state = !state;
+			if(state){
+				onEnable.x();
+			}else{
+				onDisable.x();
+			}
 		}
 
 		FlatColor.stroke(P.canvas, off);
