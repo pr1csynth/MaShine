@@ -12,6 +12,7 @@ import mashine.ui.*;
 import mashine.ui.elements.*;
 import mashine.scene.*;
 import java.util.List;
+import java.util.Collections;
 
 public class SequenceSelector extends UIBox{
 
@@ -84,11 +85,28 @@ public class SequenceSelector extends UIBox{
 		M.bank.addSequence(selectedSequence);
 	}
 
-	private void deleteSequence(){}
+	private void deleteSequence(){
+		M.bank.deleteSequence(selectedSequence);
+		if(M.bank.getSequencesSize() == 0){
+			M.bank.addSequence(new Sequence("unamed sequence"));
+		}
+		selectedSequence = M.bank.getSequence(0);
+	}
+
 	private void nextSequence(){}
 	private void prevSequence(){}
-	private void moveUpSequence(){}
-	private void moveDownSequence(){}
+	private void moveUpSequence(){
+		List<Sequence> sequences = M.bank.getSequences();
+		int i = sequences.indexOf(selectedSequence);
+		if(i != 0)
+			Collections.swap(sequences, i, i - 1);
+	}
+	private void moveDownSequence(){
+		List<Sequence> sequences = M.bank.getSequences();
+		int i = sequences.indexOf(selectedSequence);
+		if(i != sequences.size() -1)
+			Collections.swap(sequences, i, i + 1);
+	}
 	public Sequence getSelectedSequence(){return selectedSequence;}
 	public void setSelectedSequence(Sequence s){selectedSequence = s;}
 }

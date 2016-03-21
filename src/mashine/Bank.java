@@ -28,7 +28,9 @@ public class Bank{
 	public void addSequence(Sequence seq){
 		sequences.add(seq);
 	}
-	public void delSequence(Sequence seq){}
+	public void deleteSequence(Sequence seq){
+		sequences.remove(seq);
+	}
 
 	public ArrayList<Sequence> getSequences(){
 		return sequences;
