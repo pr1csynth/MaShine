@@ -28,6 +28,7 @@ public class UI{
 	private Frame displayFrame;
 	public SceneVisualizer sceneVisualizer;
 	public SequenceSelector sequenceSelector;
+	public ColorPalette colorPalette;
 	public Status status;
 	public PFont TEXTFONT;
 	public PFont TITLEFONT;
@@ -67,12 +68,14 @@ public class UI{
 		menu = new Menu(M);
 		sceneVisualizer = new SceneVisualizer(M);
 		sequenceSelector = new SequenceSelector(M);
+		colorPalette = new ColorPalette(M);
 
 		uiElements = new HashMap<String,Focusable>();
 		uiElements.put("EventViewer", new EventViewer(M));
 		uiElements.put("DataViewer", new DataViewer(M));
 		uiElements.put("DeviceEditor", new DeviceEditor(M));
 		uiElements.put("SequenceSelector", sequenceSelector);
+		uiElements.put("ColorPalette", colorPalette);
 		uiElements.put("SequenceEditor", new SequenceEditor(M));
 		openedUiElements = new LinkedList<Focusable>();
 

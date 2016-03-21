@@ -159,6 +159,15 @@ public class FlatColor {
 		return c;
 	}
 
+	public FlatColor withAlphaAsWhite(){
+		FlatColor c = new FlatColor(this);
+		c.setRed(getRed() + getAlpha()/2);
+		c.setGreen(getGreen() + getAlpha()/2);
+		c.setBlue(getBlue() + getAlpha()/2);
+		c.setAlpha(255);
+		return c;
+	}
+
 	public int getRed(){
 		return r;
 	}

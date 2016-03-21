@@ -42,6 +42,6 @@ public final class RGBW extends ColorFeature {
 	}	
 
 	public FlatColor getColor(){
-		return new FlatColor(fields.get("red"), fields.get("green"), fields.get("blue"));
+		return new FlatColor(fields.get("red"), fields.get("green"), fields.get("blue"), fields.get("white")).withAlphaAsWhite();
 	}
 }

@@ -98,7 +98,7 @@ public class RangeInput extends Element{
 
 		FlatColor.fill(P.canvas, Colors.MATERIAL.BLUE_GREY._900);
 		P.canvas.textAlign(P.canvas.LEFT, P.canvas.CENTER);
-		P.canvas.text(stringValue + (M.millis() % 1200 > 600 && enabled && stringValue.length() < maxLength() && hasFocus() ? "_" : ""), x + 3, y +height/2);
+		P.canvas.text(stringValue + (M.millis() % 1200 > 600 && enabled && stringValue.length() < maxLength() && hasFocus() ? "_" : ""), x + 3, y +height/2+1);
 	}
 
 	private Float normalize(Float val){
