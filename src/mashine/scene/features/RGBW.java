@@ -17,7 +17,7 @@ public final class RGBW extends ColorFeature {
 	}
 
 	public RGBW(){
-		this(255);
+		this(0);
 	}
 
 	public RGBW(RGB f){

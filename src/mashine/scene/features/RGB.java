@@ -16,7 +16,7 @@ public final class RGB extends ColorFeature {
 	}
 
 	public RGB(){
-		this(255);
+		this(0);
 	}
 
 	public RGB(RGB f){
