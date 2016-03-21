@@ -50,7 +50,7 @@ public class SequenceEditor extends UIBox{
 		ui.put("newFrame", new TextButton(this, "+", 114, 45, 20, 
 			new Do(){public void x(){newFrame();}}
 			));
-		ui.put("indexInput", new RangeInput(this, 0f, 0f, 1f, 1f, 136, 45, 30));
+		ui.put("indexInput", new RangeInput(this, 1f, 1f, 1f, 1f, 136, 45, 30));
 
 		for (String el : ui.keySet()){
 			elements.add(ui.get(el));
@@ -62,8 +62,8 @@ public class SequenceEditor extends UIBox{
 			selectedSequence = M.ui.getSelectedSequence();
 			((TextInput) ui.get("seqName")).setValue(selectedSequence.getName());
 			currentFrameIndex = selectedSequence.getSize()-1;
-			((RangeInput)ui.get("indexInput")).setMax(currentFrameIndex);
-			((RangeInput)ui.get("indexInput")).setValue(currentFrameIndex);
+			((RangeInput)ui.get("indexInput")).setMax(currentFrameIndex +1);
+			((RangeInput)ui.get("indexInput")).setValue(currentFrameIndex +1);
 			lastSelectedDeviceHash = "";
 		}else{
 			selectedSequence.setName(((TextInput) ui.get("seqName")).value());
@@ -71,9 +71,9 @@ public class SequenceEditor extends UIBox{
 
 		if(currentFrameIndex != lastFrameIndex){
 			lastFrameIndex = currentFrameIndex;
-			((RangeInput) ui.get("indexInput")).setValue(currentFrameIndex);
+			((RangeInput) ui.get("indexInput")).setValue(currentFrameIndex + 1);
 		}else{
-			currentFrameIndex = M.floor(((RangeInput) ui.get("indexInput")).value());
+			currentFrameIndex = M.floor(((RangeInput) ui.get("indexInput")).value()) -1;
 		}
 
 		currentFrame = selectedSequence.getFrame(currentFrameIndex);
@@ -253,27 +253,27 @@ public class SequenceEditor extends UIBox{
 		if(currentFrameIndex < 0){
 			currentFrameIndex = selectedSequence.getSize() + currentFrameIndex;
 		}
-		((RangeInput)ui.get("indexInput")).setValue(currentFrameIndex);
+		((RangeInput)ui.get("indexInput")).setValue(currentFrameIndex +1);
 		lastSelectedDeviceHash = "";
 	}
 	public void nextFrame(){
 		currentFrameIndex ++;
 		currentFrameIndex = currentFrameIndex % selectedSequence.getSize();
-		((RangeInput)ui.get("indexInput")).setValue(currentFrameIndex);
+		((RangeInput)ui.get("indexInput")).setValue(currentFrameIndex +1);
 		lastSelectedDeviceHash = "";
 	}
 	public void deleteFrame(){
 		selectedSequence.deleteFrame(currentFrameIndex);
 		currentFrameIndex = selectedSequence.getSize()-1;
-		((RangeInput)ui.get("indexInput")).setMax(currentFrameIndex);
-		((RangeInput)ui.get("indexInput")).setValue(currentFrameIndex);
+		((RangeInput)ui.get("indexInput")).setMax(currentFrameIndex +1);
+		((RangeInput)ui.get("indexInput")).setValue(currentFrameIndex +1);
 		lastSelectedDeviceHash = "";
 	}
 	public void newFrame(){
 		selectedSequence.addFrame(new Frame());
 		currentFrameIndex = selectedSequence.getSize()-1;
-		((RangeInput)ui.get("indexInput")).setMax(currentFrameIndex);
-		((RangeInput)ui.get("indexInput")).setValue(currentFrameIndex);
+		((RangeInput)ui.get("indexInput")).setMax(currentFrameIndex +1);
+		((RangeInput)ui.get("indexInput")).setValue(currentFrameIndex +1);
 		lastSelectedDeviceHash = "";
 	}
 
