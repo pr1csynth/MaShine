@@ -121,38 +121,42 @@ public class SequenceEditor extends UIBox{
 					featureEnables.put(f.getType(), c);
 					featureElements.add(c);
 
-					for(String fi : f.getFields().keySet()){
-
-						RangeInput e = new RangeInput(this, f.getFields().get(fi), 5, offset, 40);
-
-						if(!featureInFrame)
-							e.disable();
-
-						Feature firstFeature = currentFrame.getFeature(selectedDevices.get(0), f);
-
-						if(firstFeature != null){
-
-							Integer commonFieldValue = firstFeature.getField(fi);
-
-							e.setValue(commonFieldValue);
-							// TODO : get most significant field value from frame for selected devices
-
-							for(Device d : selectedDevices){
-								Feature devFeature = currentFrame.getFeature(d, f);
-								if(devFeature == null || commonFieldValue == null || commonFieldValue != devFeature.getField(fi)){
-									e.setValue(null);
-									e.setStringValue("_");
-									break;							
-								}
-							}
-						}else{
-							e.setValue(null);
-							e.setStringValue("_");	
-						}
-
-						featureInputs.put(f.getType() +"."+ fi, e);
-						featureElements.add(e);
+					if(f instanceof ColorFeature){
 						offset += 17;
+					}else{
+						for(String fi : f.getFields().keySet()){
+
+							RangeInput e = new RangeInput(this, f.getFields().get(fi), 5, offset, 40);
+
+							if(!featureInFrame)
+								e.disable();
+
+							Feature firstFeature = currentFrame.getFeature(selectedDevices.get(0), f);
+
+							if(firstFeature != null){
+
+								Integer commonFieldValue = firstFeature.getField(fi);
+
+								e.setValue(commonFieldValue);
+								// TODO : get most significant field value from frame for selected devices
+
+								for(Device d : selectedDevices){
+									Feature devFeature = currentFrame.getFeature(d, f);
+									if(devFeature == null || commonFieldValue == null || commonFieldValue != devFeature.getField(fi)){
+										e.setValue(null);
+										e.setStringValue("_");
+										break;							
+									}
+								}
+							}else{
+								e.setValue(null);
+								e.setStringValue("_");	
+							}
+
+							featureInputs.put(f.getType() +"."+ fi, e);
+							featureElements.add(e);
+							offset += 17;
+						}
 					}
 
 					offset +=3;
@@ -161,10 +165,9 @@ public class SequenceEditor extends UIBox{
 		}else{
 			for(String ri : featureInputs.keySet()){
 				if(featureInputs.get(ri).isEnabled()){
-					if(featureInputs.get(ri).value() != null)
-						if(true) // TODO : if ( different from the signicative value found ligne 138) { update }
-							updateFeatureFieldForCurrentFrame(ri, M.floor(featureInputs.get(ri).value()));
-						}
+					if(featureInputs.get(ri).value() != null){
+						updateFeatureFieldForCurrentFrame(ri, M.floor(featureInputs.get(ri).value()));
+					}	
 				}
 			}
 		}
@@ -183,11 +186,17 @@ public class SequenceEditor extends UIBox{
 
 		for(Feature f : commonFeatures){
 			if(f instanceof EditableFeature){
-				int diff = 17 * f.getFields().size() + 3;
-				if(index % 2 == 0){
-					canvas.rect(1, offset - 6, width -1, diff + 1);
+				int diff = 0;
+
+				if(f instanceof ColorFeature){
+					diff = 20;
+				}else{
+					diff = 17 * f.getFields().size() + 3;
 				}
-				offset += diff;
+					if(index % 2 == 0){
+						canvas.rect(1, offset - 6, width -1, diff + 1);
+					}
+					offset += diff;
 				index ++;
 			}
 		}
@@ -203,18 +212,21 @@ public class SequenceEditor extends UIBox{
 				canvas.text(f.getType(), width - 25, offset);
 
 				if(f instanceof ColorFeature){
-					canvas.text("unlinked", width - 25, offset + 17);
-				}
-
-				if(f.getFields().size() != 1){
-					for(String fi : f.getFields().keySet()){
-						canvas.textAlign(canvas.LEFT, canvas.TOP);
-						canvas.text(fi, 50, offset);
+					// canvas.textAlign(canvas.LEFT, canvas.TOP);
+					// canvas.text("unlinked", 5, offset );
+					offset += 17;
+				}else{		
+					if(f.getFields().size() != 1){
+						for(String fi : f.getFields().keySet()){
+							canvas.textAlign(canvas.LEFT, canvas.TOP);
+							canvas.text(fi, 50, offset);
+							offset +=17;
+						}
+					}else{
 						offset +=17;
 					}
-				}else{
-					offset +=17;
 				}
+
 				offset +=3;
 			}
 		}
@@ -236,6 +248,8 @@ public class SequenceEditor extends UIBox{
 		for(Device d : M.ui.getSelectedDevices()){
 			currentFrame.addFeature(d,feature);
 		}
+
+		linkColorToFeatureForCurrentFrame(selectedColor);
 
 		for(String el : featureInputs.keySet()){
 			M.println(el);

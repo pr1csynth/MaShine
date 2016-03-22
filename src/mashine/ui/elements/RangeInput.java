@@ -125,6 +125,7 @@ public class RangeInput extends Element{
 	}
 
 	protected void onDefocus(){
+		Float oldVal = value;
 		try{		
 			if(stringValue.length() > 0){
 				value = Float.parseFloat(stringValue);
