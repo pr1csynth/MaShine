@@ -138,6 +138,9 @@ public class UI{
 	public Sequence getSelectedSequence(){return sequenceSelector.getSelectedSequence();}
 	public void setSelectedSequence(Sequence s){sequenceSelector.setSelectedSequence(s);}
 
+	public FlatColor getSelectedColor(){return colorPalette.getSelectedColor();}
+	public void setSelectedColor(FlatColor s){colorPalette.setSelectedColor(s);}
+
 	public void setDisplayedFrame(Frame frame){displayFrame = frame;}
 }
 

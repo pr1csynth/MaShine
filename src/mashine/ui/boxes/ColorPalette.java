@@ -37,6 +37,10 @@ public class ColorPalette extends UIBox{
 			elements.add(e);
 		}
 
+		elements.add(new TextButton(this, "select", 8, 138, 
+			new Do(){public void x(){updateReference();}}
+		));
+
 		color = new FlatColor(Colors.WHITE);
 	}
 
@@ -105,6 +109,18 @@ public class ColorPalette extends UIBox{
 		colorParamInputs.get("hue").setValue(color.getHue());
 		colorParamInputs.get("sat").setValue(color.getSaturation());
 		colorParamInputs.get("lum").setValue(color.getBrightness());
+	}
+
+	public FlatColor getSelectedColor(){
+		return color;
+	}
+
+	public void setSelectedColor(FlatColor c){
+		color = c;
+	}
+
+	public void updateReference(){
+		color = new FlatColor(color);
 	}
 
 }

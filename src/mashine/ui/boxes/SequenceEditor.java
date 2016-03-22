@@ -14,12 +14,14 @@ import mashine.scene.*;
 import mashine.scene.features.*;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ArrayList;
 
 public class SequenceEditor extends UIBox{
 
 	private HashMap<String,Element> ui;
 	private Sequence selectedSequence;
+	private FlatColor selectedColor;
 	private Frame currentFrame;
 	private int currentFrameIndex = 0;
 	private int lastFrameIndex = 0;
@@ -79,6 +81,11 @@ public class SequenceEditor extends UIBox{
 		currentFrame = selectedSequence.getFrame(currentFrameIndex);
 		M.ui.setDisplayedFrame(currentFrame);
 
+		if(selectedColor != M.ui.getSelectedColor()){
+			selectedColor = M.ui.getSelectedColor();
+			linkColorToFeatureForCurrentFrame(selectedColor);
+		}
+
 		if(!lastSelectedDeviceHash.equals(selectedDevicesHash(M.ui.getSelectedDevices()))){
 
 			ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
@@ -126,7 +133,9 @@ public class SequenceEditor extends UIBox{
 						if(firstFeature != null){
 
 							Integer commonFieldValue = firstFeature.getField(fi);
+
 							e.setValue(commonFieldValue);
+							// TODO : get most significant field value from frame for selected devices
 
 							for(Device d : selectedDevices){
 								Feature devFeature = currentFrame.getFeature(d, f);
@@ -153,7 +162,9 @@ public class SequenceEditor extends UIBox{
 			for(String ri : featureInputs.keySet()){
 				if(featureInputs.get(ri).isEnabled()){
 					if(featureInputs.get(ri).value() != null)
-						updateFeatureFieldForCurrentFrame(ri, M.floor(featureInputs.get(ri).value()));
+						if(true) // TODO : if ( different from the signicative value found ligne 138) { update }
+							updateFeatureFieldForCurrentFrame(ri, M.floor(featureInputs.get(ri).value()));
+						}
 				}
 			}
 		}
@@ -190,6 +201,11 @@ public class SequenceEditor extends UIBox{
 
 				canvas.textAlign(canvas.RIGHT, canvas.TOP);
 				canvas.text(f.getType(), width - 25, offset);
+
+				if(f instanceof ColorFeature){
+					canvas.text("unlinked", width - 25, offset + 17);
+				}
+
 				if(f.getFields().size() != 1){
 					for(String fi : f.getFields().keySet()){
 						canvas.textAlign(canvas.LEFT, canvas.TOP);
@@ -244,6 +260,22 @@ public class SequenceEditor extends UIBox{
 	public void updateFeatureFieldForCurrentFrame(String featureField, int value){
 		for(Device d : M.ui.getSelectedDevices()){
 			currentFrame.updateFeature(d, featureField.split("\\.")[0],featureField.split("\\.")[1], value);
+		}
+	}
+
+	public void linkColorToFeatureForCurrentFrame(FlatColor color){
+		Map<String,EditableFeature> frameFeatures = currentFrame.getFeatures();
+		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		for(String featureKey : frameFeatures.keySet()){
+			String id = featureKey.split("\\.")[0];
+			if(frameFeatures.get(featureKey) instanceof ColorFeature){
+				for(Device d : selectedDevices){
+					if(d.getIdentifier().equals(id)){
+						((ColorFeature) frameFeatures.get(featureKey)).link(color);
+						break;
+					}
+				}
+			}
 		}
 	}
 

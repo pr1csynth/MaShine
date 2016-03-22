@@ -75,9 +75,6 @@ public abstract class Feature implements Serializable {
 	public void setField(String fieldName, int value){
 		if(fields.containsKey(fieldName)){
 			fields.put(fieldName, value);
-			System.out.println("Setting "+ fieldName + " @"+ this.hashCode());
-		}else{
-			System.out.println("Failed to set "+ fieldName);
 		}
 	}
 

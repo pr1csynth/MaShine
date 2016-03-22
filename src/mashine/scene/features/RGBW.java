@@ -2,6 +2,7 @@ package mashine.scene.features;
 
 import mashine.scene.*;
 import mashine.ui.*;
+import java.util.LinkedHashMap;
 
 public final class RGBW extends ColorFeature {
 	public RGBW(int red, int green, int blue, int white){
@@ -29,19 +30,41 @@ public final class RGBW extends ColorFeature {
 	}
 
 	public void setRed(int v){
-		fields.put("red", v);
+		setField("red", v);
 	}
 	public void setGreen(int v){
-		fields.put("green", v);
+		setField("green", v);
 	}	
 	public void setBlue(int v){
-		fields.put("blue", v);
+		setField("blue", v);
 	}	
 	public void setWhite(int v){
-		fields.put("white", v);
+		setField("white", v);
 	}	
 
 	public FlatColor getColor(){
-		return new FlatColor(fields.get("red"), fields.get("green"), fields.get("blue"), fields.get("white")).withAlphaAsWhite();
+		FlatColor rc;
+		if(linkedColor != null){
+			rc = linkedColor;
+		}else{
+			rc = new FlatColor(fields.get("red"), fields.get("green"), fields.get("blue"), fields.get("white"));
+		}
+		return rc.withAlphaAsWhite();
+	}
+
+	public LinkedHashMap<String,Integer> getFields(){
+		LinkedHashMap<String,Integer> rf;
+
+		if(linkedColor != null){
+			rf = new LinkedHashMap<String,Integer>();
+			rf.put("red", linkedColor.getRed());
+			rf.put("green", linkedColor.getGreen());
+			rf.put("blue", linkedColor.getBlue());
+			rf.put("white", linkedColor.getAlpha());
+		}else{
+			rf = new LinkedHashMap<String,Integer>(fields);
+		}
+
+		return rf;
 	}
 }

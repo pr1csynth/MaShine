@@ -68,9 +68,8 @@ public class RangeInput extends Element{
 			}
 
 			if(isDragged()){
-				M.println("DRAGED");
 				int relX = M.max(0, M.min(P.mouseX() - x, width));
-				value = normalize((float) (max - min) * ((float) relX / width));
+				value = normalize((float) (max - min + step) * ((float) relX / width));
 				updateStringValue();
 			}
 
@@ -88,7 +87,7 @@ public class RangeInput extends Element{
 			FlatColor.fill(P.canvas, Colors.MATERIAL.CYAN._300);
 		else
 			FlatColor.fill(P.canvas, Colors.MATERIAL.GREY._600);
-		P.canvas.rect(x, y, width * (tempValueFromString(stringValue)/(max - min)), height);
+		P.canvas.rect(x, y, M.min(width,1 + width * (tempValueFromString(stringValue)/(max - min + step))), height);
 
 		if(f){
 			FlatColor.stroke(P.canvas, Colors.MATERIAL.CYAN.A700);
