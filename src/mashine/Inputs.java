@@ -125,6 +125,9 @@ public class Inputs{
 	public Set<String> getActionSet(){
 		return actions.keySet();
 	}
+	public Do getAction(String actionName){
+		return actions.get(actionName);
+	}
 
 	public Set<String> getStateSet(){
 		return stateInputs.keySet();

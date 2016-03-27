@@ -19,7 +19,7 @@ public class Menu extends Drawable{
 
 	
 	public Menu(MaShine m){
-		super(m, 0, 0, m.width, 40);
+		super(m, 0, 0, m.displayWidth, 40);
 		bigButtons = new ArrayList<Element>();
 		elements = new ArrayList<Element>();
 		focus = true;
@@ -59,8 +59,7 @@ public class Menu extends Drawable{
 
 	public void drawContent(){
 		canvas.noStroke();
-		canvas.background(127);
-		FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._600);
+		FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._900);
 		canvas.rect(0, 0, width, height);
 		//canvas.rect(M.mouseX, M.mouseY, 20, 20);
 

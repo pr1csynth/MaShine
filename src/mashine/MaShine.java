@@ -40,7 +40,7 @@ public class MaShine extends PApplet{
 
 	public void setup() {
 		frameRate(50);
-		//surface.setResizable(true);
+		surface.setResizable(true);
 
 
 		inputs = new Inputs(this);

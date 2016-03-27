@@ -56,10 +56,11 @@ public class UIBox extends Drawable{
 		FlatColor.stroke(canvas,Colors.MATERIAL.BLUE_GREY._800);
 		FlatColor.fill(canvas,Colors.MATERIAL.BLUE_GREY._600);
 		canvas.rect(0, 0, width, height);
+
 		canvas.noStroke();
 		FlatColor.fill(canvas,Colors.MATERIAL.BLUE_GREY._900);
-		canvas.rect(0, 0, width, 22);
-
+		canvas.rect(0, 0, width+1, 22);
+		
 		FlatColor.fill(canvas,Colors.WHITE);
 		canvas.textAlign(M.CENTER, M.TOP);
 		canvas.text(title,width / 2, 7);
