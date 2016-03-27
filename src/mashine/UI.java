@@ -12,6 +12,7 @@ import mashine.ui.*;
 import mashine.ui.boxes.*;
 import mashine.scene.Device;
 import mashine.scene.Frame;
+import mashine.scene.Sequence;
 import processing.core.PFont;
 import java.util.HashMap; 
 import java.util.ArrayList; 
@@ -24,7 +25,10 @@ public class UI{
 	private HashMap<String,Focusable> uiElements;
 	private LinkedList<Focusable> openedUiElements;
 	private MaShine M;
+	private Frame displayFrame;
 	public SceneVisualizer sceneVisualizer;
+	public SequenceSelector sequenceSelector;
+	public ColorPalette colorPalette;
 	public Status status;
 	public PFont TEXTFONT;
 	public PFont TITLEFONT;
@@ -63,16 +67,22 @@ public class UI{
 		status = new Status(M);
 		menu = new Menu(M);
 		sceneVisualizer = new SceneVisualizer(M);
+		sequenceSelector = new SequenceSelector(M);
+		colorPalette = new ColorPalette(M);
 
 		uiElements = new HashMap<String,Focusable>();
 		uiElements.put("EventViewer", new EventViewer(M));
 		uiElements.put("DataViewer", new DataViewer(M));
 		uiElements.put("DeviceEditor", new DeviceEditor(M));
+		uiElements.put("SequenceSelector", sequenceSelector);
+		uiElements.put("ColorPalette", colorPalette);
+		uiElements.put("SequenceEditor", new SequenceEditor(M));
 		openedUiElements = new LinkedList<Focusable>();
+
+		displayFrame = new Frame();
 	}
 
 	public void close(String uiElementName){
-		M.println("Close el from name");
 		if(uiElements.containsKey(uiElementName)){
 			Focusable el = uiElements.get(uiElementName);
 			openedUiElements.remove(el);
@@ -81,7 +91,6 @@ public class UI{
 	}
 
 	public void close(Focusable el){
-		M.println("Close el from object");
 		if(uiElements.containsValue(el)){
 			openedUiElements.remove(el);
 			el.defocus();
@@ -99,11 +108,9 @@ public class UI{
 	public void draw(){
 		//M.strokeWeight((float)0.5);
 		//M.strokeJoin(M.MITER);
-		menu.draw();
-		//sceneVisualizer.setFrame(M.scene.getDefaultFrame());
-		//sceneVisualizer.setFrame(new Frame());
 
-		
+		menu.draw();
+		sceneVisualizer.setFrame(displayFrame);
 		sceneVisualizer.draw();
 
 		openedUiElements.sort(new SortByFocus());
@@ -123,20 +130,18 @@ public class UI{
 		status.draw();
 	}
 
-	public ArrayList<Device> getSelectedDevices(){
-		return sceneVisualizer.getSelectedDevices();
-	}
 
-	public void setSelectedDevices(ArrayList<Device> newSelection){
-		sceneVisualizer.setSelectedDevices(newSelection);
-	}
+	public ArrayList<Device> getSelectedDevices(){return sceneVisualizer.getSelectedDevices();}
+	public void setSelectedDevices(ArrayList<Device> newSelection){sceneVisualizer.setSelectedDevices(newSelection);}
+	public void clearSelectedDevices(){sceneVisualizer.clearSelectedDevices();}
+	public void reloadElements(){sceneVisualizer.reloadElements();}
+	
+	public Sequence getSelectedSequence(){return sequenceSelector.getSelectedSequence();}
+	public void setSelectedSequence(Sequence s){sequenceSelector.setSelectedSequence(s);}
 
-	public void clearSelectedDevices(){
-		sceneVisualizer.clearSelectedDevices();
-	}
+	public FlatColor getSelectedColor(){return colorPalette.getSelectedColor();}
+	public void setSelectedColor(FlatColor s){colorPalette.setSelectedColor(s);}
 
-	public void reloadElements(){
-		sceneVisualizer.reloadElements();
-	}
+	public void setDisplayedFrame(Frame frame){displayFrame = frame;}
 }
 

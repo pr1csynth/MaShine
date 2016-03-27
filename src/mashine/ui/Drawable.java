@@ -60,10 +60,10 @@ public abstract class Drawable extends Focusable{
 				M.mouseY < y + height;
 	}
 
-	protected int mouseX() {
+	public int mouseX() {
 		return M.mouseX - x;
 	}
-	protected int mouseY() {
+	public int mouseY() {
 		return M.mouseY - y;
 	}
 

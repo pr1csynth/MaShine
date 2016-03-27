@@ -36,21 +36,24 @@ public class RangeInput extends Element{
 	public void setMin(Float min){this.min = min;}
 	public void setMax(Float max){this.max = max;}
 	public void setStep(Float step){this.step = step;}
-	public void setValue(Float value){this.value = value; normalize();}
+
+	public void setMin(int min){setMin((float) min);}
+	public void setMax(int max){setMax((float) max);}
+	public void setStep(int step){setStep((float) step);}
 
 	public void drawContent(){
 		P.canvas.noStroke();
 
+		boolean f = enabled && hasFocus() && P.hasFocus();
 
-		if(enabled && hasFocus() && P.hasFocus()){
-			FlatColor.stroke(P.canvas, Colors.MATERIAL.CYAN.A700);
+		if(f){
 			if(M.inputs.getState("keyboard.8.press")){
 				if(stringValue.length() > 0)
 					stringValue = stringValue.substring(0, stringValue.length() - 1);
 			}else if(M.inputs.getState("keyboard.9.press") || M.inputs.getState("keyboard.10.press")){
 				focus = false;
 				value = Float.parseFloat(stringValue);
-				normalize();
+				value = normalize(value);
 				updateStringValue();
 			}else if(M.inputs.getState("keyboard.147.press")){
 				stringValue = "";
@@ -64,6 +67,12 @@ public class RangeInput extends Element{
 				}	
 			}
 
+			if(isDragged()){
+				int relX = M.max(0, M.min(P.mouseX() - x, width));
+				value = normalize((float) (max - min + step) * ((float) relX / width));
+				updateStringValue();
+			}
+
 		}
 
 		if(enabled)
@@ -71,23 +80,56 @@ public class RangeInput extends Element{
 		else
 			FlatColor.fill(P.canvas, Colors.MATERIAL.GREY._400);
 		P.canvas.rect(x, y, width, height);
+
+		P.canvas.noStroke();
+
+		if(enabled)
+			FlatColor.fill(P.canvas, Colors.MATERIAL.CYAN._300);
+		else
+			FlatColor.fill(P.canvas, Colors.MATERIAL.GREY._600);
+		P.canvas.rect(x, y, M.min(width,1 + width * (tempValueFromString(stringValue)/(max - min + step))), height);
+
+		if(f){
+			FlatColor.stroke(P.canvas, Colors.MATERIAL.CYAN.A700);
+			P.canvas.noFill();
+			P.canvas.rect(x, y, width-1, height-1);
+		}
+
 		FlatColor.fill(P.canvas, Colors.MATERIAL.BLUE_GREY._900);
 		P.canvas.textAlign(P.canvas.LEFT, P.canvas.CENTER);
-		P.canvas.text(stringValue + (M.millis() % 1200 > 600 && enabled && stringValue.length() < maxLength() && hasFocus() ? "_" : ""), x + 3, y +height/2);
+		P.canvas.text(stringValue + (M.millis() % 1200 > 600 && enabled && stringValue.length() < maxLength() && hasFocus() ? "_" : ""), x + 3, y +height/2+1);
 	}
 
-	private void normalize(){
-		if(value != null){
-			value = M.min(max, M.max(min, value));
-			value = value - value % step;		
+	private Float normalize(Float val){
+		if(val != null){
+			val = M.min(max, M.max(min, val));
+			val = val - val % step;		
 		}
+
+		return val;
+	}
+
+	protected float tempValueFromString(String s){
+
+		float val = min;
+
+		try{
+			if(stringValue.length() > 0){
+				val = Float.parseFloat(stringValue);
+				val = normalize(val);	
+			}else{
+				val = min;
+			}
+		}catch(Exception e){}
+		return val;
 	}
 
 	protected void onDefocus(){
+		Float oldVal = value;
 		try{		
 			if(stringValue.length() > 0){
 				value = Float.parseFloat(stringValue);
-				normalize();	
+				value = normalize(value);	
 			}else{
 				value = min;
 			}
@@ -99,7 +141,9 @@ public class RangeInput extends Element{
 	private void updateStringValue(){
 		// if integer step : no point
 		if(step % 1 == 0){
+			try{
 			stringValue = Integer.toString(Math.round(value));
+			}catch(Exception ignore){}
 		}else{
 			stringValue = Float.toString(value);
 		}
@@ -114,16 +158,13 @@ public class RangeInput extends Element{
 		}
 	}
 
-	public void setValue(float v){
+	public void setValue(int v){setValue(new Float(v));}
+	public void setValue(Float v){
 		value = v;
-		normalize();
+		value = normalize(value);
 		updateStringValue();
 	}
-	public void setValue(int v){
-		value = (float)v;
-		normalize();
-		updateStringValue();
-	}
+
 	public void setStringValue(String s){
 		stringValue = s;
 	}

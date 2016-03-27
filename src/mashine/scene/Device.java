@@ -124,4 +124,32 @@ public class Device implements Serializable{
 	public void moveDown(){y ++;}
 	public void moveLeft(){x --; x = Math.max(0, x);}
 	public void moveRight(){x ++;}
+
+	public static ArrayList<Feature> commonFeatures(ArrayList<Device> devices){
+
+		ArrayList<Feature> commonFeatures = new ArrayList<Feature>();
+
+		if(!devices.isEmpty()){		
+			commonFeatures = devices.get(0).getFeatures();
+			for(Device d : devices){
+				ArrayList<Feature> deviceFeatures = (d).getFeatures();
+
+				Iterator<Feature> cfi = commonFeatures.iterator();
+				while(cfi.hasNext()){
+					Feature cf = cfi.next();
+					boolean found = false;
+					for(Feature df : deviceFeatures){
+						if(df.getType() == cf.getType())
+							found = true;
+					}
+
+					if(!found){
+						cfi.remove();
+					}
+				}
+			}
+		}
+
+		return commonFeatures;
+	}
 }

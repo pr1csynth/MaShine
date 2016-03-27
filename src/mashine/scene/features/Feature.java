@@ -73,8 +73,9 @@ public abstract class Feature implements Serializable {
 	}
 
 	public void setField(String fieldName, int value){
-		if(fields.containsKey(fieldName))
+		if(fields.containsKey(fieldName)){
 			fields.put(fieldName, value);
+		}
 	}
 
 	public String toString(){

@@ -44,6 +44,14 @@ public class TextButton extends Button{
 			action
 		);
 	}
+	public TextButton (Drawable parent, String caption, int x, int y, int w, Do action){
+		this(parent, x, y, w, 15, caption, 
+			Colors.MATERIAL.BLUE_GREY._800, 3,
+			Colors.MATERIAL.BLUE_GREY._100,
+			Colors.MATERIAL.BLUE_GREY._200,
+			action
+		);
+	}
 	public TextButton (Drawable parent, String caption, int x, int y, Do action, boolean actionOnRelease){
 		this(parent, x, y, 55, 15, caption, 
 			Colors.MATERIAL.BLUE_GREY._800, 3,

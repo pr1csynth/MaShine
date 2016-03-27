@@ -18,9 +18,4 @@ public class EditableFeature extends Feature{
 	public EditableFeature(Feature f){
 		super(f);
 	}
-
-	public void setField(String fieldName, int value){
-		if(fields.containsKey(fieldName))
-			fields.put(fieldName, value);
-	}
 }

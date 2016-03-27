@@ -9,7 +9,7 @@ public final class SingleField extends EditableFeature {
 	}
 
 	public SingleField(String fieldName){
-		this(fieldName, 255);
+		this(fieldName, 0);
 	}
 
 	public SingleField(SingleField f){

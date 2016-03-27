@@ -10,7 +10,7 @@ public final class FixedField extends Feature {
 
 
 	public FixedField(String fieldName){
-		this(fieldName, 255);
+		this(fieldName, 0);
 	}
 
 	public FixedField(FixedField f){

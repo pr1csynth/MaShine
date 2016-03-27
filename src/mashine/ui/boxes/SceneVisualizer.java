@@ -22,18 +22,20 @@ public class SceneVisualizer extends Drawable {
 
 	LinkedHashMap<Device,DeviceElement> deviceElements;
 	ArrayList<Device> selectedDevices;
+	Frame displayFrame;
 
 	public SceneVisualizer(MaShine m){
 		super(m, 10, 50, m.width - 10, m.height - 50);
 		deviceElements = new LinkedHashMap<Device, DeviceElement>();
 		selectedDevices = new ArrayList<Device>();
+		displayFrame = new Frame();
 	}
 
 	public void drawContent(){
 
 		canvas.background(55, 71, 79);
 
-		Frame frame = new Frame();
+		Frame frame = displayFrame;
 
 		ArrayList<Device> devices = M.scene.getDevices();
 		HashMap<String,EditableFeature> frameFeatures = frame.getFeatures();
@@ -94,6 +96,10 @@ public class SceneVisualizer extends Drawable {
 
 	public void reloadElements(){
 		deviceElements.clear();
+	}
+
+	public void setFrame(Frame f){
+		displayFrame = f;
 	}
 
 }

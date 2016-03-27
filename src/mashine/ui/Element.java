@@ -51,7 +51,7 @@ public class Element extends Focusable{
 	}
 
 	public boolean isDragged() {
-		return M.inputs.getState("mouse.left.hold") && mouseIn() && P.hasFocus();
+		return M.inputs.getState("mouse.left.drag") && mouseIn() && P.hasFocus();
 	}
 
 	public boolean isClicked() {
