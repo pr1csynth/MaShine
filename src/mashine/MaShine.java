@@ -22,6 +22,8 @@ import java.io.IOException;
 public class MaShine extends PApplet{
 
 	private static final String[] MAIN_WINDOW = new String[] { "mashine.MaShine" };
+	private String lastSavedTo = "";
+	private String lastBackupFile = "";
 
 	public Inputs inputs;
 	public Outputs outputs;
@@ -50,10 +52,13 @@ public class MaShine extends PApplet{
 		ui = new UI(this);
 
 		inputs.register("mashine.test", new Do(){public void x(){println("TEST");}});
-		inputs.register("mashine.save_scene", new Do(){public void x(){selectOutput("Select file to save to.", "saveTo");}});
-		inputs.register("mashine.restore_scene", new Do(){public void x(){selectInput("Select file from which restore.", "restoreFrom");}});
-		inputs.link("mashine.save_scene", "keyboard.97.press");
-		inputs.link("mashine.restore_scene", "keyboard.98.press");
+		inputs.register("mashine.save_as", new Do(){public void x(){save();}});
+		inputs.register("mashine.open", new Do(){public void x(){restore();}});
+		inputs.register("mashine.save", new Do(){public void x(){save(lastSavedTo);}});
+		inputs.register("mashine.restore", new Do(){public void x(){restore(lastBackupFile);}});
+		inputs.link("mashine.save", "keyboard.97.press");
+		inputs.link("mashine.open", "keyboard.98.press");
+		inputs.link("mashine.restore", "keyboard.99.press");
 	}
 
 	public void draw() {
@@ -80,47 +85,87 @@ public class MaShine extends PApplet{
 		inputs.passMouseEvent(e);
 	}
 
-	public void saveTo(File file){
-		if(file != null){
-			HashMap<String, Object> saveObject = new HashMap<String, Object>();
-			saveObject.put("scene", scene.save());
+	public void save(){
+		println("Requesting path to save to.");
+		selectOutput("Select file to save to.", "save");
+	}
 
-			try{
-				FileOutputStream fileOut = new FileOutputStream(file.getAbsolutePath());
-				ObjectOutputStream out = new ObjectOutputStream(fileOut);
-				out.writeObject(saveObject);
-				out.close();
-				fileOut.close();
-				println("Serialized data is saved in "+file.getAbsolutePath());
-			}catch(IOException i){
-				i.printStackTrace();
-			}
+	public void save(File file){
+		if(file != null)
+			save(file.getAbsolutePath());
+	}
+
+	public void save(String path){
+
+		if(path.equals("")){
+			save();
+			return;
+		}
+
+		if(!path.equals(lastBackupFile)){
+			lastSavedTo = path;
+			ui.status.set("file", path.split("/")[path.split("/").length -1]);
+		}
+
+		HashMap<String, Object> saveObject = new HashMap<String, Object>();
+		saveObject.put("scene", scene.save());
+		saveObject.put("bank", bank.save());
+		//saveObject.put("inputs", inputs.save());
+
+		try{
+			FileOutputStream fileOut = new FileOutputStream(path);
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(saveObject);
+			out.close();
+			fileOut.close();
+			println("Serialized data is saved in "+ path);
+		}catch(IOException i){
+			i.printStackTrace();
+		}
+		
+	}
+
+	public void restore(){
+		println("Requesting path to open frome.");
+		selectInput("Select file to open.", "restore");
+	}
+
+	public void restore(File file){
+		if(file != null){
+			restore(file.getAbsolutePath());
 		}
 	}
 
-	public void restoreFrom(File file){
-		if(file != null){
-			try
-			{
-				FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
-				ObjectInputStream in = new ObjectInputStream(fileIn);
-				HashMap<String,Object> restoredObject = (HashMap<String,Object>) in.readObject();
-				in.close();
-				fileIn.close();
+	public void restore(String path){
+		lastBackupFile = "mashine_"+timestamp()+".backup.mashine";
+		save(lastBackupFile);
+		ui.status.set("file", path.split("/")[path.split("/").length -1]);
+		try
+		{
+			FileInputStream fileIn = new FileInputStream(path);
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			HashMap<String,Object> restoredObject = (HashMap<String,Object>) in.readObject();
+			in.close();
+			fileIn.close();
 
-				scene.restore(restoredObject.get("scene"));
+			scene.restore(restoredObject.get("scene"));
+			bank.restore(restoredObject.get("bank"));
 
-			}catch(IOException i)
-			{
-				i.printStackTrace();
-				return;
-			}catch(ClassNotFoundException c)
-			{
-				System.out.println("Some class not found");
-				c.printStackTrace();
-				return;
-			}
+			println("Restored from "+ path);
+
+		}catch(IOException i)
+		{
+			i.printStackTrace();
+			return;
+		}catch(ClassNotFoundException c)
+		{
+			System.out.println("Some class not found");
+			c.printStackTrace();
+			return;
 		}
-		
+	}
+
+	private String timestamp(){
+		return year()+"-"+month()+"-"+day()+"_"+hour()+"-"+minute()+"-"+second();
 	}
 }

@@ -1,0 +1,13 @@
+# Ant
+/build/
+/dist/
+
+# pack.sh
+/releases/
+
+# mashine
+*.mashine
+
+# sublime
+*.sublime-*
+

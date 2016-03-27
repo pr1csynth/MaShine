@@ -9,8 +9,11 @@ package mashine.ui;
 
 import java.awt.Color;
 import processing.core.PGraphics;
+import java.io.Serializable;
 
-public class FlatColor {
+public class FlatColor implements Serializable{
+
+	private static final long serialVersionUID = 0xC0100001L;
 
 	protected int r;
 	protected int g;

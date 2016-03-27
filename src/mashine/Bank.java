@@ -13,6 +13,7 @@ import mashine.ui.Colors;
 import mashine.ui.FlatColor;
 import mashine.scene.features.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Bank{
 
@@ -54,5 +55,21 @@ public class Bank{
 
 	public ArrayList<FlatColor> getColors(){
 		return colors;
+	}
+
+	public Object save(){
+		HashMap<String,Object> saveObject = new HashMap<String,Object>();
+		saveObject.put("sequences", sequences);
+		saveObject.put("colors", colors);
+		saveObject.put("filters", filters);
+		return saveObject;
+	}
+
+	public void restore(Object restoredObject){
+		HashMap<String,Object> r = (HashMap<String,Object>) restoredObject;
+		sequences = (ArrayList<Sequence>) r.get("sequences");
+		colors = (ArrayList<FlatColor>) r.get("colors");
+		filters = (ArrayList<Filter>) r.get("filters");
+		M.ui.setSelectedSequence(sequences.get(0));
 	}
 }

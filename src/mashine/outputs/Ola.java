@@ -29,9 +29,6 @@ public class Ola extends Output{
 	public void push(){
 		if(ola != null){
 
-			for(String k : ports.values())
-				M.println(k);
-
 		}else{
 			if(M.frameCount % 120 == 0)
 				connectToServer();
