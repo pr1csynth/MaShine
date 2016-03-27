@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class MinimAnalysis extends InputSource{
 
-	private final int MINIM_BD_SENSITIVITY = 300;
+	private final int MINIM_BD_SENSITIVITY = 120;
 	private final int MEAN_BEAT_SAMPLE = 4;
 	private final float MINUTE = (float)60000.0;
 

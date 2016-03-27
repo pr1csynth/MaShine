@@ -25,7 +25,7 @@ public class SceneVisualizer extends Drawable {
 	Frame displayFrame;
 
 	public SceneVisualizer(MaShine m){
-		super(m, 10, 50, m.width - 10, m.height - 50);
+		super(m, 10, 50, m.displayWidth - 10, m.displayHeight - 50);
 		deviceElements = new LinkedHashMap<Device, DeviceElement>();
 		selectedDevices = new ArrayList<Device>();
 		displayFrame = new Frame();
@@ -33,7 +33,7 @@ public class SceneVisualizer extends Drawable {
 
 	public void drawContent(){
 
-		canvas.background(55, 71, 79);
+		canvas.clear();
 
 		Frame frame = displayFrame;
 

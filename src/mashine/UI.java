@@ -27,6 +27,7 @@ public class UI{
 	private MaShine M;
 	private Frame displayFrame;
 	public SceneVisualizer sceneVisualizer;
+	public EngineView engineView;
 	public SequenceSelector sequenceSelector;
 	public ColorPalette colorPalette;
 	public Status status;
@@ -67,6 +68,7 @@ public class UI{
 		status = new Status(M);
 		menu = new Menu(M);
 		sceneVisualizer = new SceneVisualizer(M);
+		engineView = new EngineView(M);
 		sequenceSelector = new SequenceSelector(M);
 		colorPalette = new ColorPalette(M);
 
@@ -110,8 +112,13 @@ public class UI{
 		//M.strokeJoin(M.MITER);
 
 		menu.draw();
+		if(null == displayFrame){
+			displayFrame = new Frame();
+		}
 		sceneVisualizer.setFrame(displayFrame);
+		displayFrame = null;
 		sceneVisualizer.draw();
+		engineView.draw();
 
 		openedUiElements.sort(new SortByFocus());
 
@@ -142,6 +149,6 @@ public class UI{
 	public FlatColor getSelectedColor(){return colorPalette.getSelectedColor();}
 	public void setSelectedColor(FlatColor s){colorPalette.setSelectedColor(s);}
 
-	public void setDisplayedFrame(Frame frame){displayFrame = frame;}
+	public void setDisplayedFrame(Frame frame){if(null == displayFrame)displayFrame = frame;}
 }
 

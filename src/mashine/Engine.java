@@ -7,15 +7,29 @@
 
 package mashine;
 
+import mashine.scene.*;
+import mashine.engine.*;
+import java.util.ArrayList;
+
 public class Engine{
 
 	public MaShine M;
 
-	public Engine(MaShine m){
+	private ArrayList<Track> tracks;
 
+	public Engine(MaShine m){
+		this.M = m;
+		tracks = new ArrayList<Track>();
+
+		tracks.add(new Track(M, "a"));
 	}
 
 	public void tick(){
+		Frame frame = tracks.get(0).getFrame();
+		M.ui.setDisplayedFrame(frame);
+	}
 
+	public ArrayList<Track> getTracks(){
+		return tracks;
 	}
 }

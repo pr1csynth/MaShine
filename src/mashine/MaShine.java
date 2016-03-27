@@ -27,6 +27,7 @@ public class MaShine extends PApplet{
 
 	public Inputs inputs;
 	public Outputs outputs;
+	public Engine engine;
 	public Scene scene;
 	public Bank bank;
 	public UI ui;
@@ -47,8 +48,9 @@ public class MaShine extends PApplet{
 
 		inputs = new Inputs(this);
 		outputs = new Outputs(this);
-		scene = new Scene(this);
 		bank = new Bank(this);
+		engine = new Engine(this);
+		scene = new Scene(this);
 		ui = new UI(this);
 
 		inputs.register("mashine.test", new Do(){public void x(){println("TEST");}});
@@ -64,6 +66,7 @@ public class MaShine extends PApplet{
 	public void draw() {
 		background(55, 71, 79);
 		inputs.poll();
+		engine.tick();
 		outputs.push();
 		ui.draw();
 	}
