@@ -18,13 +18,13 @@ import java.util.Map;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-public class SceneVisualizer extends Drawable {
+public class SceneView extends Drawable {
 
 	LinkedHashMap<Device,DeviceElement> deviceElements;
 	ArrayList<Device> selectedDevices;
 	Frame displayFrame;
 
-	public SceneVisualizer(MaShine m){
+	public SceneView(MaShine m){
 		super(m, 10, 50, m.displayWidth - 10, m.displayHeight - 50);
 		deviceElements = new LinkedHashMap<Device, DeviceElement>();
 		selectedDevices = new ArrayList<Device>();

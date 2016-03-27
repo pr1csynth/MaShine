@@ -26,7 +26,7 @@ public class UI{
 	private LinkedList<Focusable> openedUiElements;
 	private MaShine M;
 	private Frame displayFrame;
-	public SceneVisualizer sceneVisualizer;
+	public SceneView sceneView;
 	public EngineView engineView;
 	public SequenceSelector sequenceSelector;
 	public ColorPalette colorPalette;
@@ -67,7 +67,7 @@ public class UI{
 
 		status = new Status(M);
 		menu = new Menu(M);
-		sceneVisualizer = new SceneVisualizer(M);
+		sceneView = new SceneView(M);
 		engineView = new EngineView(M);
 		sequenceSelector = new SequenceSelector(M);
 		colorPalette = new ColorPalette(M);
@@ -115,9 +115,9 @@ public class UI{
 		if(null == displayFrame){
 			displayFrame = new Frame();
 		}
-		sceneVisualizer.setFrame(displayFrame);
+		sceneView.setFrame(displayFrame);
 		displayFrame = null;
-		sceneVisualizer.draw();
+		sceneView.draw();
 		engineView.draw();
 
 		openedUiElements.sort(new SortByFocus());
@@ -132,16 +132,16 @@ public class UI{
 			if(openedUiElements.getLast().mouseIn())
 				openedUiElements.getLast().focus();
 			else
-				sceneVisualizer.focus();
+				sceneView.focus();
 		
 		status.draw();
 	}
 
 
-	public ArrayList<Device> getSelectedDevices(){return sceneVisualizer.getSelectedDevices();}
-	public void setSelectedDevices(ArrayList<Device> newSelection){sceneVisualizer.setSelectedDevices(newSelection);}
-	public void clearSelectedDevices(){sceneVisualizer.clearSelectedDevices();}
-	public void reloadElements(){sceneVisualizer.reloadElements();}
+	public ArrayList<Device> getSelectedDevices(){return sceneView.getSelectedDevices();}
+	public void setSelectedDevices(ArrayList<Device> newSelection){sceneView.setSelectedDevices(newSelection);}
+	public void clearSelectedDevices(){sceneView.clearSelectedDevices();}
+	public void reloadElements(){sceneView.reloadElements();}
 	
 	public Sequence getSelectedSequence(){return sequenceSelector.getSelectedSequence();}
 	public void setSelectedSequence(Sequence s){sequenceSelector.setSelectedSequence(s);}
