@@ -9,9 +9,11 @@ package mashine.ui.boxes;
 
 import mashine.*;
 import mashine.ui.*;
+import mashine.ui.Colors;
 import mashine.ui.elements.*;
 import mashine.scene.*;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class ColorPalette extends UIBox{
@@ -20,18 +22,18 @@ public class ColorPalette extends UIBox{
 	HashMap<String, RangeInput> colorParamInputs;
 
 	public ColorPalette (MaShine m) {
-		super(m, "COLORS", 950, 400, 260, 350);
+		super(m, "COLORS", 450, 400, 250, 352);
 		colorParamInputs = new HashMap<String, RangeInput>();
 
-		colorParamInputs.put("hue", new RangeInput(this, 0f, 0f, 1f, 0.01f, 127, 30, 128));
-		colorParamInputs.put("sat", new RangeInput(this, 0f, 0f, 1f, 0.01f, 127, 47, 128));
-		colorParamInputs.put("lum", new RangeInput(this, 0f, 0f, 1f, 0.01f, 127, 64, 128));
+		colorParamInputs.put("hue", new RangeInput(this, 0f, 0f, 1f, 0.01f, 116, 30, 128));
+		colorParamInputs.put("sat", new RangeInput(this, 0f, 0f, 1f, 0.01f, 116, 47, 128));
+		colorParamInputs.put("lum", new RangeInput(this, 0f, 0f, 1f, 0.01f, 116, 64, 128));
 
-		colorParamInputs.put("red",   new RangeInput(this, 0f, 0f, 255f, 1f, 127, 84, 128));
-		colorParamInputs.put("green", new RangeInput(this, 0f, 0f, 255f, 1f, 127, 101, 128));
-		colorParamInputs.put("blue",  new RangeInput(this, 0f, 0f, 255f, 1f, 127, 118, 128));
+		colorParamInputs.put("red",   new RangeInput(this, 0f, 0f, 255f, 1f, 116, 84, 128));
+		colorParamInputs.put("green", new RangeInput(this, 0f, 0f, 255f, 1f, 116, 101, 128));
+		colorParamInputs.put("blue",  new RangeInput(this, 0f, 0f, 255f, 1f, 116, 118, 128));
 
-		colorParamInputs.put("white", new RangeInput(this, 0f, 0f, 255f, 1f, 127, 138, 128));
+		colorParamInputs.put("white", new RangeInput(this, 0f, 0f, 255f, 1f, 116, 138, 128));
 
 		for(Element e : colorParamInputs.values()){
 			elements.add(e);
@@ -85,19 +87,56 @@ public class ColorPalette extends UIBox{
 
 	public void drawUI(){
 
+		ArrayList<FlatColor> colors = M.bank.getColors();
+
 		FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._800);
 		canvas.textAlign(canvas.RIGHT, canvas.TOP);
-		canvas.text("hue",        250, 30 + 3);
-		canvas.text("saturation", 250, 47 + 3);
-		canvas.text("luminance",  250, 64 + 3);
-		canvas.text("red",        250, 84 + 3);
-		canvas.text("green",      250,101 + 3);
-		canvas.text("blue",       250,118 + 3);
-		canvas.text("white",      250,138 + 3);
+		canvas.text("hue",        240, 30 + 3);
+		canvas.text("saturation", 240, 47 + 3);
+		canvas.text("luminance",  240, 64 + 3);
+		canvas.text("red",        240, 84 + 3);
+		canvas.text("green",      240,101 + 3);
+		canvas.text("blue",       240,118 + 3);
+		canvas.text("white",      240,138 + 3);
 
 		FlatColor.fill(canvas, color.withAlphaAsWhite());
 		canvas.noStroke();
 		canvas.rect(8, 30, 103, 103);
+
+		int i = 0;
+
+		for(FlatColor c : colors){
+			canvas.noStroke();
+			FlatColor.fill(canvas,c.withAlphaAsWhite());
+			int x = 8 + (i % 14) * 17;
+			int y = 160 + M.floor(i/14)*17;
+
+			if(hasFocus() && 
+				y-1 < mouseY() &&
+				mouseY() < y+16 &&
+				x-1 < mouseX() &&
+				mouseX() < x+16 &&
+				M.inputs.getState("mouse.left.press"))
+			{
+				color = c;
+				updateInputs();
+			}
+
+			canvas.rect(x, y, 15, 15);
+			if(c == color){
+				FlatColor.stroke(canvas, Colors.WHITE);
+				canvas.noFill();
+				canvas.rect(x,y,14,14);
+			}
+			
+			i++;
+		}
+	}
+
+	private void updateInputs(){
+		updateRGBInputs();
+		updateHSLInputs();
+		colorParamInputs.get("white").setValue(color.getAlpha());
 	}
 
 	private void updateRGBInputs(){

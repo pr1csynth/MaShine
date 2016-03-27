@@ -39,7 +39,7 @@ public class MaShine extends PApplet{
 	}
 
 	public void setup() {
-		frameRate(40);
+		frameRate(50);
 		//surface.setResizable(true);
 
 
