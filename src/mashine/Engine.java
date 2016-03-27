@@ -27,6 +27,7 @@ public class Engine{
 	public void tick(){
 		Frame frame = tracks.get(0).getFrame();
 		M.ui.setDisplayedFrame(frame);
+		M.outputs.setFrame(frame);
 	}
 
 	public ArrayList<Track> getTracks(){

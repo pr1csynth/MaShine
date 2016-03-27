@@ -86,10 +86,12 @@ public abstract class Feature implements Serializable {
 		return type +":"+ footprint + stringFields;
 	}
 
-	public ArrayList<Integer> to255(){
-		ArrayList<Integer> r = new ArrayList<Integer>();
-		for(String f : fields.keySet()){
-			r.add(fields.get(f));
+	public short[] toArray(){
+		short[] r = new short[footprint];
+		int i = 0;
+		for(int v : fields.values()){
+			r[i] = (short) v;
+			i++;
 		}
 		return r;
 	}

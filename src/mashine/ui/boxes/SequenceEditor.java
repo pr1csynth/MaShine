@@ -26,6 +26,7 @@ public class SequenceEditor extends UIBox{
 	private int currentFrameIndex = 0;
 	private int lastFrameIndex = 0;
 	private String lastSelectedDeviceHash = "";
+	private boolean sendFrameOnOutputs = false;
 
 	private HashMap<String, RangeInput> featureInputs; 
 	private HashMap<String, Checkbox> featureEnables; 
@@ -57,6 +58,11 @@ public class SequenceEditor extends UIBox{
 			));
 		ui.put("indexInput", new RangeInput(this, 1f, 1f, 1f, 1f, 174, 45, 30));
 
+		ui.put("sendOnOutputs", new Checkbox(this, width - 14, height - 20, 
+			new Do(){public void x(){sendFrameOnOutputs = false;}},
+			new Do(){public void x(){sendFrameOnOutputs = true;}}
+			));
+
 		for (String el : ui.keySet()){
 			elements.add(ui.get(el));
 		}
@@ -83,6 +89,9 @@ public class SequenceEditor extends UIBox{
 
 		currentFrame = selectedSequence.getFrame(currentFrameIndex);
 		M.ui.setDisplayedFrame(currentFrame);
+		if(sendFrameOnOutputs){
+			M.outputs.setFrame(currentFrame);
+		}
 
 		if(selectedColor != M.ui.getSelectedColor()){
 			selectedColor = M.ui.getSelectedColor();
@@ -182,19 +191,24 @@ public class SequenceEditor extends UIBox{
 		int offset = 73; 
 		int index = 0;
 
-		FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._300);
+		FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._700);
+		canvas.noStroke();
+		canvas.rect(0, height - 20, width - 15, 15);
 
+		FlatColor.fill(canvas, Colors.WHITE);
 		canvas.textAlign(canvas.RIGHT, canvas.TOP);
+		canvas.text("Send edited frame on outputs", width - 19, height - 16);
+		
 		if(selectedSequence.getSize() < 2){
-			canvas.text(selectedSequence.getSize() +" frame", 211, 32);
+			canvas.text(selectedSequence.getSize() +" frame", 205, 32);
 		}else{
-			canvas.text(selectedSequence.getSize() +" frames", 211, 32);
+			canvas.text(selectedSequence.getSize() +" frames", 205, 32);
 		}
+
 
 		// draw background
 
 		FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._700);
-		canvas.noStroke();
 
 		for(Feature f : commonFeatures){
 			if(f instanceof EditableFeature){
@@ -205,10 +219,10 @@ public class SequenceEditor extends UIBox{
 				}else{
 					diff = 17 * f.getFields().size() + 3;
 				}
-					if(index % 2 == 0){
-						canvas.rect(1, offset - 6, width -1, diff + 1);
-					}
-					offset += diff;
+				if(index % 2 == 0){
+					canvas.rect(1, offset - 6, width -1, diff + 1);
+				}
+				offset += diff;
 				index ++;
 			}
 		}

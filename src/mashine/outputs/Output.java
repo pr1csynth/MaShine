@@ -8,6 +8,7 @@
 package mashine.outputs;
 
 import mashine.*;
+import mashine.scene.*;
 import java.util.HashMap; 
 
 public class Output{
@@ -16,13 +17,10 @@ public class Output{
 	protected HashMap<Integer,String> ports;
 
 	public Output(MaShine m){
-
 		M = m;
-
 	}
 
-	public void push(){
-	}
+	public void push(Frame frame){}
 
 	public HashMap<Integer,String> getPorts(){
 		return ports;

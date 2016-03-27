@@ -67,8 +67,8 @@ public class MaShine extends PApplet{
 		background(55, 71, 79);
 		inputs.poll();
 		engine.tick();
-		outputs.push();
 		ui.draw();
+		outputs.push();
 	}
 
 	public void keyPressed(KeyEvent e){

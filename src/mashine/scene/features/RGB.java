@@ -62,4 +62,16 @@ public final class RGB extends ColorFeature {
 
 		return rf;
 	}
+
+	public short[] toArray(){
+		if(null == linkedColor){
+			return new short[]{0,0,0};
+		}
+		
+		return new short[]{
+			(short)linkedColor.getRed(),
+			(short)linkedColor.getGreen(),
+			(short)linkedColor.getBlue()
+		};
+	}
 }
