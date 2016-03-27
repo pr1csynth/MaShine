@@ -49,10 +49,13 @@ public class SequenceEditor extends UIBox{
 		ui.put("nextFrame", new TextButton(this, "->", 57, 45, 
 			new Do(){public void x(){nextFrame();}}
 			));		
-		ui.put("newFrame", new TextButton(this, "+", 114, 45, 20, 
+		ui.put("copyFrame", new TextButton(this, "copy", 114, 45, 40, 
+			new Do(){public void x(){copyFrame();}}
+			));
+		ui.put("newFrame", new TextButton(this, "+", 156, 45, 16, 
 			new Do(){public void x(){newFrame();}}
 			));
-		ui.put("indexInput", new RangeInput(this, 1f, 1f, 1f, 1f, 136, 45, 30));
+		ui.put("indexInput", new RangeInput(this, 1f, 1f, 1f, 1f, 174, 45, 30));
 
 		for (String el : ui.keySet()){
 			elements.add(ui.get(el));
@@ -178,6 +181,15 @@ public class SequenceEditor extends UIBox{
 		ArrayList<Feature> commonFeatures = Device.commonFeatures(M.ui.getSelectedDevices());
 		int offset = 73; 
 		int index = 0;
+
+		FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._300);
+
+		canvas.textAlign(canvas.RIGHT, canvas.TOP);
+		if(selectedSequence.getSize() < 2){
+			canvas.text(selectedSequence.getSize() +" frame", 211, 32);
+		}else{
+			canvas.text(selectedSequence.getSize() +" frames", 211, 32);
+		}
 
 		// draw background
 
@@ -317,6 +329,13 @@ public class SequenceEditor extends UIBox{
 	}
 	public void newFrame(){
 		selectedSequence.addFrame(new Frame());
+		currentFrameIndex = selectedSequence.getSize()-1;
+		((RangeInput)ui.get("indexInput")).setMax(currentFrameIndex +1);
+		((RangeInput)ui.get("indexInput")).setValue(currentFrameIndex +1);
+		lastSelectedDeviceHash = "";
+	}
+	public void copyFrame(){
+		selectedSequence.addFrame(new Frame(currentFrame));
 		currentFrameIndex = selectedSequence.getSize()-1;
 		((RangeInput)ui.get("indexInput")).setMax(currentFrameIndex +1);
 		((RangeInput)ui.get("indexInput")).setValue(currentFrameIndex +1);
