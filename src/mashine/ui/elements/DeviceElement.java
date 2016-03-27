@@ -109,7 +109,7 @@ public class DeviceElement extends Element{
 			// identifier 
 		FlatColor.fill(P.canvas, Colors.MATERIAL.GREEN.A700);
 		P.canvas.textAlign(P.canvas.LEFT, P.canvas.TOP);
-		P.canvas.text(d.getName(), d.getX() + 5, d.getY() + 5);
+		P.canvas.text(d.getName(), d.getX() + 5, d.getY() + 4);
 
 		P.canvas.noStroke();
 
@@ -137,7 +137,7 @@ public class DeviceElement extends Element{
 		// patch infos
 		P.canvas.textAlign(P.canvas.RIGHT, P.canvas.BOTTOM);
 		FlatColor.fill(P.canvas, Colors.MATERIAL.GREEN.A700);
-		P.canvas.text(d.getUniverse() +":"+ d.getStartAddress(), d.getX() + d.getWidth() - 5, d.getY() + d.getHeight() - 5);
+		P.canvas.text(d.getUniverse() +":"+ d.getStartAddress(), d.getX() + d.getWidth() - 5, d.getY() + d.getHeight() - 1);
 		
 		if(selected){
 			FlatColor.fill(P.canvas, Colors.MATERIAL.CYAN.A700);

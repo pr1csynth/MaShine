@@ -29,6 +29,11 @@ public class DeviceEditor extends UIBox{
 	private RangeInput universeElement; 
 	private RangeInput addressElement;
 
+	private RangeInput xPosElement;
+	private RangeInput yPosElement;
+	private RangeInput widthElement;
+	private RangeInput heightElement;
+
 	public DeviceEditor (MaShine m) {
 		super(m, "SCENE EDITOR", 50, 50, 200, 450);
 
@@ -62,10 +67,21 @@ public class DeviceEditor extends UIBox{
 		universeElement = new RangeInput(this, 42f, 1f, 99f, 1f, 95, 28, 20);
 		addressElement = new RangeInput(this, 1f, 1f, 512f, 1f, 117, 28, 27);
 		genericFieldInputElement = new TextInput(this, "generic", 43, height - 20, 100);
+		
+		xPosElement = new RangeInput(this, 0f, 0f, 1000f, 1f, 0, height - 74, 60);
+		yPosElement = new RangeInput(this, 0f, 0f, 700f, 1f, 62, height - 74, 60);
+		widthElement = new RangeInput(this, 60f, 60f, 300f, 1f, 0, height - 57, 60);
+		heightElement = new RangeInput(this, 15f, 15f, 600f, 1f, 62, height - 57, 60);
+
 		elements.add(deviceNameElement);
 		elements.add(universeElement);
 		elements.add(addressElement);
 		elements.add(genericFieldInputElement);
+
+		elements.add(xPosElement);
+		elements.add(yPosElement);
+		elements.add(widthElement);
+		elements.add(heightElement);
 
 	}
 
@@ -100,6 +116,10 @@ public class DeviceEditor extends UIBox{
 
 			Integer commonUniverse = firstDevice.getUniverse();
 			Integer commonAddress = firstDevice.getStartAddress();
+			Integer commonXPos = firstDevice.getX();
+			Integer commonYPos = firstDevice.getY();
+			Integer commonWidth = firstDevice.getWidth();
+			Integer commonHeight = firstDevice.getHeight();
 			
 			for(Device d : selectedDevices){
 
@@ -110,6 +130,12 @@ public class DeviceEditor extends UIBox{
 				if(commonAddress != null && d.getStartAddress() != commonAddress){
 					commonAddress = null;
 				}
+
+				if(commonXPos != null && d.getX() != commonXPos){commonXPos = null;}
+				if(commonYPos != null && d.getY() != commonYPos){commonYPos = null;}
+				if(commonWidth != null && d.getWidth() != commonWidth){commonWidth = null;}
+				if(commonHeight != null && d.getHeight() != commonHeight){commonHeight = null;}
+
 			}
 			
 
@@ -124,6 +150,10 @@ public class DeviceEditor extends UIBox{
 					deviceNameElement.setValue(firstDevice.getName()); 
 					addressElement.setValue(firstDevice.getStartAddress());
 					universeElement.setValue(firstDevice.getUniverse());
+					xPosElement.setValue(firstDevice.getX());
+					yPosElement.setValue(firstDevice.getY());
+					widthElement.setValue(firstDevice.getWidth());
+					heightElement.setValue(firstDevice.getHeight());
 				}else{
 					if(commonUniverse == null){
 						universeElement.setValue(null);
@@ -135,9 +165,27 @@ public class DeviceEditor extends UIBox{
 					if(commonAddress == null){
 						addressElement.setValue(null);
 						addressElement.setStringValue("_");	
-					}else{
-						addressElement.setValue(commonAddress);
-					}
+					}else{addressElement.setValue(commonAddress);}
+
+
+					if(commonXPos == null){
+						xPosElement.setValue(null);
+						xPosElement.setStringValue("_");	
+					}else{xPosElement.setValue(commonXPos);}					
+					if(commonYPos == null){
+						yPosElement.setValue(null);
+						yPosElement.setStringValue("_");	
+					}else{yPosElement.setValue(commonYPos);}					
+					if(commonWidth == null){
+						widthElement.setValue(null);
+						widthElement.setStringValue("_");	
+					}else{widthElement.setValue(commonWidth);}					
+					if(commonHeight == null){
+						heightElement.setValue(null);
+						heightElement.setStringValue("_");	
+					}else{heightElement.setValue(commonHeight);}
+
+					
 				}
 
 
@@ -189,6 +237,18 @@ public class DeviceEditor extends UIBox{
 				}
 				if(addressElement.value() != null){
 					updateAddress(Math.round(addressElement.value()));
+				}				
+				if(xPosElement.value() != null){
+					updateXPos(Math.round(xPosElement.value()));
+				}				
+				if(yPosElement.value() != null){
+					updateYPos(Math.round(yPosElement.value()));
+				}				
+				if(widthElement.value() != null){
+					updateWidth(Math.round(widthElement.value()));
+				}				
+				if(heightElement.value() != null){
+					updateHeight(Math.round(heightElement.value()));
 				}
 			}
 
@@ -307,6 +367,11 @@ public class DeviceEditor extends UIBox{
 			(d).setStartAddress(address);
 		}
 	}
+
+	private void updateXPos(int x){for(Device d : M.ui.getSelectedDevices()){(d).setX(x);}}
+	private void updateYPos(int x){for(Device d : M.ui.getSelectedDevices()){(d).setY(x);}}
+	private void updateWidth(int x){for(Device d : M.ui.getSelectedDevices()){(d).setWidth(x);}}
+	private void updateHeight(int x){for(Device d : M.ui.getSelectedDevices()){(d).setHeight(x);}}
 
 	private String selectedDevicesHash(ArrayList<Device> selectedDevices){
 		String hash = "_" + selectedDevices.size();

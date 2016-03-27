@@ -50,8 +50,8 @@ public class Device implements Serializable{
 		for(Feature f : features){
 			footprint += f.getFootprint();
 		}
-		this.x = d.getX() + 10;
-		this.y = d.getY() + 10;
+		this.x = d.getX();
+		this.y = d.getY() + 5 + d.getHeight();;
 		this.w = d.getWidth();
 		this.h = d.getHeight();
 		
@@ -124,6 +124,11 @@ public class Device implements Serializable{
 	public void moveDown(){y ++;}
 	public void moveLeft(){x --; x = Math.max(0, x);}
 	public void moveRight(){x ++;}
+
+	public void setX(int v){x = v;}
+	public void setY(int v){y = v;}
+	public void setWidth(int v){w = v;}
+	public void setHeight(int v){h = v;}
 
 	public static ArrayList<Feature> commonFeatures(ArrayList<Device> devices){
 
