@@ -8,10 +8,12 @@
 package mashine.outputs;
 
 import mashine.*;
+import java.util.HashMap; 
 
 public class Output{
 
 	protected MaShine M;
+	protected HashMap<Integer,String> ports;
 
 	public Output(MaShine m){
 
@@ -20,5 +22,9 @@ public class Output{
 	}
 
 	public void push(){
+	}
+
+	public HashMap<Integer,String> getPorts(){
+		return ports;
 	}
 }
