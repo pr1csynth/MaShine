@@ -26,9 +26,14 @@ public class EngineView extends Drawable {
 		canvas.clear();
 
 		int offset = 10;
-		FlatColor.fill(canvas, Colors.WHITE);
+
 		for(Track t : M.engine.getTracks()){
-			canvas.text(t.sequencer.getName()+" @"+t.sequencer.getIndex() +" >"+ t.sequencer.getOffset()+" %"+t.sequencer.getClip(), M.width - 424, offset);
+			int diff = 32 + (int) Math.ceil((t.sequencer.getSequence().getSize()-1)/24)*17;
+
+
+			FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._900);
+			canvas.rect(M.width - 426, offset - 2, 426, diff);
+
 			for(int i = 0; i < t.sequencer.getSequence().getSize(); i++){
 				if(t.sequencer.getIndex() == i){
 					FlatColor.fill(canvas, Colors.MATERIAL.ORANGE.A400);
@@ -39,9 +44,18 @@ public class EngineView extends Drawable {
 				}else{
 					FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._500);
 				}
-				canvas.rect(M.width - 424 + (i%24) * 17, offset + 14 + (float) Math.ceil(i/24)*17, 15, 15);
+				canvas.rect(M.width - 424 + (i%24) * 17, offset + (float) Math.ceil(i/24)*17, 15, 15);
 			}
-			offset +=30;
+			
+			offset += diff;
+
+			FlatColor.fill(canvas, Colors.WHITE);
+			canvas.text(
+				t.sequencer.getName()+" @"+(t.sequencer.getIndex()+1) +" >"+ t.sequencer.getOffset()+" %"+t.sequencer.getClip(),
+				M.width - 424, offset - 6
+			);
+			offset += 5;
+			
 		}
 	}
 

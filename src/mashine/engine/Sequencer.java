@@ -16,6 +16,7 @@ public class Sequencer{
 	private MaShine M;
 	private String name;
 	private Sequence sequence;
+	private Sequence selectedSequence;
 	private Frame frame;
 	private boolean tweaking = false;
 	private boolean manual = false;
@@ -31,10 +32,12 @@ public class Sequencer{
 		this.offset = 0;
 		this.index = 0;
 
-		M.inputs.register("sequencer."+name+".tweak.start", new Do(){public void x(){tweaking = true;}});
-		M.inputs.register("sequencer."+name+".tweak.end", new Do(){public void x(){tweaking = false;}});
+		M.inputs.register("sequencer."+name+".tweak.start", new Do(){public void x(){startTweak();}});
+		M.inputs.register("sequencer."+name+".tweak.end", new Do(){public void x(){endTweak();}});
 		M.inputs.register("sequencer."+name+".manual.start", new Do(){public void x(){manual = true;}});
 		M.inputs.register("sequencer."+name+".manual.end", new Do(){public void x(){manual = false;}});
+
+		M.inputs.register("sequencer."+name+".reset", new Do(){public void x(){setIndex(clip);}});
 
 		M.inputs.register("sequencer."+name+".clip.less.tweak", new Do(){public void x(){if(tweaking)setClip(clip +1);}});
 		M.inputs.register("sequencer."+name+".clip.more.tweak", new Do(){public void x(){if(tweaking)setClip(clip -1);}});
@@ -98,5 +101,18 @@ public class Sequencer{
 	public int getClip(){return clip;}
 	public int getOffset(){return offset;}
 	public int getIndex(){return index;}
+
+	public void startTweak(){
+		M.ui.open("SequenceSelector");
+		selectedSequence = M.ui.getSelectedSequence(); 
+		tweaking = true;
+	}
+	public void endTweak(){
+		if(selectedSequence != M.ui.getSelectedSequence()){
+			sequence = M.ui.getSelectedSequence();
+			setIndex(0);
+		}
+		tweaking = false;
+	}
 
 }

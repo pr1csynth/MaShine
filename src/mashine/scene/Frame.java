@@ -65,6 +65,10 @@ public class Frame implements Serializable{
 	public void addFeature(Device d, EditableFeature f){
 		features.put(d.getIdentifier()+"."+f.getType(), (EditableFeature) Feature.cloneFeature(f));
 	}
+
+	public void addFeature(String featureString, EditableFeature f){
+		features.put(featureString, (EditableFeature) Feature.cloneFeature(f));
+	}
 	public void removeFeature(Device d, EditableFeature f){
 		features.remove(d.getIdentifier()+"."+f.getType());
 	}
@@ -72,5 +76,17 @@ public class Frame implements Serializable{
 	public void updateFeature(Device d, String featureType, String fieldName, int value){
 		if(features.containsKey(d.getIdentifier()+"."+featureType))
 			features.get(d.getIdentifier()+"."+featureType).setField(fieldName, value);
+	}
+
+	public static Frame mix(Frame top, Frame base){
+		Frame mix = new Frame(base);
+
+		HashMap<String,EditableFeature> topFeatures = top.getFeatures();
+
+		for(String fs : topFeatures.keySet()){
+			mix.addFeature(fs, topFeatures.get(fs));
+		}
+
+		return mix;
 	}
 }
