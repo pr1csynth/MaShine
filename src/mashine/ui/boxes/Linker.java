@@ -15,7 +15,7 @@ public class Linker extends UIBox{
 
 
 	public Linker (MaShine m) {
-		super(m, "LINKS", 50, 50, 300, 500);
+		super(m, "LINKS", 50, 50, 300, 500, 1500);
 	}
 
 	public void drawUI(){

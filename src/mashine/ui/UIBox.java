@@ -15,16 +15,23 @@ import java.util.LinkedList;
 public class UIBox extends Drawable{
 
 	protected String title;
+	private int scroll;
+	private int vheight;
 
 	protected LinkedList<Element> elements;
 
 	public UIBox(MaShine m, String t, int x, int y, int w, int h){
+		this(m, t, x, y, w, h, h);
+	}
+	public UIBox(MaShine m, String t, int x, int y, int w, int h, int vh){
 		super(m, x, y, w, h);
 		title = t;
 		this.x = M.min(x, M.width - width);
 		this.y = M.min(y, M.height - height);
 		width = M.min(w, M.width);
 		height = M.min(h, M.height);
+		vheight = vh;
+		scroll = 0;
 
 		elements = new LinkedList<Element>();
 		elements.add(new Grabber(this));
@@ -36,6 +43,9 @@ public class UIBox extends Drawable{
 		drawFrame();
 
 		elements.sort(new UI.SortByFocus());
+
+		canvas.pushMatrix();
+		canvas.translate(0, -scroll);
 
 		for(Element el : elements){
 			el.draw();
@@ -50,6 +60,11 @@ public class UIBox extends Drawable{
 		// 	elements.getLast().focus();
 
 		drawUI();
+		canvas.popMatrix();
+
+		scroll +=5;
+		if(scroll > vheight-height)
+			scroll = 0;
 	}
 
 	private void drawFrame(){

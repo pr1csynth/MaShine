@@ -28,22 +28,24 @@ public abstract class Drawable extends Focusable{
 
 	public void draw(){
 
+		//parent.endDraw();
+		canvas.beginDraw();
+		//canvas.clip(x, scroll, width+1, height+1);
+
 		if(!init){
+			canvas.textFont(M.ui.TEXTFONT);
+			canvas.textSize(M.ui.TEXTSIZE);
 			init = true;
 		}
 
-		//parent.endDraw();
-		canvas.beginDraw();
-
-		canvas.textFont(M.ui.TEXTFONT);
-		canvas.textSize(M.ui.TEXTSIZE);
 
 		drawContent();
 
 		canvas.endDraw();
 		//parent.beginDraw();
 
-		parent.image(canvas, x, y, width +1 , height + 1);
+		parent.image(canvas, x, y);
+		
 	}
 
 	protected void drawContent(){
