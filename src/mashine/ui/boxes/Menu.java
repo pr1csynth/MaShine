@@ -35,43 +35,43 @@ public class Menu extends Drawable{
 		Do open = new Do(){public void x(){M.inputs.getAction("mashine.open").x();}};
 		Do restore = new Do(){public void x(){M.inputs.getAction("mashine.restore").x();}};
 
-		bigButtons.add(new TextButton(this, 5, 5, 120, 30, "PATCH", 
+		bigButtons.add(new TextButton(this, 15, 0, 120, 32, "PATCH", 
 			Colors.WHITE, 60,
 			Colors.MATERIAL.CYAN._600,
 			Colors.MATERIAL.CYAN._700,
 			switchToScene));
-		bigButtons.add(new TextButton(this, 130, 5, 120, 30, "ANIMATE", 
+		bigButtons.add(new TextButton(this, 140, 0, 120, 32, "ANIMATE", 
 			Colors.WHITE, 60,
 			Colors.MATERIAL.DEEP_PURPLE._600,
 			Colors.MATERIAL.DEEP_PURPLE._700,
 			switchToAnimate));
-		bigButtons.add(new TextButton(this, 255, 5, 120, 30, "LIVE", 
+		bigButtons.add(new TextButton(this, 265, 0, 120, 32, "LIVE", 
 			Colors.WHITE, 60,
 			Colors.MATERIAL.RED._600,
 			Colors.MATERIAL.RED._700,
 			switchToLive));
-		bigButtons.add(new TextButton(this, 390,  5, 70, 14, "event in", 
+		bigButtons.add(new TextButton(this, 390,  0, 70, 15, "event in", 
 			Colors.WHITE, 10,
 			Colors.MATERIAL.TEAL._600,
 			Colors.MATERIAL.TEAL._800,
 			openEventViewer));
-		bigButtons.add(new TextButton(this, 390, 21, 70, 14, "data  in", 
+		bigButtons.add(new TextButton(this, 390, 17, 70, 15, "data  in", 
 			Colors.WHITE, 10,
 			Colors.MATERIAL.TEAL._600,
 			Colors.MATERIAL.TEAL._800,
 			openDataViewer));
 
-		bigButtons.add(new TextButton(this, 500, 5, 70, 14, "save", 
+		bigButtons.add(new TextButton(this, 500, 0, 70, 15, "save", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			save));
-		bigButtons.add(new TextButton(this, 500, 21, 70, 14, "save as", 
+		bigButtons.add(new TextButton(this, 500, 17, 70, 15, "save as", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			saveAs));
 
-		bigButtons.add(new TextButton(this, 580, 5, 70, 14, "open", 
+		bigButtons.add(new TextButton(this, 575, 0, 70, 15, "open", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			open));
-		bigButtons.add(new TextButton(this, 580, 21, 70, 14, "restore", 
+		bigButtons.add(new TextButton(this, 575, 17, 70, 15, "restore", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			restore));
 	}
