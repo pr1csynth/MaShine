@@ -11,6 +11,7 @@ import mashine.*;
 import mashine.inputs.*;
 import java.util.HashMap; 
 import java.util.Set;
+import java.util.ArrayList;
 import processing.event.*;
 
 public class Inputs{
@@ -26,7 +27,9 @@ public class Inputs{
 	private HashMap<String,Float>   rangeInputs;
 
 	private HashMap<String,Do>      actions;
+	private ArrayList<String>       ranges;
 	private HashMap<String,String>  actionLinks;
+	private HashMap<String,String>  rangeLinks;
 
 	public Inputs(MaShine m){
 		M = m;
@@ -35,6 +38,8 @@ public class Inputs{
 		rangeInputs = new HashMap<String,Float>();
 
 		actions     = new HashMap<String,Do>();
+		ranges      = new ArrayList<String> ();
+		rangeLinks  = new HashMap<String,String>();
 		actionLinks = new HashMap<String,String>();
 
 		keyboard = new KeyboardInputs(M);
@@ -89,6 +94,8 @@ public class Inputs{
 	public float getRange(String inputName){
 		if(rangeInputs.containsKey(inputName)){
 			return rangeInputs.get(inputName);
+		}else if(rangeLinks.containsKey(inputName)){
+			return getRange(rangeLinks.get(inputName));
 		}else{
 			return (float)0.0;		
 		}
@@ -118,6 +125,14 @@ public class Inputs{
 		actionLinks.put(actionName, stateInputName);
 	}
 
+	public void range(String what, String with){
+		rangeLinks.put(what, with);
+	}
+
+	public void unrange(String what){
+		rangeLinks.remove(what);
+	}
+
 	public void unlink(String actionName){
 		actionLinks.remove(actionName);
 	}
@@ -132,8 +147,18 @@ public class Inputs{
 	public Set<String> getStateSet(){
 		return stateInputs.keySet();
 	}
-	public Set<String> getRangeSet(){
+
+	public Set<String> getRangeInputSet(){
 		return rangeInputs.keySet();
+	}
+	public HashMap<String,String> getActionLinks(){
+		return actionLinks;
+	}
+	public HashMap<String,String> getRangeLinks(){
+		return rangeLinks;
+	}
+	public ArrayList<String> getRangeSet(){
+		return ranges;
 	}
 
 	public String getLastKey(){

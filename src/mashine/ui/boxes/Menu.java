@@ -29,6 +29,7 @@ public class Menu extends Drawable{
 		Do switchToLive = new Do(){public void x(){/*  OPEN SCENE TOOLS HERE  */}};
 		Do openDataViewer = new Do(){public void x(){M.ui.open("DataViewer");}};
 		Do openEventViewer = new Do(){public void x(){M.ui.open("EventViewer");}};
+		Do openLinker = new Do(){public void x(){M.ui.open("Linker");}};
 
 		Do save = new Do(){public void x(){M.inputs.getAction("mashine.save").x();}};
 		Do saveAs = new Do(){public void x(){M.inputs.getAction("mashine.save_as").x();}};
@@ -60,18 +61,23 @@ public class Menu extends Drawable{
 			Colors.MATERIAL.TEAL._600,
 			Colors.MATERIAL.TEAL._800,
 			openDataViewer));
+		bigButtons.add(new TextButton(this, 465, 0, 70, 15, "links", 
+			Colors.WHITE, 10,
+			Colors.MATERIAL.TEAL._600,
+			Colors.MATERIAL.TEAL._800,
+			openLinker));
 
-		bigButtons.add(new TextButton(this, 500, 0, 70, 15, "save", 
+		bigButtons.add(new TextButton(this, 600, 0, 70, 15, "save", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			save));
-		bigButtons.add(new TextButton(this, 500, 17, 70, 15, "save as", 
+		bigButtons.add(new TextButton(this, 600, 17, 70, 15, "save as", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			saveAs));
 
-		bigButtons.add(new TextButton(this, 575, 0, 70, 15, "open", 
+		bigButtons.add(new TextButton(this, 675, 0, 70, 15, "open", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			open));
-		bigButtons.add(new TextButton(this, 575, 17, 70, 15, "restore", 
+		bigButtons.add(new TextButton(this, 675, 17, 70, 15, "restore", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			restore));
 	}

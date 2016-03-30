@@ -79,6 +79,7 @@ public class UI{
 		uiElements.put("SequenceSelector", sequenceSelector);
 		uiElements.put("ColorPalette", colorPalette);
 		uiElements.put("SequenceEditor", new SequenceEditor(M));
+		uiElements.put("Linker", new Linker(M));
 		openedUiElements = new LinkedList<Focusable>();
 
 		displayFrame = new Frame();

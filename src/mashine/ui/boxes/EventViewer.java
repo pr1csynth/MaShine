@@ -16,7 +16,7 @@ public class EventViewer extends UIBox{
 	private HashMap<String,Integer> highlight;
 
 	public EventViewer (MaShine m) {
-		super(m, "EVENT VIEWER", 50, 50, 300, 600);
+		super(m, "EVENT VIEWER", 50, 50, 200, 600);
 		highlight = new HashMap();
 	}
 

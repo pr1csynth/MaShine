@@ -23,7 +23,7 @@ public class DataViewer extends UIBox{
 		canvas.noStroke();
 		canvas.textAlign(M.LEFT, M.TOP);
 		int offset = 30;
-		ArrayList<String> rangeInputsName = new ArrayList(M.inputs.getRangeSet());
+		ArrayList<String> rangeInputsName = new ArrayList(M.inputs.getRangeInputSet());
 		Collections.sort(rangeInputsName);
 
 
