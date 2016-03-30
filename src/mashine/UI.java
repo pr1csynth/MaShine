@@ -102,8 +102,10 @@ public class UI{
 	public void open(String uiElementName){
 		if(uiElements.containsKey(uiElementName)){
 			Focusable el = uiElements.get(uiElementName);
-			openedUiElements.add(el);
-			//el.focus();
+			if(!openedUiElements.contains(el)){
+				openedUiElements.add(el);
+				el.focus();
+			}
 		}
 	}
 
