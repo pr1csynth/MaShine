@@ -75,15 +75,6 @@ public class Ola extends Output{
 			try{			
 				for(Integer u : dmxData.keySet()){
 					ola.streamDmx(u, dmxData.get(u));
-					if(u == 30){
-						M.print("u30 : [ ");
-						short[] s = dmxData.get(30);
-						for(int i = 0; i < 16; i ++){
-							M.print(s[i]);
-							M.print("\t");
-						}
-						M.println("\t ]");
-					}
 				}
 			}catch(Exception e){
 				ola = null;
