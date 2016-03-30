@@ -1,33 +1,24 @@
 # WHAT ?
 
-MaShine is a software to do live light show  using live audio analysis, prerecorded animations (sequences of frames), filters (function, algorithm written (inside or outside the software, using javascript maybe, I hope.)), midi input, Open Lighting Architecture for DMX/ArtNet output.
+MaShine is a software to do live light show  using live audio analysis, prerecorded animations (sequences of frames), filters (function, algorithms, effects, ...), MIDI/DMX input, Open Lighting Architecture for DMX/ArtNet output.
 
-You can check the draft version here : https://github.com/procsynth/ShineProcessing
+![screenshot - 280316 - 00 00 14](https://cloud.githubusercontent.com/assets/321345/14161020/a49be444-f6e0-11e5-8c06-eba8528f578d.png)
+
 
 # HOW
 
-Require Processing 3, Java 8 and ant to build. Run `ant` in the root folder to build and run, or `java -jar dist/mashine.jar` to run.
+Require Processing 3, Java 8 and ant to build. Run `ant` in the root folder to build and run, or `java -jar dist/mashine.jar` to run. You may want to edit the Processing paths in `build.xml` to match your installation.
 Midi device only tested on Linux. Otherwise it should be crossplateform.
 
-## What the hell are you doing ?
+# TODO
 
- - 10:25 10 fev 2016 : implementing focusable 
- - 15:12 10 fev 2016 : implemented focusable, nice mouse related elements methods
- - 15:13 10 fev 2016 : what could I do now ?
- - 20:00 10 fev 2016 : little pack script.
- - 02:00 11 fev 2016 : added all the colors \o/
- - 08:30 11 fev 2016 : TODO : ola, port, devices, universes, addresses, -images- frames, device features (color, range, fixed)
- - 00:34 13 fev 2016 : DONE : midi inputs (generic (?) but particularly Behringer CMD DC-1 and Korg NanoKontrol2) (LOT of inputs !)
- - 00:35 13 fev 2016 : TODO : scrollable content (LOT of inputs !)
- - 16:47 14 fev 2016 : better mouse event/element focus behavior, began frame and sequence stuff (devices, features, frame, sequence, visualizer) a lot to do
- - 16:49 14 fev 2016 : TODO : UI for creating scene/frames, UI for typing
- - 23:21 14 fev 2016 : better device drawing, added menu bar, worked out how frame can work, better focus, commencing UI device editor (2 buttons yeah!)
- - 16:37 18 fev 2016 : basic user text input, should add regEx validation, maxlength check.
- - 16:43 22 fev 2016 : git versionning ! Main UI elements are drawn on separate PGraphics canvas, and it works (soon : scrollable) 
- - 20:39 22 fev 2016 : TODO device manipulation
- - 13:01 10 mar 2016 : basic device updating, now creation. Better input elements as well.
- - 16:30 16 mars 2016 : Device editing done, saving mechanism too.
- - 18:34 20 mars 2016 : Basic device editing done !
+- [x] Patch
+- [x] Animation
+- [x] Saves
+- [ ] Input binding
+- [ ] Filters
+- [ ] More device features
+- [ ] Go in the details of the UI/interactions
 
 # WHICH LICENSE ?
 
