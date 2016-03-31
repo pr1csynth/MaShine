@@ -16,7 +16,7 @@ public class EventViewer extends UIBox{
 	private HashMap<String,Integer> highlight;
 
 	public EventViewer (MaShine m) {
-		super(m, "EVENT VIEWER", 50, 50, 200, 600);
+		super(m, "EVENT VIEWER", 50, 50, 200, 400);
 		highlight = new HashMap();
 	}
 
@@ -43,6 +43,8 @@ public class EventViewer extends UIBox{
 			canvas.text(a, 5, offset);
 			offset += 14;
 		}
+
+		setVirtualHeight(offset);
 
 		for(String h : highlight.keySet()){
 			Integer newVal;

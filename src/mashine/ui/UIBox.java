@@ -19,6 +19,8 @@ public class UIBox extends Drawable{
 	private int vheight;
 
 	protected LinkedList<Element> elements;
+	private Element grabber;
+	private Element closeButton;
 
 	public UIBox(MaShine m, String t, int x, int y, int w, int h){
 		this(m, t, x, y, w, h, h);
@@ -34,13 +36,19 @@ public class UIBox extends Drawable{
 		scroll = 0;
 
 		elements = new LinkedList<Element>();
-		elements.add(new Grabber(this));
-		elements.add(new CloseButton(this));
+		grabber = new Grabber(this);
+		closeButton = new CloseButton(this);
+		elements.add(grabber);
+		elements.add(closeButton);
 	}
 
 	protected void drawContent(){
 
-		drawFrame();
+		FlatColor.stroke(canvas,Colors.MATERIAL.BLUE_GREY._800);
+		FlatColor.fill(canvas,Colors.MATERIAL.BLUE_GREY._600);
+		canvas.rect(0, 0, width, height);
+
+		scroll();
 
 		elements.sort(new UI.SortByFocus());
 
@@ -48,7 +56,8 @@ public class UIBox extends Drawable{
 		canvas.translate(0, -scroll);
 
 		for(Element el : elements){
-			el.draw();
+			if(el != closeButton && el != grabber)
+				el.draw();
 			if(el == elements.getLast() && el.mouseIn())
 				el.focus();
 			else
@@ -62,16 +71,13 @@ public class UIBox extends Drawable{
 		drawUI();
 		canvas.popMatrix();
 
-		scroll +=5;
-		if(scroll > vheight-height)
-			scroll = 0;
+		drawFrame();
+		closeButton.draw();
+		grabber.draw();
+
 	}
 
 	private void drawFrame(){
-		FlatColor.stroke(canvas,Colors.MATERIAL.BLUE_GREY._800);
-		FlatColor.fill(canvas,Colors.MATERIAL.BLUE_GREY._600);
-		canvas.rect(0, 0, width, height);
-
 		canvas.noStroke();
 		FlatColor.fill(canvas,Colors.MATERIAL.BLUE_GREY._900);
 		canvas.rect(0, 0, width+1, 22);
@@ -82,6 +88,22 @@ public class UIBox extends Drawable{
 	}
 
 	protected void drawUI() {}
+
+	private void scroll(){
+		if(mouseIn( )&& hasFocus()){
+			if(M.inputs.getState("mouse.wheel.encoder.on")){
+				scroll += 25;
+			}else if(M.inputs.getState("mouse.wheel.encoder.off")){
+				scroll -= 25;
+			}
+			scroll = M.max(0, M.min(vheight-height, scroll));
+		}
+	}
+
+	public void setVirtualHeight(int vh){
+		vheight = M.max(height, vh);
+		scroll = M.max(0, M.min(vheight-height, scroll));
+	}
 
 	public void moveBox(int x, int y) {
 		this.x = M.max(0, M.min(x, M.width - width));

@@ -15,7 +15,7 @@ import java.lang.Math;
 public class DataViewer extends UIBox{
 
 	public DataViewer (MaShine m) {
-		super(m, "DATA VIEWER ", 360, 50, 300, 600);
+		super(m, "DATA VIEWER ", 360, 50, 200, 400);
 
 	}
 
@@ -43,6 +43,8 @@ public class DataViewer extends UIBox{
 			canvas.text(a + " " + (float) Math.round(val*100000)/100000 , 5, offset);
 			offset += 14;
 		}
+
+		setVirtualHeight(offset);
 	}
 
 }

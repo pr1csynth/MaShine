@@ -43,6 +43,23 @@ public class Linker extends UIBox{
 			offset += 14;
 			index ++;
 		}
+
+		offset += 10;
+
+		for(String a : rangeSet){
+			
+			if(index % 2 == 0){
+				FlatColor.fill(canvas,Colors.MATERIAL.BLUE_GREY._700);
+				canvas.rect(1, offset - 3, width - 1, 14);
+			}
+
+			FlatColor.fill(canvas,Colors.WHITE);
+			canvas.text(a, 5, offset);
+			offset += 14;
+			index ++;
+		}
+
+		setVirtualHeight(offset);
 	}
 
 }
