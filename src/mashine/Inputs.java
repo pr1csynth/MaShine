@@ -17,11 +17,14 @@ import processing.event.*;
 public class Inputs{
 
 	private HashMap<String,InputSource> inputs;
+	private ArrayList<Learnable> learnable;
 	private MaShine M;
 
 	private KeyboardInputs keyboard;
 	private MouseInputs mouse;
 	private String lastTyped = "";
+	private String lastState;
+	private String lastRange;
 
 	private HashMap<String,Boolean> stateInputs;
 	private HashMap<String,Float>   rangeInputs;
@@ -52,11 +55,26 @@ public class Inputs{
 			put("midi", new MidiInputs(M));
 		}};
 
+		learnable = new ArrayList<Learnable>();
+		learnable.add(keyboard);
+		learnable.add((Learnable)inputs.get("midi"));
+
 	}
 
 	public void poll(){
 
+		lastRange = null;
+		lastState = null;
 		lastTyped = keyboard.lastTyped;
+
+		for(Learnable l : learnable){
+			if(null != l.getLastState()){
+				lastState = l.getLastState();
+			}
+			if(null != l.getLastRange()){
+				lastRange = l.getLastRange();
+			}
+		}
 
 		for(String key : inputs.keySet()){
 			inputs.get(key).tick();
@@ -163,6 +181,12 @@ public class Inputs{
 
 	public String getLastKey(){
 		return lastTyped;
+	}
+	public String getLastState(){
+		return lastState;
+	}
+	public String getLastRange(){
+		return lastRange;
 	}
 
 }

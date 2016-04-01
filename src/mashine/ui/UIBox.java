@@ -50,10 +50,14 @@ public class UIBox extends Drawable{
 
 		scroll();
 
-		elements.sort(new UI.SortByFocus());
-
 		canvas.pushMatrix();
 		canvas.translate(0, -scroll);
+		drawUI();
+		canvas.popMatrix();
+		drawFixedUI();
+		
+		elements.sort(new UI.SortByFocus());
+
 
 		for(Element el : elements){
 			if(el != closeButton && el != grabber)
@@ -64,12 +68,6 @@ public class UIBox extends Drawable{
 				if(el.hasFocus())
 					el.defocus();
 		}
-
-		// if(elements.getLast().mouseIn())
-		// 	elements.getLast().focus();
-
-		drawUI();
-		canvas.popMatrix();
 
 		drawFrame();
 		closeButton.draw();
@@ -88,6 +86,7 @@ public class UIBox extends Drawable{
 	}
 
 	protected void drawUI() {}
+	protected void drawFixedUI() {}
 
 	private void scroll(){
 		if(mouseIn( )&& hasFocus()){
@@ -108,6 +107,10 @@ public class UIBox extends Drawable{
 	public void moveBox(int x, int y) {
 		this.x = M.max(0, M.min(x, M.width - width));
 		this.y = M.max(0, M.min(y, M.height - height));
+	}
+
+	protected int getScroll(){
+		return scroll;
 	}
 
 }

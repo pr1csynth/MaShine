@@ -8,11 +8,15 @@ import java.util.regex.Pattern;
 public class TextInput extends Element{
 
 	private String value;
-	private static final String validChar = "[a-zA-Z0-9_ \\-\\@\\#]+";
+	private static String validChar;
 
 	public TextInput(Drawable parent, String defaultValue, int x, int y, int width){
+		this(parent, defaultValue, x, y, width, "");
+	}
+	public TextInput(Drawable parent, String defaultValue, int x, int y, int width, String additionalsChars){
 		super(parent, x, y, width, 15);
 		value = defaultValue;
+		validChar = "["+additionalsChars+"a-zA-Z0-9_ \\-\\@\\#]+";
 	}
 
 	public void drawContent(){

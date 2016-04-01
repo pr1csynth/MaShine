@@ -13,11 +13,14 @@ import java.util.HashMap;
 import themidibus.*;
 import javax.sound.midi.MidiMessage; 
 
-public class MidiInputs extends InputSource{
+public class MidiInputs extends InputSource implements Learnable{
 
 	private HashMap<String,MidiBus> buses;
 	private MidiDevice[] devicesTypes = {new KorgNanoKontrol2(), new BehringerDC1(), new GenericMidiDevice()};
 	private MidiBus testBus;
+
+	private String lastState;
+	private String lastRange;
 
 	public MidiInputs (MaShine m) {
 		super(m);
@@ -38,10 +41,14 @@ public class MidiInputs extends InputSource{
 				Boolean state = devicesTypes[i].getState(command, keyNumber, value);
 				Float range = devicesTypes[i].getRange(command, keyNumber, value);
 
-				if(state != null)
+				if(state != null){
 					states.put(name + (state ? ".on" : ".off"), true);
-				if(range != null)
+					lastState = name + (state ? ".on" : ".off");
+				}
+				if(range != null){
 					ranges.put(name, range);
+					lastRange = name;
+				}
 				break;
 			}
 		}
@@ -56,6 +63,8 @@ public class MidiInputs extends InputSource{
 		for(String s : states.keySet()){
 			states.put(s, false);
 		}
+		lastRange = null;
+		lastState = null;
 	}
 
 	private void rescanDevices(){
@@ -77,6 +86,14 @@ public class MidiInputs extends InputSource{
 				}
 			}
 		}
+	}
+
+	public String getLastRange(){
+
+		return lastRange;
+	}
+	public String getLastState(){
+		return lastState;
 	}
 
 }
