@@ -22,8 +22,8 @@ public class Linker extends UIBox{
 	private String selectedRange = "";
 	private boolean learningAll = false;
 
-	public Linker (MaShine m) {
-		super(m, "LINKS", 50, 50, 300, 500, 1500);
+	public Linker () {
+		super("LINKS", 50, 50, 300, 500, 1500);
 
 		filterInput = new TextInput(this, "", 0, 55, 100, "\\.");
 		linkInput = new TextInput(this, "", 0, 28, 189, "\\.");
@@ -63,71 +63,69 @@ public class Linker extends UIBox{
 		}
 	}
 	public void unlink(){
-		M.inputs.unlink(selectedState);
-		M.inputs.unrange(selectedRange);
+		MaShine.inputs.unlink(selectedState);
+		MaShine.inputs.unrange(selectedRange);
 	}
 
 	public void commitLink(){
 		if(learnedState == "" && learnedRange == ""){
 			if(selectedState != ""){
 				if(null != linkInput.value()){
-					M.inputs.link(selectedState, linkInput.value());
+					MaShine.inputs.link(selectedState, linkInput.value());
 				}else{
-					M.inputs.unlink(selectedState);
+					MaShine.inputs.unlink(selectedState);
 				}
 			}else if(selectedRange != ""){
 				if(null != linkInput.value()){
-					M.inputs.range(selectedState, linkInput.value());
+					MaShine.inputs.range(selectedState, linkInput.value());
 				}else{
-					M.inputs.unrange(selectedRange);
+					MaShine.inputs.unrange(selectedRange);
 				}
 			}
 			
 		}
-
-		M.println("'"+linkInput.value()+"'");
 	}
 
 	public void drawUI(){
-		ArrayList<String> actionSet = new ArrayList<String>(M.inputs.getActionSet());
-		ArrayList<String> rangeSet = new ArrayList<String>(M.inputs.getRangeSet());
+		ArrayList<String> actionSet = new ArrayList<String>(MaShine.inputs.getActionSet());
+		ArrayList<String> rangeSet = new ArrayList<String>(MaShine.inputs.getRangeSet());
 
 		if(learnedState != ""){
-			if(null != M.inputs.getLastState()){
-				M.inputs.link(learnedState, M.inputs.getLastState());
+			if(null != MaShine.inputs.getLastState()){
+				MaShine.inputs.link(learnedState, MaShine.inputs.getLastState());
 				learnedState = "";
-				linkInput.setValue(M.inputs.getLastState());
+				linkInput.setValue(MaShine.inputs.getLastState());
 			}
 		}else if(learnedRange != ""){
-			if(null != M.inputs.getLastRange()){
-				M.inputs.range(learnedRange, M.inputs.getLastRange());
+			if(null != MaShine.inputs.getLastRange()){
+				MaShine.inputs.range(learnedRange, MaShine.inputs.getLastRange());
 				learnedRange = "";
-				linkInput.setValue(M.inputs.getLastRange());
+				linkInput.setValue(MaShine.inputs.getLastRange());
 			}
 		}else if(learningAll){
-			if(null != M.inputs.getLastState()){
+			if(null != MaShine.inputs.getLastState()){
 				for(String a : actionSet){
 					if(a.contains(filterInput.value())){
-						M.inputs.link(a, M.inputs.getLastState());
+						MaShine.inputs.link(a, MaShine.inputs.getLastState());
 					}
 				}
-				linkInput.setValue(M.inputs.getLastState());
+				linkInput.setValue(MaShine.inputs.getLastState());
 				learningAll = false;
-			}else if(null != M.inputs.getLastRange()){
+			}else if(null != MaShine.inputs.getLastRange()){
 				for(String a : rangeSet){
 					if(a.contains(filterInput.value())){
-						M.inputs.range(a, M.inputs.getLastState());
+						MaShine.inputs.range(a, MaShine.inputs.getLastState());
 					}
 				}
-				linkInput.setValue(M.inputs.getLastRange());
+				linkInput.setValue(MaShine.inputs.getLastRange());
 				learningAll = false;
 			}
 		}
 
 		canvas.noStroke();
 		canvas.textAlign(canvas.LEFT, canvas.TOP);
-		HashMap<String,String> actionLinks = M.inputs.getActionLinks();
-		HashMap<String,String> rangeLinks = M.inputs.getRangeLinks();
+		HashMap<String,String> actionLinks = MaShine.inputs.getActionLinks();
+		HashMap<String,String> rangeLinks = MaShine.inputs.getRangeLinks();
 
 		Collections.sort(actionSet);
 		Collections.sort(rangeSet);
@@ -156,7 +154,7 @@ public class Linker extends UIBox{
 				FlatColor.fill(canvas,Colors.WHITE);
 				canvas.text(a, 5, offset);
 
-				if(mouseY() > 49 &&hasFocus() && offset - 3 - getScroll() < mouseY() && mouseY() < offset + 11 - getScroll() && M.inputs.getState("mouse.left.press")){
+				if(mouseY() > 49 &&hasFocus() && offset - 3 - getScroll() < mouseY() && mouseY() < offset + 11 - getScroll() && MaShine.inputs.getState("mouse.left.press")){
 					if(actionLinks.containsKey(a)){
 						linkInput.setValue(actionLinks.get(a));
 					}else{

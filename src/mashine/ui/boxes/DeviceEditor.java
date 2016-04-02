@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.lang.Math;
 
 // UIREFORM
 
@@ -34,8 +35,8 @@ public class DeviceEditor extends UIBox{
 	private RangeInput widthElement;
 	private RangeInput heightElement;
 
-	public DeviceEditor (MaShine m) {
-		super(m, "SCENE EDITOR", 50, 50, 200, 450);
+	public DeviceEditor () {
+		super("SCENE EDITOR", 50, 50, 200, 450);
 
 		featureElements	= new ArrayList<Element>(); 
 		featureInputs	= new HashMap<String,RangeInput>(); 
@@ -90,7 +91,7 @@ public class DeviceEditor extends UIBox{
 	}
 
 	public void drawUI(){
-		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
 		// add or remove elements
 
 
@@ -224,7 +225,7 @@ public class DeviceEditor extends UIBox{
 			}else{
 
 				if(selectedDevices.size() == 1){
-						M.scene.renameDevice(selectedDevices.get(0), deviceNameElement.value());
+						MaShine.scene.renameDevice(selectedDevices.get(0), deviceNameElement.value());
 				}
 
 				for(String ff : featureInputs.keySet()){
@@ -280,14 +281,13 @@ public class DeviceEditor extends UIBox{
 
 				deviceNameElement.enable();
 				// prefill for new device
-				deviceNameElement.setValue("newDevice"); // find a valid name using M.scene
+				deviceNameElement.setValue("newDevice"); // find a valid name using MaShine.scene
 			}
 		}
 	}
 
 	private void removeFeature(String featureId){
-		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
-		M.println("REMOVE "+ featureId + " from " + selectedDevices.size() + " devices");
+		ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
 		featuresHash = "";
 		for(Device d : selectedDevices){
 			(d).removeFeature(featureId);
@@ -295,27 +295,27 @@ public class DeviceEditor extends UIBox{
 	}
 
 	private void cloneSelectedDevices(){
-		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
 		ArrayList<Device> newSelectedDevices = new ArrayList<Device>();
 		for(Device d : selectedDevices){
 			Device newDev = new Device(d, d.getName());
 
-			M.scene.addDevice(newDev);
+			MaShine.scene.addDevice(newDev);
 			newSelectedDevices.add(newDev);		
 		}
 
-		M.ui.setSelectedDevices(newSelectedDevices);
+		MaShine.ui.setSelectedDevices(newSelectedDevices);
 	}
 
 	private void removeSelectedDevices(){
-		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
 		for(Device d : selectedDevices){
-			M.scene.removeDevice((d));
+			MaShine.scene.removeDevice((d));
 		}
 	}
 
 	private void updateFeature(String featureField, int value){
-		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
 		for(Device d : selectedDevices){
 			(d).updateFeature(featureField, value);
 		}
@@ -323,7 +323,7 @@ public class DeviceEditor extends UIBox{
 
 	private void addFeature(String featureClassName){
 		if(Scene.FEATURES.containsKey(featureClassName)){
-			ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+			ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
 			for(Device d : selectedDevices){
 				try{
 					(d).addFeature((Feature) Scene.FEATURES.get(featureClassName).newInstance());
@@ -336,7 +336,7 @@ public class DeviceEditor extends UIBox{
 	private void addFixedField(){
 		String fieldName = genericFieldInputElement.value();
 		if(fieldName != null){
-			ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+			ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
 			for(Device d : selectedDevices){
 				(d).addFeature(new FixedField(fieldName));
 			}
@@ -347,7 +347,7 @@ public class DeviceEditor extends UIBox{
 	private void addSingleField(){
 		String fieldName = genericFieldInputElement.value();
 		if(fieldName != null){
-			ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+			ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
 			for(Device d : selectedDevices){
 				d.addFeature(new SingleField(fieldName));
 			}
@@ -356,22 +356,22 @@ public class DeviceEditor extends UIBox{
 	}
 
 	private void updateUniverse(int universe){
-		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
 		for(Device d : selectedDevices){
 			(d).setUniverse(universe);
 		}
 	}
 	private void updateAddress(int address){
-		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
 		for(Device d : selectedDevices){
 			(d).setStartAddress(address);
 		}
 	}
 
-	private void updateXPos(int x){for(Device d : M.ui.getSelectedDevices()){(d).setX(x);}}
-	private void updateYPos(int x){for(Device d : M.ui.getSelectedDevices()){(d).setY(x);}}
-	private void updateWidth(int x){for(Device d : M.ui.getSelectedDevices()){(d).setWidth(x);}}
-	private void updateHeight(int x){for(Device d : M.ui.getSelectedDevices()){(d).setHeight(x);}}
+	private void updateXPos(int x){for(Device d : MaShine.ui.getSelectedDevices()){(d).setX(x);}}
+	private void updateYPos(int x){for(Device d : MaShine.ui.getSelectedDevices()){(d).setY(x);}}
+	private void updateWidth(int x){for(Device d : MaShine.ui.getSelectedDevices()){(d).setWidth(x);}}
+	private void updateHeight(int x){for(Device d : MaShine.ui.getSelectedDevices()){(d).setHeight(x);}}
 
 	private String selectedDevicesHash(ArrayList<Device> selectedDevices){
 		String hash = "_" + selectedDevices.size();
@@ -383,23 +383,23 @@ public class DeviceEditor extends UIBox{
 
 	private void moveSelectedDevices(){
 
-		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
-		if(M.inputs.getState("keyboard.38.hold") && !M.inputs.getState("keyboard.16.hold")){
+		ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
+		if(MaShine.inputs.getState("keyboard.38.hold") && !MaShine.inputs.getState("keyboard.16.hold")){
 			for(Device d : selectedDevices){
 				(d).moveUp();
 			}
 		}		
-		if(M.inputs.getState("keyboard.40.hold") && !M.inputs.getState("keyboard.16.hold")){
+		if(MaShine.inputs.getState("keyboard.40.hold") && !MaShine.inputs.getState("keyboard.16.hold")){
 			for(Device d : selectedDevices){
 				(d).moveDown();
 			}
 		}		
-		if(M.inputs.getState("keyboard.37.hold") && !M.inputs.getState("keyboard.16.hold")){
+		if(MaShine.inputs.getState("keyboard.37.hold") && !MaShine.inputs.getState("keyboard.16.hold")){
 			for(Device d : selectedDevices){
 				(d).moveLeft();
 			}
 		}		
-		if(M.inputs.getState("keyboard.39.hold") && !M.inputs.getState("keyboard.16.hold")){
+		if(MaShine.inputs.getState("keyboard.39.hold") && !MaShine.inputs.getState("keyboard.16.hold")){
 			for(Device d : selectedDevices){
 				(d).moveRight();
 			}

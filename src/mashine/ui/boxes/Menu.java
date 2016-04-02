@@ -18,23 +18,23 @@ public class Menu extends Drawable{
 	private ArrayList<Element> elements;
 
 	
-	public Menu(MaShine m){
-		super(m, 0, 0, m.displayWidth, 40);
+	public Menu(){
+		super(0, 0, MaShine.m.displayWidth, 40);
 		bigButtons = new ArrayList<Element>();
 		elements = new ArrayList<Element>();
 		focus = true;
 
-		Do switchToScene = new Do(){public void x(){M.ui.open("DeviceEditor");}};
-		Do switchToAnimate = new Do(){public void x(){M.ui.open("SequenceEditor");M.ui.open("SequenceSelector");M.ui.open("ColorPalette");}};
+		Do switchToScene = new Do(){public void x(){MaShine.ui.open("DeviceEditor");}};
+		Do switchToAnimate = new Do(){public void x(){MaShine.ui.open("SequenceEditor");MaShine.ui.open("SequenceSelector");MaShine.ui.open("ColorPalette");}};
 		Do switchToLive = new Do(){public void x(){/*  OPEN SCENE TOOLS HERE  */}};
-		Do openDataViewer = new Do(){public void x(){M.ui.open("DataViewer");}};
-		Do openEventViewer = new Do(){public void x(){M.ui.open("EventViewer");}};
-		Do openLinker = new Do(){public void x(){M.ui.open("Linker");}};
+		Do openDataViewer = new Do(){public void x(){MaShine.ui.open("DataViewer");}};
+		Do openEventViewer = new Do(){public void x(){MaShine.ui.open("EventViewer");}};
+		Do openLinker = new Do(){public void x(){MaShine.ui.open("Linker");}};
 
-		Do save = new Do(){public void x(){M.inputs.getAction("mashine.save").x();}};
-		Do saveAs = new Do(){public void x(){M.inputs.getAction("mashine.save_as").x();}};
-		Do open = new Do(){public void x(){M.inputs.getAction("mashine.open").x();}};
-		Do restore = new Do(){public void x(){M.inputs.getAction("mashine.restore").x();}};
+		Do save = new Do(){public void x(){MaShine.inputs.getAction("mashine.save").x();}};
+		Do saveAs = new Do(){public void x(){MaShine.inputs.getAction("mashine.save_as").x();}};
+		Do open = new Do(){public void x(){MaShine.inputs.getAction("mashine.open").x();}};
+		Do restore = new Do(){public void x(){MaShine.inputs.getAction("mashine.restore").x();}};
 
 		bigButtons.add(new TextButton(this, 15, 0, 120, 32, "PATCH", 
 			Colors.WHITE, 60,
@@ -86,7 +86,7 @@ public class Menu extends Drawable{
 		canvas.noStroke();
 		FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._900);
 		canvas.rect(0, 0, width, height);
-		//canvas.rect(M.mouseX, M.mouseY, 20, 20);
+		//canvas.rect(MaShine.mouseX, MaShine.mouseY, 20, 20);
 
 		for(Element bb : bigButtons){
 			bb.draw();

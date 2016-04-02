@@ -31,6 +31,7 @@ public class MaShine extends PApplet{
 	public static Scene scene;
 	public static Bank bank;
 	public static UI ui;
+	public static MaShine m;
 
 	public static void main(String[] args) {
 		PApplet.main(MAIN_WINDOW);
@@ -42,16 +43,16 @@ public class MaShine extends PApplet{
 	}
 
 	public void setup() {
+		m = this;
 		frameRate(50);
 		surface.setResizable(true);
 
-
-		inputs = new Inputs(this);
-		outputs = new Outputs(this);
-		bank = new Bank(this);
-		engine = new Engine(this);
-		scene = new Scene(this);
-		ui = new UI(this);
+		inputs = new Inputs();
+		outputs = new Outputs();
+		bank = new Bank();
+		engine = new Engine();
+		scene = new Scene();
+		ui = new UI();
 
 		inputs.register("mashine.test", new Do(){public void x(){println("TEST");}});
 		inputs.register("mashine.save_as", new Do(){public void x(){save();}});
@@ -129,7 +130,7 @@ public class MaShine extends PApplet{
 	}
 
 	public void restore(){
-		println("Requesting path to open frome.");
+		println("Requesting path to open from.");
 		selectInput("Select file to open.", "restore");
 	}
 

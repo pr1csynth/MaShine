@@ -12,6 +12,8 @@ import mashine.ui.elements.*;
 import processing.core.*;
 import java.util.LinkedList; 
 
+import java.lang.Math;
+
 public class UIBox extends Drawable{
 
 	protected String title;
@@ -22,16 +24,16 @@ public class UIBox extends Drawable{
 	private Element grabber;
 	private Element closeButton;
 
-	public UIBox(MaShine m, String t, int x, int y, int w, int h){
-		this(m, t, x, y, w, h, h);
+	public UIBox(String t, int x, int y, int w, int h){
+		this(t, x, y, w, h, h);
 	}
-	public UIBox(MaShine m, String t, int x, int y, int w, int h, int vh){
-		super(m, x, y, w, h);
+	public UIBox(String t, int x, int y, int w, int h, int vh){
+		super(x, y, w, h);
 		title = t;
-		this.x = M.min(x, M.width - width);
-		this.y = M.min(y, M.height - height);
-		width = M.min(w, M.width);
-		height = M.min(h, M.height);
+		this.x = Math.min(x, MaShine.m.width - width);
+		this.y = Math.min(y, MaShine.m.height - height);
+		width = Math.min(w, MaShine.m.width);
+		height = Math.min(h, MaShine.m.height);
 		vheight = vh;
 		scroll = 0;
 
@@ -81,7 +83,7 @@ public class UIBox extends Drawable{
 		canvas.rect(0, 0, width+1, 22);
 		
 		FlatColor.fill(canvas,Colors.WHITE);
-		canvas.textAlign(M.CENTER, M.TOP);
+		canvas.textAlign(MaShine.m.CENTER, MaShine.m.TOP);
 		canvas.text(title,width / 2, 7);
 	}
 
@@ -90,23 +92,23 @@ public class UIBox extends Drawable{
 
 	private void scroll(){
 		if(mouseIn( )&& hasFocus()){
-			if(M.inputs.getState("mouse.wheel.encoder.on")){
+			if(MaShine.inputs.getState("mouse.wheel.encoder.on")){
 				scroll += 25;
-			}else if(M.inputs.getState("mouse.wheel.encoder.off")){
+			}else if(MaShine.inputs.getState("mouse.wheel.encoder.off")){
 				scroll -= 25;
 			}
-			scroll = M.max(0, M.min(vheight-height, scroll));
+			scroll = Math.max(0, Math.min(vheight-height, scroll));
 		}
 	}
 
 	public void setVirtualHeight(int vh){
-		vheight = M.max(height, vh);
-		scroll = M.max(0, M.min(vheight-height, scroll));
+		vheight = Math.max(height, vh);
+		scroll = Math.max(0, Math.min(vheight-height, scroll));
 	}
 
 	public void moveBox(int x, int y) {
-		this.x = M.max(0, M.min(x, M.width - width));
-		this.y = M.max(0, M.min(y, M.height - height));
+		this.x = Math.max(0, Math.min(x, MaShine.m.width - width));
+		this.y = Math.max(0, Math.min(y, MaShine.m.height - height));
 	}
 
 	protected int getScroll(){

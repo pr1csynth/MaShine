@@ -12,12 +12,10 @@ import java.util.HashMap;
 
 public class InputSource {
 
-	protected MaShine M;
 	protected HashMap<String,Boolean> states;
 	protected HashMap<String,Double> ranges;
 
-	public InputSource (MaShine m) {
-		M = m;
+	public InputSource () {
 		states = new HashMap<String,Boolean>();
 		ranges = new HashMap<String,Double>();
 	}

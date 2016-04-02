@@ -8,14 +8,15 @@
 package mashine.ui;
 
 import processing.core.*;
+import mashine.MaShine;
 
 public class Tetrahedron{
 	private PApplet app;
 	private int edgeLength;
 	private double theta, angleX, angleY, rx, ry;
 
-	public Tetrahedron(int iedgeLength, PApplet p){
-		app = p;
+	public Tetrahedron(int iedgeLength){
+		app = MaShine.m;
 		edgeLength = iedgeLength;
 	}
 

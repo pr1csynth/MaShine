@@ -18,7 +18,6 @@ public class Inputs{
 
 	private HashMap<String,InputSource> inputs;
 	private ArrayList<Learnable> learnable;
-	private MaShine M;
 
 	private KeyboardInputs keyboard;
 	private MouseInputs mouse;
@@ -34,8 +33,7 @@ public class Inputs{
 	private HashMap<String,String>  actionLinks;
 	private HashMap<String,String>  rangeLinks;
 
-	public Inputs(MaShine m){
-		M = m;
+	public Inputs(){
 
 		stateInputs = new HashMap<String,Boolean>();
 		rangeInputs = new HashMap<String,Double>();
@@ -45,14 +43,14 @@ public class Inputs{
 		rangeLinks  = new HashMap<String,String>();
 		actionLinks = new HashMap<String,String>();
 
-		keyboard = new KeyboardInputs(M);
-		mouse = new MouseInputs(M);
+		keyboard = new KeyboardInputs();
+		mouse = new MouseInputs();
 
 		inputs = new HashMap<String,InputSource>(){{
 			put("keyboard", keyboard);
 			put("mouse", mouse);
-			put("minim", new MinimAnalysis(M));
-			put("midi", new MidiInputs(M));
+			put("minim", new MinimAnalysis());
+			put("midi", new MidiInputs());
 		}};
 
 		learnable = new ArrayList<Learnable>();

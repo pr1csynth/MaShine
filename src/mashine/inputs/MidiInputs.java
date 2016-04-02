@@ -22,8 +22,8 @@ public class MidiInputs extends InputSource implements Learnable{
 	private String lastState;
 	private String lastRange;
 
-	public MidiInputs (MaShine m) {
-		super(m);
+	public MidiInputs () {
+		super();
 		buses = new HashMap<String,MidiBus>();
 		rescanDevices();
 	}
@@ -80,7 +80,6 @@ public class MidiInputs extends InputSource implements Learnable{
 				for(int o = 0; o < outputNames.length; o++){
 					if(outputNames[o].indexOf(hwAddress) != -1){
 						name = name.substring(0, name.indexOf(" "));
-						M.println("inputs.midi.registeredDevice: "+ name);
 						buses.put(name, new MidiBus(this, inputNames[i], outputNames[o], name));
 					}
 				}

@@ -32,11 +32,11 @@ public class MinimAnalysis extends InputSource{
 	private long lastInterpolatedMeanBeat = 0;
 	private ArrayList<Integer> beatDistances;
 
-	public MinimAnalysis (MaShine m) {
+	public MinimAnalysis () {
 
-		super(m);
+		super();
 
-		minim = new Minim(M);
+		minim = new Minim(MaShine.m);
 		initMinim();
 
 		beatDistances = new ArrayList<Integer>();
@@ -73,7 +73,7 @@ public class MinimAnalysis extends InputSource{
 
 		// interpolated beat detect
 		boolean isBeat = false;
-		long now = M.millis();
+		long now = MaShine.m.millis();
 
 		// get user selected beat input (key, pad, ext source, minim beatdetect, ...)
 		if(states.containsKey(beatInputName)){
@@ -81,7 +81,7 @@ public class MinimAnalysis extends InputSource{
 			isBeat = states.get(beatInputName);
 		}else{
 			// 16.6ms in one frame, 16.6ms of delay...
-			isBeat = M.inputs.getState(beatInputName);
+			isBeat = MaShine.inputs.getState(beatInputName);
 		}
 
 		states.put("minim.beat", isBeat);

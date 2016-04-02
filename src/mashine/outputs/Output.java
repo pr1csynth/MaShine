@@ -13,11 +13,9 @@ import java.util.HashMap;
 
 public class Output{
 
-	protected MaShine M;
 	protected HashMap<Integer,String> ports;
 
-	public Output(MaShine m){
-		M = m;
+	public Output(){
 	}
 
 	public void push(Frame frame){}

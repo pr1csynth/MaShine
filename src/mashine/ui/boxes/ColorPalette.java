@@ -15,14 +15,15 @@ import mashine.scene.*;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.lang.Math;
 
 public class ColorPalette extends UIBox{
 
 	FlatColor color;
 	HashMap<String, RangeInput> colorParamInputs;
 
-	public ColorPalette (MaShine m) {
-		super(m, "COLORS", 450, 400, 250, 352);
+	public ColorPalette () {
+		super("COLORS", 450, 400, 250, 352);
 		colorParamInputs = new HashMap<String, RangeInput>();
 
 		colorParamInputs.put("hue", new RangeInput(this, 0f, 0f, 1f, 0.01f, 116, 30, 128));
@@ -48,46 +49,46 @@ public class ColorPalette extends UIBox{
 
 	public void tick(){
 
-		if(M.abs(color.getHue() - colorParamInputs.get("hue").value()) > 0.011){
+		if(Math.abs(color.getHue() - colorParamInputs.get("hue").value()) > 0.011){
 			color.setHue(colorParamInputs.get("hue").value());
 			updateRGBInputs();
 			return;
 		}
-		if(M.abs(color.getSaturation() - colorParamInputs.get("sat").value()) > 0.011){
+		if(Math.abs(color.getSaturation() - colorParamInputs.get("sat").value()) > 0.011){
 			color.setSaturation(colorParamInputs.get("sat").value());
 			updateRGBInputs();
 			return;
 		}
-		if(M.abs(color.getBrightness() - colorParamInputs.get("lum").value()) > 0.011){
+		if(Math.abs(color.getBrightness() - colorParamInputs.get("lum").value()) > 0.011){
 			color.setBrightness(colorParamInputs.get("lum").value());
 			updateRGBInputs();
 			return;
 		}
 
 		if(color.getRed() != colorParamInputs.get("red").value()){
-			color.setRed(M.round(colorParamInputs.get("red").value()));
+			color.setRed(Math.round(colorParamInputs.get("red").value()));
 			updateHSLInputs();
 			return;
 		}
 		if(color.getGreen() != colorParamInputs.get("green").value()){
-			color.setGreen(M.round(colorParamInputs.get("green").value()));
+			color.setGreen(Math.round(colorParamInputs.get("green").value()));
 			updateHSLInputs();
 			return;
 		}
 		if(color.getBlue() != colorParamInputs.get("blue").value()){
-			color.setBlue(M.round(colorParamInputs.get("blue").value()));
+			color.setBlue(Math.round(colorParamInputs.get("blue").value()));
 			updateHSLInputs();
 			return;
 		}
 		if(color.getAlpha() != colorParamInputs.get("white").value()){
-			color.setAlpha(M.round(colorParamInputs.get("white").value()));
+			color.setAlpha(Math.round(colorParamInputs.get("white").value()));
 		}
 
 	}
 
 	public void drawUI(){
 
-		ArrayList<FlatColor> colors = M.bank.getColors();
+		ArrayList<FlatColor> colors = MaShine.bank.getColors();
 
 		FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._800);
 		canvas.textAlign(canvas.RIGHT, canvas.TOP);
@@ -109,14 +110,14 @@ public class ColorPalette extends UIBox{
 			canvas.noStroke();
 			FlatColor.fill(canvas,c.withAlphaAsWhite());
 			int x = 8 + (i % 14) * 17;
-			int y = 160 + M.floor(i/14)*17;
+			int y = 160 + (int) Math.floor(i/14)*17;
 
 			if(hasFocus() && 
 				y-1 < mouseY() &&
 				mouseY() < y+16 &&
 				x-1 < mouseX() &&
 				mouseX() < x+16 &&
-				M.inputs.getState("mouse.left.press"))
+				MaShine.inputs.getState("mouse.left.press"))
 			{
 				color = c;
 				updateInputs();

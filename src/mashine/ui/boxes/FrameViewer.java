@@ -13,8 +13,8 @@ import java.util.*;
 
 public class FrameViewer extends UIBox{
 
-	public FrameViewer (MaShine m) {
-		super(m, "FRAME VIEWER", 50, 50, 300, 600);
+	public FrameViewer () {
+		super("FRAME VIEWER", 50, 50, 300, 600);
 	}
 
 	public void drawUI(){

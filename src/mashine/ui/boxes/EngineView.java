@@ -17,8 +17,8 @@ import java.lang.Math;
 public class EngineView extends Drawable {
 
 
-	public EngineView(MaShine m){
-		super(m, 10, 50, m.displayWidth - 10, m.displayHeight - 50);
+	public EngineView(){
+		super(10, 50, MaShine.m.displayWidth - 10, MaShine.m.displayHeight - 50);
 	}
 
 	public void drawContent(){
@@ -27,7 +27,7 @@ public class EngineView extends Drawable {
 
 		int offset = 10;
 
-		for(Track t : M.engine.getTracks()){
+		for(Track t : MaShine.engine.getTracks()){
 			int diff = 32 + (int) Math.ceil((t.sequencer.getSequence().getSize()-1)/24)*17;
 
 			if(t.sequencer.isTweaked()){
@@ -37,7 +37,7 @@ public class EngineView extends Drawable {
 			}else{
 				FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._700);
 			}
-			canvas.rect(M.width - 426, offset - 2, 426, diff);
+			canvas.rect(MaShine.m.width - 426, offset - 2, 426, diff);
 
 			for(int i = 0; i < t.sequencer.getSequence().getSize(); i++){
 				if(t.sequencer.getIndex() == i){
@@ -49,19 +49,19 @@ public class EngineView extends Drawable {
 				}else{
 					FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._500);
 				}
-				canvas.rect(M.width - 424 + (i%24) * 17, offset + (float) Math.ceil(i/24)*17, 15, 15);
+				canvas.rect(MaShine.m.width - 424 + (i%24) * 17, offset + (float) Math.ceil(i/24)*17, 15, 15);
 			}
 			
 			offset += diff;
 
 			FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._200);
-			canvas.text(t.sequencer.getSequence().getName(),M.width - 424, offset + 9);
+			canvas.text(t.sequencer.getSequence().getName(),MaShine.m.width - 424, offset + 9);
 			if(t.sequencer.isTweaked()){
 				FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._900);
 			}
 			canvas.text(
 				t.sequencer.getName()+" @"+(t.sequencer.getIndex()+1) +" >"+ t.sequencer.getOffset()+" %"+t.sequencer.getClip(),
-				M.width - 424, offset - 6
+				MaShine.m.width - 424, offset - 6
 			);
 			offset += 20;
 			

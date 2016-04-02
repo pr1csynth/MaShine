@@ -23,9 +23,7 @@ public class Ola extends Output{
 
 	private OlaClient ola;
 
-	public Ola(MaShine m){
-
-		super(m);
+	public Ola(){
 		//connectToServer();
 	}
 
@@ -35,7 +33,7 @@ public class Ola extends Output{
 			for(int u : ports.keySet())
 				dmxData.put(u, new short[512]);
 
-			List<Device> devices = M.scene.getDevices();
+			List<Device> devices = MaShine.scene.getDevices();
 
 			// build arrays
 
@@ -78,13 +76,13 @@ public class Ola extends Output{
 				}
 			}catch(Exception e){
 				ola = null;
-				M.inputs.setState("internal.ola.status", false);
-				M.ui.status.set("OLA", "disconnected");
+				MaShine.inputs.setState("internal.ola.status", false);
+				MaShine.ui.status.set("OLA", "disconnected");
 			}
 
 
 		}else{
-			if(M.frameCount % 120 == 0)
+			if(MaShine.m.frameCount % 120 == 0)
 				connectToServer();
 		}
 	}
@@ -92,12 +90,12 @@ public class Ola extends Output{
 	private void connectToServer(){
 		try{
 			ola = new OlaClient();
-			M.inputs.setState("internal.ola.status", true);
+			MaShine.inputs.setState("internal.ola.status", true);
 			loadUniverses();
 		}catch (Exception e) {
 			ola = null;
-			M.inputs.setState("internal.ola.status", false);
-			M.ui.status.set("OLA", "disconnected");
+			MaShine.inputs.setState("internal.ola.status", false);
+			MaShine.ui.status.set("OLA", "disconnected");
 		}
 	}
 
@@ -112,6 +110,6 @@ public class Ola extends Output{
 				}
 			}catch (Exception e) {}
 		}
-		M.ui.status.set("OLA", ports.size()+ " universes");
+		MaShine.ui.status.set("OLA", ports.size()+ " universes");
 	}
 }

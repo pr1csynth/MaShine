@@ -16,17 +16,16 @@ public class KeyboardInputs extends InputSource implements Learnable{
 	public String lastTyped;
 	private String lastState;
 
-	public KeyboardInputs (MaShine m) {
-		super(m);
+	public KeyboardInputs () {
+		super();
 	}
 
 	public void keyEvent(KeyEvent e){
 		if(e.getAction() == KeyEvent.PRESS){
 			states.put("keyboard."+e.getKeyCode()+".press" , true);
 			states.put("keyboard."+e.getKeyCode()+".hold" , true);
-			lastTyped = "" + M.key;
+			lastTyped = "" + MaShine.m.key;
 			lastState = "keyboard."+e.getKeyCode()+".press";
-			M.println(M.key + " -> " + e.getKeyCode());
 		}else{
 			states.put("keyboard."+e.getKeyCode()+".release" , true);
 			states.put("keyboard."+e.getKeyCode()+".hold" , false);

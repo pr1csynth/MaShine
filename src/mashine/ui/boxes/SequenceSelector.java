@@ -18,10 +18,10 @@ public class SequenceSelector extends UIBox{
 
 	private Sequence selectedSequence;
 
-	public SequenceSelector (MaShine m) {
-		super(m, "SEQUENCES", 950, 50, 150, 350);
+	public SequenceSelector () {
+		super("SEQUENCES", 950, 50, 150, 350);
 
-		selectedSequence = M.bank.getSequence(0);
+		selectedSequence = MaShine.bank.getSequence(0);
 
 		elements.add(new TextButton(this, "new", 0, 310, 55, 
 			new Do(){public void x(){newSequence();}}
@@ -48,8 +48,8 @@ public class SequenceSelector extends UIBox{
 		int index = 0;
 		canvas.textAlign(canvas.LEFT, canvas.TOP);
 		
-		if(M.bank.getSequencesSize() != 0){
-			List<Sequence> sequences = M.bank.getSequences();
+		if(MaShine.bank.getSequencesSize() != 0){
+			List<Sequence> sequences = MaShine.bank.getSequences();
 
 			for(Sequence s : sequences){
 				if(s == selectedSequence){
@@ -63,7 +63,7 @@ public class SequenceSelector extends UIBox{
 				}
 				canvas.rect(1, offset - 3, width - 1, 14);
 
-				if(hasFocus() && offset - 3 < mouseY() && mouseY() < offset + 11 && M.inputs.getState("mouse.left.press")){
+				if(hasFocus() && offset - 3 < mouseY() && mouseY() < offset + 11 && MaShine.inputs.getState("mouse.left.press")){
 					selectedSequence = s;
 				}
 
@@ -82,27 +82,27 @@ public class SequenceSelector extends UIBox{
 
 	private void newSequence(){
 		selectedSequence = new Sequence("unamed sequence");
-		M.bank.addSequence(selectedSequence);
+		MaShine.bank.addSequence(selectedSequence);
 	}
 
 	private void deleteSequence(){
-		M.bank.deleteSequence(selectedSequence);
-		if(M.bank.getSequencesSize() == 0){
-			M.bank.addSequence(new Sequence("unamed sequence"));
+		MaShine.bank.deleteSequence(selectedSequence);
+		if(MaShine.bank.getSequencesSize() == 0){
+			MaShine.bank.addSequence(new Sequence("unamed sequence"));
 		}
-		selectedSequence = M.bank.getSequence(0);
+		selectedSequence = MaShine.bank.getSequence(0);
 	}
 
 	private void nextSequence(){}
 	private void prevSequence(){}
 	private void moveUpSequence(){
-		List<Sequence> sequences = M.bank.getSequences();
+		List<Sequence> sequences = MaShine.bank.getSequences();
 		int i = sequences.indexOf(selectedSequence);
 		if(i != 0)
 			Collections.swap(sequences, i, i - 1);
 	}
 	private void moveDownSequence(){
-		List<Sequence> sequences = M.bank.getSequences();
+		List<Sequence> sequences = MaShine.bank.getSequences();
 		int i = sequences.indexOf(selectedSequence);
 		if(i != sequences.size() -1)
 			Collections.swap(sequences, i, i + 1);

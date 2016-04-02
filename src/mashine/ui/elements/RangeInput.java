@@ -47,28 +47,28 @@ public class RangeInput extends Element{
 		boolean f = enabled && hasFocus() && P.hasFocus();
 
 		if(f){
-			if(M.inputs.getState("keyboard.8.press")){
+			if(MaShine.inputs.getState("keyboard.8.press")){
 				if(stringValue.length() > 0)
 					stringValue = stringValue.substring(0, stringValue.length() - 1);
-			}else if(M.inputs.getState("keyboard.9.press") || M.inputs.getState("keyboard.10.press")){
+			}else if(MaShine.inputs.getState("keyboard.9.press") || MaShine.inputs.getState("keyboard.10.press")){
 				focus = false;
 				value = Float.parseFloat(stringValue);
 				value = normalize(value);
 				updateStringValue();
-			}else if(M.inputs.getState("keyboard.147.press")){
+			}else if(MaShine.inputs.getState("keyboard.147.press")){
 				stringValue = "";
-			}else if(M.inputs.getLastKey() != "" && stringValue.length() < maxLength()){
-				String newStringValue = stringValue + M.inputs.getLastKey();
+			}else if(MaShine.inputs.getLastKey() != "" && stringValue.length() < maxLength()){
+				String newStringValue = stringValue + MaShine.inputs.getLastKey();
 				try{
 					Float.parseFloat(newStringValue);
-					stringValue += M.inputs.getLastKey();
+					stringValue += MaShine.inputs.getLastKey();
 				}catch(Exception e){
 
 				}	
 			}
 
 			if(isDragged()){
-				int relX = M.max(0, M.min(P.mouseX() - x, width));
+				int relX = MaShine.max(0, Math.min(P.mouseX() - x, width));
 				value = normalize((float) (max - min + step) * ((float) relX / width));
 				updateStringValue();
 			}
@@ -87,7 +87,7 @@ public class RangeInput extends Element{
 			FlatColor.fill(P.canvas, Colors.MATERIAL.CYAN._300);
 		else
 			FlatColor.fill(P.canvas, Colors.MATERIAL.GREY._600);
-		P.canvas.rect(x, y, M.min(width,1 + width * (tempValueFromString(stringValue)/(max - min + step))), height);
+		P.canvas.rect(x, y, Math.min(width,1 + width * (tempValueFromString(stringValue)/(max - min + step))), height);
 
 		if(f){
 			FlatColor.stroke(P.canvas, Colors.MATERIAL.CYAN.A700);
@@ -97,12 +97,12 @@ public class RangeInput extends Element{
 
 		FlatColor.fill(P.canvas, Colors.MATERIAL.BLUE_GREY._900);
 		P.canvas.textAlign(P.canvas.LEFT, P.canvas.CENTER);
-		P.canvas.text(stringValue + (M.millis() % 1200 > 600 && enabled && stringValue.length() < maxLength() && hasFocus() ? "_" : ""), x + 3, y +height/2+1);
+		P.canvas.text(stringValue + (MaShine.m.millis() % 1200 > 600 && enabled && stringValue.length() < maxLength() && hasFocus() ? "_" : ""), x + 3, y +height/2+1);
 	}
 
 	private Float normalize(Float val){
 		if(val != null){
-			val = M.min(max, M.max(min, val));
+			val = Math.min(max, Math.max(min, val));
 			val = val - val % step;		
 		}
 

@@ -24,7 +24,6 @@ public class UI{
 	private Menu menu;
 	private HashMap<String,Focusable> uiElements;
 	private LinkedList<Focusable> openedUiElements;
-	private MaShine M;
 	private Frame displayFrame;
 	public SceneView sceneView;
 	public EngineView engineView;
@@ -40,9 +39,9 @@ public class UI{
 		public int compare(Focusable a, Focusable b) {
 			boolean mouseInA = a.mouseIn();
 			boolean mouseInB = b.mouseIn();
-			if(a.hasFocus() && a.M.mousePressed)
+			if(a.hasFocus() && MaShine.m.mousePressed)
 				return 1; // b get drawn first, a on top
-			else if (b.hasFocus() && a.M.mousePressed)
+			else if (b.hasFocus() && MaShine.m.mousePressed)
 				return -1; // b on top
 			else
 				if(mouseInA == mouseInB)
@@ -55,31 +54,30 @@ public class UI{
 		}
 	}
 
-	public UI(MaShine m){
-		M = m;
-		M.colorMode(MaShine.RGB);
+	public UI(){
+		MaShine.m.colorMode(MaShine.RGB);
 
-		TEXTFONT = M.loadFont("RobotoMono-Light-11.vlw");
+		TEXTFONT = MaShine.m.loadFont("RobotoMono-Light-11.vlw");
 		TEXTSIZE = 11;
 
-		M.textFont(TEXTFONT);
-		M.textSize(TEXTSIZE);
+		MaShine.m.textFont(TEXTFONT);
+		MaShine.m.textSize(TEXTSIZE);
 
-		status = new Status(M);
-		menu = new Menu(M);
-		sceneView = new SceneView(M);
-		engineView = new EngineView(M);
-		sequenceSelector = new SequenceSelector(M);
-		colorPalette = new ColorPalette(M);
+		status = new Status();
+		menu = new Menu();
+		sceneView = new SceneView();
+		engineView = new EngineView();
+		sequenceSelector = new SequenceSelector();
+		colorPalette = new ColorPalette();
 
 		uiElements = new HashMap<String,Focusable>();
-		uiElements.put("EventViewer", new EventViewer(M));
-		uiElements.put("DataViewer", new DataViewer(M));
-		uiElements.put("DeviceEditor", new DeviceEditor(M));
+		uiElements.put("EventViewer", new EventViewer());
+		uiElements.put("DataViewer", new DataViewer());
+		uiElements.put("DeviceEditor", new DeviceEditor());
 		uiElements.put("SequenceSelector", sequenceSelector);
 		uiElements.put("ColorPalette", colorPalette);
-		uiElements.put("SequenceEditor", new SequenceEditor(M));
-		uiElements.put("Linker", new Linker(M));
+		uiElements.put("SequenceEditor", new SequenceEditor());
+		uiElements.put("Linker", new Linker());
 		openedUiElements = new LinkedList<Focusable>();
 
 		displayFrame = new Frame();

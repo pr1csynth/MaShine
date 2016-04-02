@@ -14,23 +14,25 @@ import mashine.ui.FlatColor;
 import mashine.scene.features.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.lang.Math;
 
 public class Bank{
 
-	private MaShine M;
 	private ArrayList<Sequence> sequences;
 	private ArrayList<Filter> filters;
 	private ArrayList<FlatColor> colors;
 
-	public Bank(MaShine m){
-		M = m;
+	public Bank(){
 		sequences = new ArrayList<Sequence>();
 		filters = new ArrayList<Filter>();
 		colors = new ArrayList<FlatColor>();
 		sequences.add(new Sequence("unamed sequence"));
 
 		for(int i = 0; i < 154; i++){
-			colors.add(Colors.MATERIAL.RED.A400.withHue((i % 14)/(float)14).withBrightness(M.floor((167-i)/14)/(float)11).withAlpha(0));
+			colors.add(Colors.MATERIAL.RED.A400
+				.withHue((i % 14)/14)
+				.withBrightness((float) Math.floor((167-i)/14)/11)
+				.withAlpha(0));
 		}
 	}
 
@@ -70,6 +72,6 @@ public class Bank{
 		sequences = (ArrayList<Sequence>) r.get("sequences");
 		colors = (ArrayList<FlatColor>) r.get("colors");
 		filters = (ArrayList<Filter>) r.get("filters");
-		M.ui.setSelectedSequence(sequences.get(0));
+		MaShine.ui.setSelectedSequence(sequences.get(0));
 	}
 }

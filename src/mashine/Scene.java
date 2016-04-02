@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class Scene{
 
-	private MaShine M;
 	private ArrayList<Device> devices;     // for the frames
 	private ArrayList<DeviceGroup> groups; // for the filters
 	private Frame frameZero;
@@ -29,9 +28,7 @@ public class Scene{
 		FEATURES.put(RGB.class.getName(), RGB.class);
 	}
 
-	public Scene(MaShine m){
-
-		M = m;
+	public Scene(){
 
 		devices = new ArrayList<Device>();
 		Device testDevice = new Device("RGB", 1, 30, 10, 10, 200, 50);
@@ -74,6 +71,6 @@ public class Scene{
 	public void restore(Object restoredObject){
 		devices = (ArrayList<Device>) restoredObject;
 
-		M.ui.reloadElements();
+		MaShine.ui.reloadElements();
 	}
 }

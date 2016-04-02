@@ -10,13 +10,14 @@ package mashine.ui.boxes;
 import mashine.*;
 import mashine.ui.*;
 import java.util.*;
+import java.lang.Math;
 
 public class EventViewer extends UIBox{
 
 	private HashMap<String,Integer> highlight;
 
-	public EventViewer (MaShine m) {
-		super(m, "EVENT VIEWER", 50, 50, 200, 400);
+	public EventViewer () {
+		super("EVENT VIEWER", 50, 50, 200, 400);
 		highlight = new HashMap();
 	}
 
@@ -24,11 +25,11 @@ public class EventViewer extends UIBox{
 		canvas.noStroke();
 		int offset = 30;
 		canvas.textAlign(canvas.LEFT, canvas.TOP);
-		ArrayList<String> stateInputsName = new ArrayList(M.inputs.getStateSet());
+		ArrayList<String> stateInputsName = new ArrayList(MaShine.inputs.getStateSet());
 		Collections.sort(stateInputsName);
 
 		for(String a : stateInputsName){
-			if(M.inputs.getState(a)){
+			if(MaShine.inputs.getState(a)){
 				highlight.put(a, 255);
 			}
 
@@ -53,7 +54,7 @@ public class EventViewer extends UIBox{
 			}else{
 				newVal = highlight.get(h) - 10;
 			}
-			newVal = M.max(0, newVal);
+			newVal = Math.max(0, newVal);
 			highlight.put(h, newVal);
 		}
 

@@ -16,6 +16,7 @@ import mashine.scene.features.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class SequenceEditor extends UIBox{
 
@@ -32,10 +33,10 @@ public class SequenceEditor extends UIBox{
 	private HashMap<String, Checkbox> featureEnables; 
 	private ArrayList<Element> featureElements;
 
-	public SequenceEditor (MaShine m) {
-		super(m, "ANIM EDITOR", 650, 50, 270, 450);
+	public SequenceEditor () {
+		super("ANIM EDITOR", 650, 50, 270, 450);
 
-		selectedSequence = M.bank.getSequence(0);
+		selectedSequence = MaShine.bank.getSequence(0);
 
 		ui = new HashMap<String,Element>();
 
@@ -69,8 +70,8 @@ public class SequenceEditor extends UIBox{
 	}
 
 	public void tick(){
-		if(selectedSequence != M.ui.getSelectedSequence()){
-			selectedSequence = M.ui.getSelectedSequence();
+		if(selectedSequence != MaShine.ui.getSelectedSequence()){
+			selectedSequence = MaShine.ui.getSelectedSequence();
 			((TextInput) ui.get("seqName")).setValue(selectedSequence.getName());
 			currentFrameIndex = selectedSequence.getSize()-1;
 			((RangeInput)ui.get("indexInput")).setMax(currentFrameIndex +1);
@@ -84,23 +85,23 @@ public class SequenceEditor extends UIBox{
 			lastFrameIndex = currentFrameIndex;
 			((RangeInput) ui.get("indexInput")).setValue(currentFrameIndex + 1);
 		}else{
-			currentFrameIndex = M.floor(((RangeInput) ui.get("indexInput")).value()) -1;
+			currentFrameIndex = (int) Math.floor(((RangeInput) ui.get("indexInput")).value()) -1;
 		}
 
 		currentFrame = selectedSequence.getFrame(currentFrameIndex);
-		M.ui.setDisplayedFrame(currentFrame);
+		MaShine.ui.setDisplayedFrame(currentFrame);
 		if(sendFrameOnOutputs){
-			M.outputs.setFrame(currentFrame);
+			MaShine.outputs.setFrame(currentFrame);
 		}
 
-		if(selectedColor != M.ui.getSelectedColor()){
-			selectedColor = M.ui.getSelectedColor();
+		if(selectedColor != MaShine.ui.getSelectedColor()){
+			selectedColor = MaShine.ui.getSelectedColor();
 			linkColorToFeatureForCurrentFrame(selectedColor);
 		}
 
-		if(!lastSelectedDeviceHash.equals(selectedDevicesHash(M.ui.getSelectedDevices()))){
+		if(!lastSelectedDeviceHash.equals(selectedDevicesHash(MaShine.ui.getSelectedDevices()))){
 
-			ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+			ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
 			lastSelectedDeviceHash = selectedDevicesHash(selectedDevices);
 			ArrayList<Feature> commonFeatures = Device.commonFeatures(selectedDevices);
 			//renew elements
@@ -178,7 +179,7 @@ public class SequenceEditor extends UIBox{
 			for(String ri : featureInputs.keySet()){
 				if(featureInputs.get(ri).isEnabled()){
 					if(featureInputs.get(ri).value() != null){
-						updateFeatureFieldForCurrentFrame(ri, M.floor(featureInputs.get(ri).value()));
+						updateFeatureFieldForCurrentFrame(ri, (int) Math.floor(featureInputs.get(ri).value()));
 					}	
 				}
 			}
@@ -187,7 +188,7 @@ public class SequenceEditor extends UIBox{
 
 	public void drawUI(){
 
-		ArrayList<Feature> commonFeatures = Device.commonFeatures(M.ui.getSelectedDevices());
+		ArrayList<Feature> commonFeatures = Device.commonFeatures(MaShine.ui.getSelectedDevices());
 		int offset = 73; 
 		int index = 0;
 
@@ -270,8 +271,8 @@ public class SequenceEditor extends UIBox{
 	}
 
 	public void enableFeatureForCurrentFrame(EditableFeature feature){
-		M.println("Enabling "+ feature.getType());
-		for(Device d : M.ui.getSelectedDevices()){
+		MaShine.println("Enabling "+ feature.getType());
+		for(Device d : MaShine.ui.getSelectedDevices()){
 			currentFrame.addFeature(d,feature);
 		}
 
@@ -280,34 +281,34 @@ public class SequenceEditor extends UIBox{
 		}
 
 		for(String el : featureInputs.keySet()){
-			M.println(el);
+			MaShine.println(el);
 			if(el.split("\\.")[0].equals(feature.getType()))
 				featureInputs.get(el).enable();
 		}
 	}
 
 	public void disableFeatureForCurrentFrame(EditableFeature feature){
-		M.println("Disabling "+ feature.getType());
-		for(Device d : M.ui.getSelectedDevices()){
+		MaShine.println("Disabling "+ feature.getType());
+		for(Device d : MaShine.ui.getSelectedDevices()){
 			currentFrame.removeFeature(d, feature);
 		}
 
 		for(String el : featureInputs.keySet()){
-			M.println(el);
+			MaShine.println(el);
 			if(el.split("\\.")[0].equals(feature.getType()))
 				featureInputs.get(el).disable();
 		}
 	}
 
 	public void updateFeatureFieldForCurrentFrame(String featureField, int value){
-		for(Device d : M.ui.getSelectedDevices()){
+		for(Device d : MaShine.ui.getSelectedDevices()){
 			currentFrame.updateFeature(d, featureField.split("\\.")[0],featureField.split("\\.")[1], value);
 		}
 	}
 
 	public void linkColorToFeatureForCurrentFrame(FlatColor color){
 		Map<String,EditableFeature> frameFeatures = currentFrame.getFeatures();
-		ArrayList<Device> selectedDevices = M.ui.getSelectedDevices();
+		ArrayList<Device> selectedDevices = MaShine.ui.getSelectedDevices();
 		for(String featureKey : frameFeatures.keySet()){
 			String id = featureKey.split("\\.")[0];
 			if(frameFeatures.get(featureKey) instanceof ColorFeature){

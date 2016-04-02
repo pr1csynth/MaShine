@@ -25,15 +25,15 @@ public class TextInput extends Element{
 
 		if(enabled && hasFocus() && P.hasFocus()){
 			FlatColor.stroke(P.canvas, Colors.MATERIAL.ORANGE.A700);
-			if(M.inputs.getState("keyboard.8.press")){
+			if(MaShine.inputs.getState("keyboard.8.press")){
 				if(value.length() > 0)
 					value = value.substring(0, value.length() - 1);
-			}else if(M.inputs.getState("keyboard.9.press") || M.inputs.getState("keyboard.10.press")){
+			}else if(MaShine.inputs.getState("keyboard.9.press") || MaShine.inputs.getState("keyboard.10.press")){
 				focus = false;
-			}else if(M.inputs.getState("keyboard.147.press")){
+			}else if(MaShine.inputs.getState("keyboard.147.press")){
 				value = "";
-			}else if(Pattern.matches(validChar, M.inputs.getLastKey())){
-				value += M.inputs.getLastKey();
+			}else if(Pattern.matches(validChar, MaShine.inputs.getLastKey())){
+				value += MaShine.inputs.getLastKey();
 			}
 		}
 
@@ -44,7 +44,7 @@ public class TextInput extends Element{
 		P.canvas.rect(x, y, width, height);
 		FlatColor.fill(P.canvas, Colors.MATERIAL.BLUE_GREY._900);
 		P.canvas.textAlign(P.canvas.LEFT, P.canvas.CENTER);
-		P.canvas.text(value + (M.millis() % 1200 > 600 && enabled && hasFocus() ? "_" : ""), x + 3, y +height/2);
+		P.canvas.text(value + (MaShine.m.millis() % 1200 > 600 && enabled && hasFocus() ? "_" : ""), x + 3, y +height/2);
 	}
 
 	public void setValue(String v){

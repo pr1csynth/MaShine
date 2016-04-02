@@ -13,17 +13,12 @@ import mashine.scene.*;
 
 public class Outputs{
 
-	public MaShine M;
-
 	private HashMap<String,Output> outputs;
 	private Frame frame;
 
-	public Outputs(MaShine m){
-		M = m;
-
+	public Outputs(){
 		outputs = new HashMap<String,Output>();
-
-		outputs.put("OLA", new Ola(M));
+		outputs.put("OLA", new Ola());
 	}
 
 	public void push(){

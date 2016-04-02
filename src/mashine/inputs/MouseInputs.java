@@ -15,17 +15,17 @@ public class MouseInputs extends InputSource{
 	private int lastClickX = 0;
 	private int lastClickY = 0;
 
-	public MouseInputs (MaShine m) {
-		super(m);
+	public MouseInputs () {
+		super();
 	}
 
 	public void mouseEvent(MouseEvent e){
 		String button = "?";
-		if(e.getButton() == M.LEFT){
+		if(e.getButton() == MaShine.LEFT){
 			button = "left";
-		}else if(e.getButton() == M.RIGHT){
+		}else if(e.getButton() == MaShine.RIGHT){
 			button = "right";
-		}else if(e.getButton() == M.CENTER){
+		}else if(e.getButton() == MaShine.CENTER){
 			button = "center";
 		}
 
@@ -57,11 +57,11 @@ public class MouseInputs extends InputSource{
 	}
 
 	public void tick(){
-		if(M.inputs.getState("mouse.left.hold") && (lastClickX != M.mouseX || lastClickY != M.mouseY)){
+		if(MaShine.inputs.getState("mouse.left.hold") && (lastClickX != MaShine.m.mouseX || lastClickY != MaShine.m.mouseY)){
 			states.put("mouse.left.drag", true);
 			// lastClickY = e.getY();
 			// lastClickX = e.getY();
-		}else if (!M.inputs.getState("mouse.left.hold")) {
+		}else if (!MaShine.inputs.getState("mouse.left.hold")) {
 			states.put("mouse.left.drag", false);
 		}
 	}

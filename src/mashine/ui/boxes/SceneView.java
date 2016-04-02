@@ -24,8 +24,8 @@ public class SceneView extends Drawable {
 	ArrayList<Device> selectedDevices;
 	Frame displayFrame;
 
-	public SceneView(MaShine m){
-		super(m, 10, 50, m.displayWidth - 10, m.displayHeight - 50);
+	public SceneView(){
+		super(10, 50, MaShine.m.displayWidth - 10, MaShine.m.displayHeight - 50);
 		deviceElements = new LinkedHashMap<Device, DeviceElement>();
 		selectedDevices = new ArrayList<Device>();
 		displayFrame = new Frame();
@@ -37,14 +37,13 @@ public class SceneView extends Drawable {
 
 		Frame frame = displayFrame;
 
-		ArrayList<Device> devices = M.scene.getDevices();
+		ArrayList<Device> devices = MaShine.scene.getDevices();
 		HashMap<String,EditableFeature> frameFeatures = frame.getFeatures();
 
 		for(Device d : devices){
 			// add new DeviceElement if not already present
 			if(!deviceElements.containsKey(d)){
 				deviceElements.put(d, new DeviceElement(this, d));
-				M.println("Adding "+d.getIdentifier());
 			}
 
 			DeviceElement de = deviceElements.get(d);
@@ -52,7 +51,7 @@ public class SceneView extends Drawable {
 			// selected it maybe
 			boolean selected = selectedDevices.contains(d);
 
-			if(M.inputs.getState("keyboard.16.hold") && de.isClicked()){
+			if(MaShine.inputs.getState("keyboard.16.hold") && de.isClicked()){
 				if(selected){
 					selectedDevices.remove(d);
 					selected = false;

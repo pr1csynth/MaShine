@@ -13,20 +13,17 @@ import java.util.ArrayList;
 
 public class Engine{
 
-	public MaShine M;
-
 	private ArrayList<Track> tracks;
 
-	public Engine(MaShine m){
-		this.M = m;
+	public Engine(){
 		tracks = new ArrayList<Track>();
 
-		tracks.add(new Track(M, "A"));
-		tracks.add(new Track(M, "B"));
-		tracks.add(new Track(M, "C"));
-		tracks.add(new Track(M, "D"));
-		tracks.add(new Track(M, "E"));
-		tracks.add(new Track(M, "F"));
+		tracks.add(new Track("A"));
+		tracks.add(new Track("B"));
+		tracks.add(new Track("C"));
+		tracks.add(new Track("D"));
+		tracks.add(new Track("E"));
+		tracks.add(new Track("F"));
 
 	}
 
@@ -37,8 +34,8 @@ public class Engine{
 			frame = Frame.mix(frame, tracks.get(i).getFrame()); 
 		}
 
-		M.ui.setDisplayedFrame(frame);
-		M.outputs.setFrame(frame);
+		MaShine.ui.setDisplayedFrame(frame);
+		MaShine.outputs.setFrame(frame);
 	}
 
 	public ArrayList<Track> getTracks(){
