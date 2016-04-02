@@ -20,6 +20,7 @@ public class Linker extends UIBox{
 	private String learnedRange = "";
 	private String selectedState = "";
 	private String selectedRange = "";
+	private boolean learningAll = false;
 
 	public Linker (MaShine m) {
 		super(m, "LINKS", 50, 50, 300, 500, 1500);
@@ -30,6 +31,9 @@ public class Linker extends UIBox{
 		elements.add(linkInput);
 		elements.add(new TextButton(this, "learn", width-54, 45, 55, 
 			new Do(){public void x(){link();}}
+			));
+		elements.add(new TextButton(this, "learn all", width-141, 45, 85, 
+			new Do(){public void x(){linkAll();}}
 			));
 		elements.add(new TextButton(this, "unlink", width-54, 28, 55, 
 			new Do(){public void x(){unlink();}}
@@ -48,6 +52,15 @@ public class Linker extends UIBox{
 		learnedState = selectedState;
 		learnedRange = selectedRange;
 		linkInput.setValue("LEARNING...");
+		learningAll = false;
+	}
+	public void linkAll(){
+		if(!filterInput.value().equals("")){
+			learnedState = "";
+			learnedRange = "";
+			learningAll = true;
+			linkInput.setValue("LEARNING ALL...");
+		}
 	}
 	public void unlink(){
 		M.inputs.unlink(selectedState);
@@ -62,7 +75,7 @@ public class Linker extends UIBox{
 				}else{
 					M.inputs.unlink(selectedState);
 				}
-			}else if(learnedRange != ""){
+			}else if(selectedRange != ""){
 				if(null != linkInput.value()){
 					M.inputs.range(selectedState, linkInput.value());
 				}else{
@@ -76,6 +89,8 @@ public class Linker extends UIBox{
 	}
 
 	public void drawUI(){
+		ArrayList<String> actionSet = new ArrayList<String>(M.inputs.getActionSet());
+		ArrayList<String> rangeSet = new ArrayList<String>(M.inputs.getRangeSet());
 
 		if(learnedState != ""){
 			if(null != M.inputs.getLastState()){
@@ -89,6 +104,24 @@ public class Linker extends UIBox{
 				learnedRange = "";
 				linkInput.setValue(M.inputs.getLastRange());
 			}
+		}else if(learningAll){
+			if(null != M.inputs.getLastState()){
+				for(String a : actionSet){
+					if(a.contains(filterInput.value())){
+						M.inputs.link(a, M.inputs.getLastState());
+					}
+				}
+				linkInput.setValue(M.inputs.getLastState());
+				learningAll = false;
+			}else if(null != M.inputs.getLastRange()){
+				for(String a : rangeSet){
+					if(a.contains(filterInput.value())){
+						M.inputs.range(a, M.inputs.getLastState());
+					}
+				}
+				linkInput.setValue(M.inputs.getLastRange());
+				learningAll = false;
+			}
 		}
 
 		canvas.noStroke();
@@ -96,8 +129,6 @@ public class Linker extends UIBox{
 		HashMap<String,String> actionLinks = M.inputs.getActionLinks();
 		HashMap<String,String> rangeLinks = M.inputs.getRangeLinks();
 
-		ArrayList<String> actionSet = new ArrayList<String>(M.inputs.getActionSet());
-		ArrayList<String> rangeSet = new ArrayList<String>(M.inputs.getRangeSet());
 		Collections.sort(actionSet);
 		Collections.sort(rangeSet);
 
