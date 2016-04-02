@@ -2,7 +2,7 @@
 
 MaShine is a software to do live light show  using live audio analysis, prerecorded animations (sequences of frames), filters (function, algorithms, effects, ...), MIDI/DMX input, Open Lighting Architecture for DMX/ArtNet output.
 
-![screenshot - 280316 - 00 00 14](https://cloud.githubusercontent.com/assets/321345/14161020/a49be444-f6e0-11e5-8c06-eba8528f578d.png)
+![mashine](https://cloud.githubusercontent.com/assets/321345/14228588/b38be446-f919-11e5-99f9-edbed3daf3d5.png)
 
 
 # HOW
@@ -15,7 +15,7 @@ Midi device only tested on Linux. Otherwise it should be crossplateform.
 - [x] Patch
 - [x] Animation
 - [x] Saves
-- [ ] Input binding
+- [x] Input binding
 - [ ] Filters
 - [ ] More device features
 - [ ] Go in the details of the UI/interactions
