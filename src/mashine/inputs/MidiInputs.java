@@ -46,7 +46,7 @@ public class MidiInputs extends InputSource implements Learnable{
 					lastState = name + (state ? ".on" : ".off");
 				}
 				if(range != null){
-					ranges.put(name, range);
+					ranges.put(name, range/127);
 					lastRange = name;
 				}
 				break;
