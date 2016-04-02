@@ -25,12 +25,12 @@ public class MaShine extends PApplet{
 	private String lastSavedTo = "";
 	private String lastBackupFile = "";
 
-	public Inputs inputs;
-	public Outputs outputs;
-	public Engine engine;
-	public Scene scene;
-	public Bank bank;
-	public UI ui;
+	public static Inputs inputs;
+	public static Outputs outputs;
+	public static Engine engine;
+	public static Scene scene;
+	public static Bank bank;
+	public static UI ui;
 
 	public static void main(String[] args) {
 		PApplet.main(MAIN_WINDOW);
@@ -113,7 +113,7 @@ public class MaShine extends PApplet{
 		HashMap<String, Object> saveObject = new HashMap<String, Object>();
 		saveObject.put("scene", scene.save());
 		saveObject.put("bank", bank.save());
-		//saveObject.put("inputs", inputs.save());
+		saveObject.put("inputs", inputs.save());
 
 		try{
 			FileOutputStream fileOut = new FileOutputStream(path);
@@ -142,7 +142,6 @@ public class MaShine extends PApplet{
 	public void restore(String path){
 		lastBackupFile = "mashine_"+timestamp()+".backup.mashine";
 		save(lastBackupFile);
-		ui.status.set("file", path.split("/")[path.split("/").length -1]);
 		try
 		{
 			FileInputStream fileIn = new FileInputStream(path);
@@ -153,8 +152,10 @@ public class MaShine extends PApplet{
 
 			scene.restore(restoredObject.get("scene"));
 			bank.restore(restoredObject.get("bank"));
+			inputs.restore(restoredObject.get("inputs"));
 
 			println("Restored from "+ path);
+			ui.status.set("file", path.split("/")[path.split("/").length -1]);
 
 		}catch(IOException i)
 		{
@@ -164,6 +165,7 @@ public class MaShine extends PApplet{
 		{
 			System.out.println("Some class not found");
 			c.printStackTrace();
+			ui.status.set("file", "failed to load " + path.split("/")[path.split("/").length -1]);
 			return;
 		}
 	}

@@ -10,10 +10,12 @@ package mashine.engine;
 import mashine.*;
 import mashine.scene.*;
 import java.lang.Math;
+import java.io.Serializable;
 
-public class Sequencer{
+public class Sequencer implements Serializable{
 
-	private MaShine M;
+	private static final long serialVersionUID = 0x53050001L;
+
 	private String name;
 	private Sequence sequence;
 	private Sequence selectedSequence;
@@ -24,8 +26,7 @@ public class Sequencer{
 	private int offset;
 	private int index;
 
-	public Sequencer(MaShine m, String name, Sequence sequence){
-		this.M = m;
+	public Sequencer(MaShine M, String name, Sequence sequence){
 		this.name = name;
 		this.sequence = sequence;
 		this.clip = 0;
@@ -103,13 +104,13 @@ public class Sequencer{
 	public int getIndex(){return index;}
 
 	public void startTweak(){
-		M.ui.open("SequenceSelector");
-		selectedSequence = M.ui.getSelectedSequence(); 
+		MaShine.ui.open("SequenceSelector");
+		selectedSequence = MaShine.ui.getSelectedSequence(); 
 		tweaking = true;
 	}
 	public void endTweak(){
-		if(selectedSequence != M.ui.getSelectedSequence()){
-			sequence = M.ui.getSelectedSequence();
+		if(selectedSequence != MaShine.ui.getSelectedSequence()){
+			sequence = MaShine.ui.getSelectedSequence();
 			setIndex(0);
 		}
 		tweaking = false;

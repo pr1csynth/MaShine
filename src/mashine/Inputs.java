@@ -27,7 +27,7 @@ public class Inputs{
 	private String lastRange;
 
 	private HashMap<String,Boolean> stateInputs;
-	private HashMap<String,Double>   rangeInputs;
+	private HashMap<String,Double>  rangeInputs;
 
 	private HashMap<String,Do>      actions;
 	private ArrayList<String>       ranges;
@@ -187,6 +187,20 @@ public class Inputs{
 	}
 	public String getLastRange(){
 		return lastRange;
+	}
+
+	public Object save(){
+		HashMap<String,Object> saveObject = new HashMap<String,Object>();
+		saveObject.put("actions", actionLinks);
+		saveObject.put("ranges", rangeLinks);
+		return saveObject;
+	}
+	
+
+	public void restore(Object restoredObject){
+		HashMap<String, Object> r = (HashMap<String, Object>) restoredObject;
+		actionLinks = (HashMap<String, String>) r.get("actions");
+		rangeLinks = (HashMap<String, String>) r.get("ranges");
 	}
 
 }
