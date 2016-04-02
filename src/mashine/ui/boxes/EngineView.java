@@ -56,6 +56,9 @@ public class EngineView extends Drawable {
 
 			FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._200);
 			canvas.text(t.sequencer.getSequence().getName(),M.width - 424, offset + 9);
+			if(t.sequencer.isTweaked()){
+				FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._900);
+			}
 			canvas.text(
 				t.sequencer.getName()+" @"+(t.sequencer.getIndex()+1) +" >"+ t.sequencer.getOffset()+" %"+t.sequencer.getClip(),
 				M.width - 424, offset - 6
