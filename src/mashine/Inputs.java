@@ -27,7 +27,7 @@ public class Inputs{
 	private String lastRange;
 
 	private HashMap<String,Boolean> stateInputs;
-	private HashMap<String,Float>   rangeInputs;
+	private HashMap<String,Double>   rangeInputs;
 
 	private HashMap<String,Do>      actions;
 	private ArrayList<String>       ranges;
@@ -38,7 +38,7 @@ public class Inputs{
 		M = m;
 
 		stateInputs = new HashMap<String,Boolean>();
-		rangeInputs = new HashMap<String,Float>();
+		rangeInputs = new HashMap<String,Double>();
 
 		actions     = new HashMap<String,Do>();
 		ranges      = new ArrayList<String> ();
@@ -109,13 +109,13 @@ public class Inputs{
 		stateInputs.put(inputName, state);
 	}
 
-	public float getRange(String inputName){
+	public double getRange(String inputName){
 		if(rangeInputs.containsKey(inputName)){
 			return rangeInputs.get(inputName);
 		}else if(rangeLinks.containsKey(inputName)){
 			return getRange(rangeLinks.get(inputName));
 		}else{
-			return (float)0.0;		
+			return 0.0;		
 		}
 	}
 
@@ -123,7 +123,7 @@ public class Inputs{
 		return rangeInputs.containsKey(inputName);
 	}
 
-	public void setRange(String inputName, float range){
+	public void setRange(String inputName, double range){
 		rangeInputs.put(inputName, range);
 	}
 

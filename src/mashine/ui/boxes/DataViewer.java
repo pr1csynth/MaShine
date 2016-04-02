@@ -28,7 +28,7 @@ public class DataViewer extends UIBox{
 
 
 		for(String a : rangeInputsName){
-			float val = M.inputs.getRange(a);
+			double val = M.inputs.getRange(a);
 
 			// if 0.0 to 1.0 range
 			FlatColor.fill(canvas, Colors.MATERIAL.ORANGE.A400);
@@ -37,7 +37,7 @@ public class DataViewer extends UIBox{
 
 			// if 0-127 range (midi) 
 			}else{
-				canvas.rect(1, offset - 3, M.min(width-1,(int) (width * (float) (val/256))), 14);
+				canvas.rect(1, offset - 3, M.min(width-1,(int) (width * (double) (val/256))), 14);
 			}
 			FlatColor.fill(canvas, Colors.WHITE);
 			canvas.text(a + " " + (float) Math.round(val*100000)/100000 , 5, offset);

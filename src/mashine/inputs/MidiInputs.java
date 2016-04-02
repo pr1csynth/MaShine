@@ -39,7 +39,7 @@ public class MidiInputs extends InputSource implements Learnable{
 			if(busName.contains(devicesTypes[i].getDeviceName())){
 				String name = "midi."+ busName +"."+ devicesTypes[i].getInputName(command, keyNumber, value);
 				Boolean state = devicesTypes[i].getState(command, keyNumber, value);
-				Float range = devicesTypes[i].getRange(command, keyNumber, value);
+				Double range = devicesTypes[i].getRange(command, keyNumber, value);
 
 				if(state != null){
 					states.put(name + (state ? ".on" : ".off"), true);

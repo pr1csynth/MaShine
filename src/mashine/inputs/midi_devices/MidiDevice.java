@@ -58,11 +58,11 @@ public class MidiDevice{
 	}
 
 	// returns an int between 0 and 127, null if unchanged/unapplicable
-	public Float getRange(int command, int keyNumber, int value){
+	public Double getRange(int command, int keyNumber, int value){
 		if(PAD.containsKey(keyNumber) || ENCODER.containsKey(keyNumber))
 			return null;
 		else if(command == 0xB0)
-			return (float) value;
+			return (double) value;
 		else
 			return null;
 	}

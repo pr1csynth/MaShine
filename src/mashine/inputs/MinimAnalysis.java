@@ -16,7 +16,7 @@ public class MinimAnalysis extends InputSource{
 
 	private final int MINIM_BD_SENSITIVITY = 120;
 	private final int MEAN_BEAT_SAMPLE = 4;
-	private final float MINUTE = (float)60000.0;
+	private final double MINUTE = 60000.0;
 
 	private Minim minim;
 	private BeatDetect beatSE;
@@ -63,7 +63,7 @@ public class MinimAnalysis extends InputSource{
 		beatSE.detect(in.mix);	
 		beatFE.detect(in.mix);
 		fft.forward(in.mix);
-		float rms = in.mix.level();
+		double rms = in.mix.level();
 		states.put("minim.onset" , beatSE.isOnset());
 		states.put("minim.kick" , beatFE.isKick());
 		states.put("minim.snare", beatFE.isSnare());
@@ -93,12 +93,12 @@ public class MinimAnalysis extends InputSource{
 			lastBeat = now;
 			lastInterpolatedBeat = now;
 			lastInterpolatedMeanBeat = now;
-			ranges.put("minim.bpm.last", ((float)MINUTE/lastBeatDistance));
+			ranges.put("minim.bpm.last", ((double)MINUTE/lastBeatDistance));
 
 			if(beatDistances.size() > MEAN_BEAT_SAMPLE)
 				beatDistances.remove(0);
 
-			ranges.put("minim.bpm.samplesize", (float)beatDistances.size());
+			ranges.put("minim.bpm.samplesize", (double)beatDistances.size());
 
 			meanBeatDistance = 0;
 
@@ -109,7 +109,7 @@ public class MinimAnalysis extends InputSource{
 			meanBeatDistance /= beatDistances.size();
 
 
-			ranges.put("minim.bpm.mean", ((float)MINUTE/meanBeatDistance));
+			ranges.put("minim.bpm.mean", ((double)MINUTE/meanBeatDistance));
 		}
 
 		// interpolated beat
