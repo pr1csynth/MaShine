@@ -34,26 +34,17 @@ public class Scene{
 		M = m;
 
 		devices = new ArrayList<Device>();
-		Device testDevice = new Device("testDevice", 1, 1, 10, 10, 200, 50);
-		Device testDevice2 = new Device("testDevice2", 6, 42, 10, 65, 200, 60);
-		testDevice.addFeature(new RGBW(255));
+		Device testDevice = new Device("RGB", 1, 30, 10, 10, 200, 50);
+		Device testDevice2 = new Device("RGBW", 5, 30, 10, 65, 200, 50);
+		testDevice.addFeature(new RGB(255));
+		testDevice.addFeature(new SingleField("dimmer", 255));
 		testDevice.addFeature(new FixedField("strobe", 255));
 		testDevice2.addFeature(new RGBW(255));
+		testDevice2.addFeature(new SingleField("dimmer", 255));
 		testDevice2.addFeature(new FixedField("strobe", 255));
-		testDevice2.addFeature(new FixedField("dimmer", 255));
 		devices.add(testDevice);
 		devices.add(testDevice2);
-		Device testDevice3 = new Device("testDevice3", 1, 42, 215, 10, 200, 50);
-		Device testDevice4 = new Device("testDevice4", 6, 42, 215, 65, 200, 70);
-		testDevice3.addFeature(new RGBW(255));
-		testDevice3.addFeature(new FixedField("strobe", 255));
-		testDevice4.addFeature(new RGBW(255));
-		testDevice4.addFeature(new FixedField("strobe", 255));
-		testDevice4.addFeature(new FixedField("dimmer", 255));
-		testDevice4.addFeature(new FixedField("kelvin", 255));
-		testDevice4.addFeature(new FixedField("test", 255));
-		devices.add(testDevice3);
-		devices.add(testDevice4);
+		
 		frameZero = new Frame(devices);
 	}
 

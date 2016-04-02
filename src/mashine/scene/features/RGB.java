@@ -45,7 +45,7 @@ public final class RGB extends ColorFeature {
 		}else{
 			rc = new FlatColor(fields.get("red"), fields.get("green"), fields.get("blue"));
 		}
-		return rc;
+		return rc.withAlpha(255);
 	}
 
 	public LinkedHashMap<String,Integer> getFields(){

@@ -59,12 +59,17 @@ public class DeviceElement extends Element{
 			if(frameFeatures.containsKey(d.getIdentifier() +"."+ feature.getType())){
 
 				feature = frameFeatures.get(d.getIdentifier() +"."+ feature.getType());
+				featureFields = feature.getFields();
 
 					// special case color, coordinates, ...
 
 				if(feature instanceof ColorFeature){
 					FlatColor.fill(P.canvas, ((ColorFeature)feature).getColor());
 					P.canvas.noStroke();
+				}else if(feature instanceof SingleField){
+					for(String f : featureFields.keySet()){
+						devFields.put(f, featureFields.get(f));
+					}
 				}else{
 					for(String f : featureFields.keySet()){
 						devFields.put(feature.getType() +"."+ f, featureFields.get(f));
