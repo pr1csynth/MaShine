@@ -115,4 +115,12 @@ public class Sequencer{
 		tweaking = false;
 	}
 
+	public boolean isTweaked(){
+		return tweaking;
+	}
+
+	public boolean isManual(){
+		return manual;
+	}
+
 }
