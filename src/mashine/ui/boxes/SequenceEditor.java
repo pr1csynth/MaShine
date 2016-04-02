@@ -275,7 +275,9 @@ public class SequenceEditor extends UIBox{
 			currentFrame.addFeature(d,feature);
 		}
 
-		linkColorToFeatureForCurrentFrame(selectedColor);
+		if(feature instanceof ColorFeature){
+			linkColorToFeatureForCurrentFrame(selectedColor);
+		}
 
 		for(String el : featureInputs.keySet()){
 			M.println(el);
