@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.lang.Math;
 
+import processing.core.PConstants;
+
 public class SequenceEditor extends UIBox{
 
 	private HashMap<String,Element> ui;
@@ -112,7 +114,7 @@ public class SequenceEditor extends UIBox{
 
 			int offset = 70;
 
-			for(Feature f : commonFeatures){
+			for(final Feature f : commonFeatures){
 
 				if(f instanceof EditableFeature){
 
@@ -197,7 +199,7 @@ public class SequenceEditor extends UIBox{
 		canvas.rect(0, height - 20, width - 15, 15);
 
 		FlatColor.fill(canvas, Colors.WHITE);
-		canvas.textAlign(canvas.RIGHT, canvas.TOP);
+		canvas.textAlign(PConstants.RIGHT, PConstants.TOP);
 		canvas.text("Send edited frame on outputs", width - 19, height - 16);
 		
 		if(selectedSequence.getSize() < 2){
@@ -230,12 +232,12 @@ public class SequenceEditor extends UIBox{
 
 		offset = 73; 
 
-		canvas.textAlign(canvas.LEFT, canvas.TOP);
+		canvas.textAlign(PConstants.LEFT, PConstants.TOP);
 		FlatColor.fill(canvas, Colors.WHITE);
 		for(Feature f : commonFeatures){
 			if(f instanceof EditableFeature){		
 
-				canvas.textAlign(canvas.RIGHT, canvas.TOP);
+				canvas.textAlign(PConstants.RIGHT, PConstants.TOP);
 				canvas.text(f.getType(), width - 25, offset);
 
 				if(f instanceof ColorFeature){
@@ -245,7 +247,7 @@ public class SequenceEditor extends UIBox{
 				}else{		
 					if(f.getFields().size() != 1){
 						for(String fi : f.getFields().keySet()){
-							canvas.textAlign(canvas.LEFT, canvas.TOP);
+							canvas.textAlign(PConstants.LEFT, PConstants.TOP);
 							canvas.text(fi, 50, offset);
 							offset +=17;
 						}

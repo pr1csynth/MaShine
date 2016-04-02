@@ -7,12 +7,17 @@
 
 package mashine.ui.boxes;
 
-import mashine.*;
-import mashine.ui.*;
-import mashine.ui.elements.*;
-import mashine.scene.*;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
+
+import mashine.Do;
+import mashine.MaShine;
+import mashine.scene.Sequence;
+import mashine.ui.Colors;
+import mashine.ui.FlatColor;
+import mashine.ui.UIBox;
+import mashine.ui.elements.TextButton;
+import processing.core.PConstants;
 
 public class SequenceSelector extends UIBox{
 
@@ -46,7 +51,7 @@ public class SequenceSelector extends UIBox{
 		canvas.noStroke();
 		int offset = 30;
 		int index = 0;
-		canvas.textAlign(canvas.LEFT, canvas.TOP);
+		canvas.textAlign(PConstants.LEFT, PConstants.TOP);
 		
 		if(MaShine.bank.getSequencesSize() != 0){
 			List<Sequence> sequences = MaShine.bank.getSequences();
@@ -95,6 +100,7 @@ public class SequenceSelector extends UIBox{
 
 	private void nextSequence(){}
 	private void prevSequence(){}
+	
 	private void moveUpSequence(){
 		List<Sequence> sequences = MaShine.bank.getSequences();
 		int i = sequences.indexOf(selectedSequence);

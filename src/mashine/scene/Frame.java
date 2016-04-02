@@ -7,12 +7,12 @@
 
 package mashine.scene;
 
-import mashine.*;
-import mashine.scene.*;
-import mashine.scene.features.*;
-import java.util.HashMap;
-import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import mashine.scene.features.EditableFeature;
+import mashine.scene.features.Feature;
 
 public class Frame implements Serializable{
 

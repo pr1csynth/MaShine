@@ -7,17 +7,28 @@
 
 package mashine;
 
-import mashine.*;
-import mashine.ui.*;
-import mashine.ui.boxes.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+
 import mashine.scene.Device;
 import mashine.scene.Frame;
 import mashine.scene.Sequence;
+import mashine.ui.FlatColor;
+import mashine.ui.Focusable;
+import mashine.ui.Status;
+import mashine.ui.boxes.ColorPalette;
+import mashine.ui.boxes.DataViewer;
+import mashine.ui.boxes.DeviceEditor;
+import mashine.ui.boxes.EngineView;
+import mashine.ui.boxes.EventViewer;
+import mashine.ui.boxes.Linker;
+import mashine.ui.boxes.Menu;
+import mashine.ui.boxes.SceneView;
+import mashine.ui.boxes.SequenceEditor;
+import mashine.ui.boxes.SequenceSelector;
 import processing.core.PFont;
-import java.util.HashMap; 
-import java.util.ArrayList; 
-import java.util.LinkedList; 
-import java.util.Comparator; 
 
 public class UI{
 

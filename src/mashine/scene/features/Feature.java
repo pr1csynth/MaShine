@@ -7,11 +7,8 @@
 
 package mashine.scene.features;
 
-import mashine.scene.*;
-import mashine.*;
-import java.util.LinkedHashMap;
-import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 
 public abstract class Feature implements Serializable {
 

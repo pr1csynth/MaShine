@@ -7,13 +7,22 @@
 
 package mashine.ui.elements;
 
-import mashine.*;
-import mashine.ui.*;
-import mashine.scene.*;
-import mashine.scene.features.*;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import processing.core.PConstants;
+
+import mashine.scene.Device;
+import mashine.scene.features.ColorFeature;
+import mashine.scene.features.EditableFeature;
+import mashine.scene.features.Feature;
+import mashine.scene.features.FixedField;
+import mashine.scene.features.SingleField;
+import mashine.ui.Colors;
+import mashine.ui.Drawable;
+import mashine.ui.Element;
+import mashine.ui.FlatColor;
 
 public class DeviceElement extends Element{
 
@@ -113,7 +122,7 @@ public class DeviceElement extends Element{
 
 			// identifier 
 		FlatColor.fill(P.canvas, Colors.MATERIAL.GREEN.A700);
-		P.canvas.textAlign(P.canvas.LEFT, P.canvas.TOP);
+		P.canvas.textAlign(PConstants.LEFT, PConstants.TOP);
 		P.canvas.text(d.getName(), d.getX() + 5, d.getY() + 4);
 
 		P.canvas.noStroke();
@@ -125,7 +134,7 @@ public class DeviceElement extends Element{
 		for(String f : devFields.keySet()){
 			if(offset > (d.getHeight() - 5)){
 
-				P.canvas.textAlign(P.canvas.LEFT, P.canvas.BOTTOM);
+				P.canvas.textAlign(PConstants.LEFT, PConstants.BOTTOM);
 				P.canvas.text("...", d.getX() + 5, d.getY() + d.getHeight());
 				break;
 			}
@@ -140,7 +149,7 @@ public class DeviceElement extends Element{
 
 
 		// patch infos
-		P.canvas.textAlign(P.canvas.RIGHT, P.canvas.BOTTOM);
+		P.canvas.textAlign(PConstants.RIGHT, PConstants.BOTTOM);
 		FlatColor.fill(P.canvas, Colors.MATERIAL.GREEN.A700);
 		P.canvas.text(d.getUniverse() +":"+ d.getStartAddress(), d.getX() + d.getWidth() - 5, d.getY() + d.getHeight() - 1);
 		

@@ -7,9 +7,8 @@
 
 package mashine.inputs.midi_devices;
 
-import java.util.Map;
 import java.util.HashMap;
-import java.util.Collections;
+import java.util.Map;
 
 public class MidiDevice{
 	protected Map<Integer,String> PAD;
@@ -20,9 +19,9 @@ public class MidiDevice{
 
 	public MidiDevice(){
 		deviceName = "";
-		PAD = new HashMap();
-		RANGE = new HashMap();
-		ENCODER = new HashMap();
+		PAD = new HashMap<Integer, String>();
+		RANGE = new HashMap<Integer, String>();
+		ENCODER = new HashMap<Integer, String>();
 	}
 
 	public String getDeviceName(){

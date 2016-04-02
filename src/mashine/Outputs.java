@@ -8,8 +8,10 @@
 package mashine;
 
 import java.util.HashMap;
-import mashine.outputs.*;
-import mashine.scene.*;
+
+import mashine.outputs.Ola;
+import mashine.outputs.Output;
+import mashine.scene.Frame;
 
 public class Outputs{
 

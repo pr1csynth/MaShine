@@ -7,10 +7,15 @@
 
 package mashine.ui.boxes;
 
-import mashine.*;
-import mashine.ui.*;
-import java.util.*;
-import java.lang.Math;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+
+import mashine.MaShine;
+import mashine.ui.Colors;
+import mashine.ui.FlatColor;
+import mashine.ui.UIBox;
+import processing.core.PConstants;
 
 public class EventViewer extends UIBox{
 
@@ -18,14 +23,14 @@ public class EventViewer extends UIBox{
 
 	public EventViewer () {
 		super("EVENT VIEWER", 50, 50, 200, 400);
-		highlight = new HashMap();
+		highlight = new HashMap<String, Integer>();
 	}
 
 	public void drawUI(){
 		canvas.noStroke();
 		int offset = 30;
-		canvas.textAlign(canvas.LEFT, canvas.TOP);
-		ArrayList<String> stateInputsName = new ArrayList(MaShine.inputs.getStateSet());
+		canvas.textAlign(PConstants.LEFT, PConstants.TOP);
+		ArrayList<String> stateInputsName = new ArrayList<String>(MaShine.inputs.getStateSet());
 		Collections.sort(stateInputsName);
 
 		for(String a : stateInputsName){

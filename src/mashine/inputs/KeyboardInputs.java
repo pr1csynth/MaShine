@@ -7,9 +7,8 @@
 
 package mashine.inputs;
 
-import mashine.*;
-import processing.event.*;
-import java.util.HashMap;
+import mashine.MaShine;
+import processing.event.KeyEvent;
 
 public class KeyboardInputs extends InputSource implements Learnable{
 

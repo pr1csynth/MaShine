@@ -6,15 +6,13 @@
  */
 package mashine;
 
-import mashine.scene.Frame;
-import mashine.scene.*;
-import mashine.engine.*;
-import mashine.ui.Colors;
-import mashine.ui.FlatColor;
-import mashine.scene.features.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.lang.Math;
+
+import mashine.engine.Filter;
+import mashine.scene.Sequence;
+import mashine.ui.Colors;
+import mashine.ui.FlatColor;
 
 public class Bank{
 

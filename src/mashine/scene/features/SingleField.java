@@ -1,8 +1,10 @@
 package mashine.scene.features;
 
-import mashine.scene.*;
 
 public final class SingleField extends EditableFeature {
+
+	private static final long serialVersionUID = 0x11F310001L;
+	
 	public SingleField(String fieldName, int singleValue){
 		super(fieldName, 1);
 		fields.put(fieldName, singleValue);

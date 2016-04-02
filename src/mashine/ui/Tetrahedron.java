@@ -7,13 +7,13 @@
 
 package mashine.ui;
 
-import processing.core.*;
 import mashine.MaShine;
+import processing.core.PApplet;
 
 public class Tetrahedron{
 	private PApplet app;
 	private int edgeLength;
-	private double theta, angleX, angleY, rx, ry;
+	private double theta, angleX, angleY;
 
 	public Tetrahedron(int iedgeLength){
 		app = MaShine.m;

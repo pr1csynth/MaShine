@@ -7,10 +7,19 @@
 
 package mashine.ui.boxes;
 
-import mashine.*;
-import mashine.ui.*;
-import mashine.ui.elements.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+
+import processing.core.PConstants;
+
+import mashine.Do;
+import mashine.MaShine;
+import mashine.ui.Colors;
+import mashine.ui.FlatColor;
+import mashine.ui.UIBox;
+import mashine.ui.elements.TextButton;
+import mashine.ui.elements.TextInput;
 
 public class Linker extends UIBox{
 
@@ -123,7 +132,7 @@ public class Linker extends UIBox{
 		}
 
 		canvas.noStroke();
-		canvas.textAlign(canvas.LEFT, canvas.TOP);
+		canvas.textAlign(PConstants.LEFT, PConstants.TOP);
 		HashMap<String,String> actionLinks = MaShine.inputs.getActionLinks();
 		HashMap<String,String> rangeLinks = MaShine.inputs.getRangeLinks();
 

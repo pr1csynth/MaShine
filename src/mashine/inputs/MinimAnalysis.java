@@ -7,10 +7,13 @@
 
 package mashine.inputs;
 
-import mashine.*;
-import ddf.minim.*; 
-import ddf.minim.analysis.*;
 import java.util.ArrayList;
+
+import mashine.MaShine;
+import ddf.minim.AudioInput;
+import ddf.minim.Minim;
+import ddf.minim.analysis.BeatDetect;
+import ddf.minim.analysis.FFT;
 
 public class MinimAnalysis extends InputSource{
 

@@ -7,17 +7,17 @@
 
 package mashine;
 
-import processing.core.*;
-import processing.event.*;
 import java.io.File;
-import mashine.ui.FlatColor;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import processing.core.PApplet;
+import processing.event.KeyEvent;
+import processing.event.MouseEvent;
 
 public class MaShine extends PApplet{
 

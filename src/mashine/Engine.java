@@ -7,9 +7,10 @@
 
 package mashine;
 
-import mashine.scene.*;
-import mashine.engine.*;
 import java.util.ArrayList;
+
+import mashine.engine.Track;
+import mashine.scene.Frame;
 
 public class Engine{
 

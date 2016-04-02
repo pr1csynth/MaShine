@@ -1,8 +1,11 @@
 package mashine.ui.elements;
 
-import mashine.*;
-import mashine.ui.*;
-import java.util.HashMap;
+import processing.core.PConstants;
+import mashine.MaShine;
+import mashine.ui.Colors;
+import mashine.ui.Drawable;
+import mashine.ui.Element;
+import mashine.ui.FlatColor;
 
 public class RangeInput extends Element{
 
@@ -96,7 +99,7 @@ public class RangeInput extends Element{
 		}
 
 		FlatColor.fill(P.canvas, Colors.MATERIAL.BLUE_GREY._900);
-		P.canvas.textAlign(P.canvas.LEFT, P.canvas.CENTER);
+		P.canvas.textAlign(PConstants.LEFT, PConstants.CENTER);
 		P.canvas.text(stringValue + (MaShine.m.millis() % 1200 > 600 && enabled && stringValue.length() < maxLength() && hasFocus() ? "_" : ""), x + 3, y +height/2+1);
 	}
 
@@ -125,7 +128,6 @@ public class RangeInput extends Element{
 	}
 
 	protected void onDefocus(){
-		Float oldVal = value;
 		try{		
 			if(stringValue.length() > 0){
 				value = Float.parseFloat(stringValue);

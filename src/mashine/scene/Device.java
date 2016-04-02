@@ -7,12 +7,12 @@
 
 package mashine.scene;
 
-import mashine.*;
-import mashine.scene.features.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.io.Serializable;
 import java.util.UUID;
+
+import mashine.scene.features.Feature;
 
 public class Device implements Serializable{
 
@@ -114,6 +114,7 @@ public class Device implements Serializable{
 	public String getIdentifier(){return id;}
 	public String getName(){return name;}
 	public int getStartAddress(){return startAddress;}
+	public int getFootprint() {return footprint;}
 	public int getUniverse(){return universe;}
 
 	public void setName(String name){this.name = name;}

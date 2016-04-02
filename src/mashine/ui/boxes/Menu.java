@@ -7,23 +7,27 @@
 
 package mashine.ui.boxes;
 
-import mashine.*;
-import mashine.ui.*;
-import mashine.ui.elements.*;
 import java.util.ArrayList;
+
+import mashine.Do;
+import mashine.MaShine;
+import mashine.ui.Colors;
+import mashine.ui.Drawable;
+import mashine.ui.Element;
+import mashine.ui.FlatColor;
+import mashine.ui.elements.TextButton;
 import processing.core.PImage;
 
 public class Menu extends Drawable{
 	
 	private ArrayList<Element> bigButtons;
-	private ArrayList<Element> elements;
 	private PImage mashineImage;
 
 	
 	public Menu(){
 		super(0, 0, MaShine.m.displayWidth, 40);
 		bigButtons = new ArrayList<Element>();
-		elements = new ArrayList<Element>();
+		new ArrayList<Element>();
 		focus = true;
 
 		Do switchToScene = new Do(){public void x(){MaShine.ui.open("DeviceEditor");}};

@@ -7,8 +7,8 @@
 
 package mashine.inputs;
 
-import mashine.*;
-import processing.event.*;
+import mashine.MaShine;
+import processing.event.MouseEvent;
 
 public class MouseInputs extends InputSource{
 
@@ -29,16 +29,16 @@ public class MouseInputs extends InputSource{
 			button = "center";
 		}
 
-		if(e.getAction() == e.RELEASE){
+		if(e.getAction() == MouseEvent.RELEASE){
 			states.put("mouse."+ button + ".release", true);
 			states.put("mouse."+ button + ".hold", false);
 			states.put("mouse."+ button + ".drag", false);
-		}else if(e.getAction() == e.PRESS){
+		}else if(e.getAction() == MouseEvent.PRESS){
 			states.put("mouse."+ button + ".press", true);
 			states.put("mouse."+ button + ".hold", true);
 			lastClickY = e.getY();
 			lastClickX = e.getX();
-		}else if(e.getAction() == e.WHEEL){
+		}else if(e.getAction() == MouseEvent.WHEEL){
 			if(e.getCount() > 0){
 				states.put("mouse.wheel.encoder.on", true);
 			}else{

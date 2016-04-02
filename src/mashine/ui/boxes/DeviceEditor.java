@@ -7,16 +7,26 @@
 
 package mashine.ui.boxes;
 
-import mashine.*;
-import mashine.ui.*;
-import mashine.ui.elements.*;
-import mashine.scene.*;
-import mashine.scene.features.*;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.lang.Math;
+import java.util.HashMap;
+
+import mashine.Do;
+import mashine.MaShine;
+import mashine.Scene;
+import mashine.UI;
+import mashine.scene.Device;
+import mashine.scene.features.EditableFeature;
+import mashine.scene.features.Feature;
+import mashine.scene.features.FixedField;
+import mashine.scene.features.SingleField;
+import mashine.ui.Colors;
+import mashine.ui.Element;
+import mashine.ui.FlatColor;
+import mashine.ui.UIBox;
+import mashine.ui.elements.RangeInput;
+import mashine.ui.elements.TextButton;
+import mashine.ui.elements.TextInput;
+import processing.core.PConstants;
 
 // UIREFORM
 
@@ -56,7 +66,7 @@ public class DeviceEditor extends UIBox{
 	));
 
 		int offset = 57;
-		for(String featureClass : Scene.FEATURES.keySet()){
+		for(final String featureClass : Scene.FEATURES.keySet()){
 			String shortName = featureClass.substring(featureClass.lastIndexOf('.') + 1);
 			elements.add(new TextButton(this, shortName, 146, height - offset, 
 				new Do(){public void x(){addFeature(featureClass);}}
@@ -95,7 +105,7 @@ public class DeviceEditor extends UIBox{
 		// add or remove elements
 
 
-			canvas.textAlign(canvas.LEFT, canvas.TOP);
+			canvas.textAlign(PConstants.LEFT, PConstants.TOP);
 			FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._300);
 			canvas.text("id", 74, 45);
 			canvas.text("un", 94, 45);
@@ -193,7 +203,7 @@ public class DeviceEditor extends UIBox{
 				featureElements = new ArrayList<Element>();
 
 				int offset = 67; 
-				for(Feature f : commonFeatures){
+				for(final Feature f : commonFeatures){
 					// remove button // eventual input field // (move up/down for later)
 					featureElements.add(new TextButton(this, "delete", 146, offset, 
 						new Do(){public void x(){removeFeature(f.getType());}}, true
@@ -268,7 +278,7 @@ public class DeviceEditor extends UIBox{
 
 			// draw text
 			int offset = 70; 
-			canvas.textAlign(canvas.LEFT, canvas.TOP);
+			canvas.textAlign(PConstants.LEFT, PConstants.TOP);
 			FlatColor.fill(canvas, Colors.WHITE);
 			for(Feature f : commonFeatures){
 				canvas.text(f.getType(), 65, offset);

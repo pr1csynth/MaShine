@@ -7,9 +7,9 @@
 
 package mashine.outputs;
 
-import mashine.*;
-import mashine.scene.*;
-import java.util.HashMap; 
+import java.util.HashMap;
+
+import mashine.scene.Frame;
 
 public class Output{
 

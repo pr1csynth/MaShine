@@ -7,8 +7,7 @@
 
 package mashine.inputs;
 
-import mashine.*;
-import java.util.HashMap; 
+import java.util.HashMap;
 
 public class InputSource {
 

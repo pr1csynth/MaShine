@@ -7,12 +7,18 @@
 
  package mashine;
 
-import mashine.*;
-import mashine.inputs.*;
-import java.util.HashMap; 
-import java.util.Set;
 import java.util.ArrayList;
-import processing.event.*;
+import java.util.HashMap;
+import java.util.Set;
+
+import mashine.inputs.InputSource;
+import mashine.inputs.KeyboardInputs;
+import mashine.inputs.Learnable;
+import mashine.inputs.MidiInputs;
+import mashine.inputs.MinimAnalysis;
+import mashine.inputs.MouseInputs;
+import processing.event.KeyEvent;
+import processing.event.MouseEvent;
 
 public class Inputs{
 

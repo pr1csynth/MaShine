@@ -7,13 +7,12 @@
 
 package mashine.ui.boxes;
 
-import mashine.*;
-import mashine.ui.*;
+import mashine.MaShine;
+import mashine.engine.Track;
 import mashine.ui.Colors;
-import mashine.ui.elements.*;
-import mashine.scene.*;
-import mashine.engine.*;
-import java.lang.Math;
+import mashine.ui.Drawable;
+import mashine.ui.FlatColor;
+
 public class EngineView extends Drawable {
 
 

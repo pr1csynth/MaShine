@@ -7,10 +7,13 @@
 
 package mashine.ui.boxes;
 
-import mashine.*;
-import mashine.ui.*;
-import java.util.*;
-import java.lang.Math;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import mashine.MaShine;
+import mashine.ui.Colors;
+import mashine.ui.FlatColor;
+import mashine.ui.UIBox;
 
 public class DataViewer extends UIBox{
 
@@ -22,7 +25,7 @@ public class DataViewer extends UIBox{
 		canvas.noStroke();
 		canvas.textAlign(MaShine.LEFT, MaShine.TOP);
 		int offset = 30;
-		ArrayList<String> rangeInputsName = new ArrayList(MaShine.inputs.getRangeInputSet());
+		ArrayList<String> rangeInputsName = new ArrayList<String>(MaShine.inputs.getRangeInputSet());
 		Collections.sort(rangeInputsName);
 
 

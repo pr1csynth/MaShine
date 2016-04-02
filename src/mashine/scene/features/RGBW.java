@@ -1,10 +1,13 @@
 package mashine.scene.features;
 
-import mashine.scene.*;
-import mashine.ui.*;
 import java.util.LinkedHashMap;
 
+import mashine.ui.FlatColor;
+
 public final class RGBW extends ColorFeature {
+
+	private static final long serialVersionUID = 0xC0F20001L;
+	
 	public RGBW(int red, int green, int blue, int white){
 		super("rgbw", 4);
 		fields.put("red", red);

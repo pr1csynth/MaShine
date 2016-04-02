@@ -7,12 +7,14 @@
 
 package mashine.ui;
 
-import mashine.*;
-import mashine.ui.elements.*;
-import processing.core.*;
-import java.util.LinkedList; 
+import java.util.LinkedList;
 
-import java.lang.Math;
+import processing.core.PConstants;
+
+import mashine.MaShine;
+import mashine.UI;
+import mashine.ui.elements.CloseButton;
+import mashine.ui.elements.Grabber;
 
 public class UIBox extends Drawable{
 
@@ -83,7 +85,7 @@ public class UIBox extends Drawable{
 		canvas.rect(0, 0, width+1, 22);
 		
 		FlatColor.fill(canvas,Colors.WHITE);
-		canvas.textAlign(MaShine.m.CENTER, MaShine.m.TOP);
+		canvas.textAlign(PConstants.CENTER, PConstants.TOP);
 		canvas.text(title,width / 2, 7);
 	}
 

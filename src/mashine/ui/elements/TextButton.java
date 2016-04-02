@@ -7,8 +7,11 @@
 
 package mashine.ui.elements;
 
-import mashine.*;
-import mashine.ui.*;
+import mashine.Do;
+import mashine.ui.Colors;
+import mashine.ui.Drawable;
+import mashine.ui.FlatColor;
+import processing.core.PConstants;
 
 public class TextButton extends Button{
 
@@ -74,7 +77,7 @@ public class TextButton extends Button{
 		P.canvas.noStroke();
 		P.canvas.rect(x, y, width, height);
 
-		P.canvas.textAlign(P.canvas.LEFT, P.canvas.CENTER);
+		P.canvas.textAlign(PConstants.LEFT, PConstants.CENTER);
 
 		FlatColor.fill(P.canvas, text);
 		P.canvas.text(caption,  x + marginLeft,  y + height/2);

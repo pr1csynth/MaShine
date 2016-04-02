@@ -7,15 +7,16 @@
 
 package mashine.ui.boxes;
 
-import mashine.*;
-import mashine.ui.*;
-import mashine.ui.Colors;
-import mashine.ui.elements.*;
-import mashine.scene.*;
-import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.lang.Math;
+import java.util.HashMap;
+
+import mashine.MaShine;
+import mashine.ui.Colors;
+import mashine.ui.Element;
+import mashine.ui.FlatColor;
+import mashine.ui.UIBox;
+import mashine.ui.elements.RangeInput;
+import processing.core.PConstants;
 
 public class ColorPalette extends UIBox{
 
@@ -87,7 +88,7 @@ public class ColorPalette extends UIBox{
 		ArrayList<FlatColor> colors = MaShine.bank.getColors();
 
 		FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._800);
-		canvas.textAlign(canvas.RIGHT, canvas.TOP);
+		canvas.textAlign(PConstants.RIGHT, PConstants.TOP);
 		canvas.text("hue",        240, 30 + 3);
 		canvas.text("saturation", 240, 47 + 3);
 		canvas.text("luminance",  240, 64 + 3);

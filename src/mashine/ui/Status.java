@@ -7,12 +7,9 @@
 
  package mashine.ui;
 
-import mashine.*;
-import mashine.ui.elements.*;
-import processing.core.*;
+import mashine.MaShine;
+import processing.core.PApplet;
 import processing.data.StringDict;
-import mashine.ui.Tetrahedron;
-import java.lang.Math;
 
 // TODO, use drawable
 

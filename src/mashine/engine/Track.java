@@ -7,11 +7,11 @@
 
 package mashine.engine;
 
-import mashine.*;
-import mashine.scene.*;
-
-import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import mashine.MaShine;
+import mashine.scene.Frame;
 
 public class Track implements Serializable{
 

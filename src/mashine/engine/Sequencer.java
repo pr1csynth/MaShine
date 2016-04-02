@@ -7,10 +7,12 @@
 
 package mashine.engine;
 
-import mashine.*;
-import mashine.scene.*;
-import java.lang.Math;
 import java.io.Serializable;
+
+import mashine.Do;
+import mashine.MaShine;
+import mashine.scene.Frame;
+import mashine.scene.Sequence;
 
 public class Sequencer implements Serializable{
 
@@ -19,7 +21,6 @@ public class Sequencer implements Serializable{
 	private String name;
 	private Sequence sequence;
 	private Sequence selectedSequence;
-	private Frame frame;
 	private boolean tweaking = false;
 	private boolean manual = false;
 	private int clip;

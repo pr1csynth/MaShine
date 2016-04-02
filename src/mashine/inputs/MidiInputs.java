@@ -7,18 +7,18 @@
 
 package mashine.inputs;
 
-import mashine.*;
+import java.util.HashMap;
+
+import javax.sound.midi.MidiMessage;
+
 import mashine.inputs.midi_devices.*;
-import java.util.HashMap; 
-import themidibus.*;
-import javax.sound.midi.MidiMessage; 
+import themidibus.MidiBus;
 
 public class MidiInputs extends InputSource implements Learnable{
 
 	private HashMap<String,MidiBus> buses;
 	private MidiDevice[] devicesTypes = {new KorgNanoKontrol2(), new BehringerDC1(), new GenericMidiDevice()};
-	private MidiBus testBus;
-
+	
 	private String lastState;
 	private String lastRange;
 
@@ -31,7 +31,7 @@ public class MidiInputs extends InputSource implements Learnable{
 	public void midiMessage(MidiMessage message, long timestamp, String busName){
 
 		int command =   (int)(message.getMessage()[0] & 0xF0);
-		int channel =   (int)(message.getMessage()[0] & 0x0F);
+		//int channel =   (int)(message.getMessage()[0] & 0x0F);
 		int keyNumber = (int)(message.getMessage()[1] & 0xFF);
 		int value =     (int)(message.getMessage()[2] & 0xFF);
 

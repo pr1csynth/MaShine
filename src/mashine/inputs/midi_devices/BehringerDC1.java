@@ -7,9 +7,9 @@
 
 package mashine.inputs.midi_devices;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BehringerDC1 extends MidiDevice{
 
@@ -18,7 +18,7 @@ public class BehringerDC1 extends MidiDevice{
 
 		deviceName = "DC1";
 
-		Map<Integer, String> pad = new HashMap();
+		Map<Integer, String> pad = new HashMap<Integer, String>();
 		pad.put(32, "bigbutton.pad");
 
 		pad.put(0, "top.1");
@@ -57,7 +57,7 @@ public class BehringerDC1 extends MidiDevice{
 		pad.put(51, "pad.16");
 		PAD = Collections.unmodifiableMap(pad);
 
-		Map<Integer, String> encoder = new HashMap();
+		Map<Integer, String> encoder = new HashMap<Integer, String>();
 		encoder.put(32, "bigbutton.encoder");
 
 		encoder.put(16+0, "encoder.1");

@@ -1,11 +1,13 @@
 package mashine.scene.features;
 
-import mashine.scene.*;
-import mashine.ui.*;
 import java.util.LinkedHashMap;
+
+import mashine.ui.FlatColor;
 
 public abstract class ColorFeature extends EditableFeature {
 
+	private static final long serialVersionUID = 0xC010F301L;
+	
 	protected FlatColor linkedColor = null;
 
 	public ColorFeature(String type, int footprint){

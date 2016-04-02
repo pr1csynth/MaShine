@@ -7,12 +7,16 @@
 
 package mashine;
 
-import mashine.scene.Frame;
-import mashine.scene.*;
-import mashine.scene.features.*;
-import java.util.HashMap;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import mashine.scene.Device;
+import mashine.scene.DeviceGroup;
+import mashine.scene.Frame;
+import mashine.scene.features.FixedField;
+import mashine.scene.features.RGB;
+import mashine.scene.features.RGBW;
+import mashine.scene.features.SingleField;
 
 public class Scene{
 

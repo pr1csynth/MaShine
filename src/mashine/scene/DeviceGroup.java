@@ -7,10 +7,8 @@
 
 package mashine.scene;
 
-import mashine.*;
-import mashine.scene.features.*;
-import java.util.HashMap;
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class DeviceGroup implements Serializable{
 
@@ -21,6 +19,19 @@ public class DeviceGroup implements Serializable{
 
 	public DeviceGroup(String identifier){
 		this.identifier = identifier;
-		devices = new HashMap<Device,Integer>();
+		setDevices(new HashMap<Device,Integer>());
 	}
+
+	public HashMap<Device,Integer> getDevices() {
+		return devices;
+	}
+
+	public void setDevices(HashMap<Device,Integer> devices) {
+		this.devices = devices;
+	}
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
 }

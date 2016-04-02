@@ -7,7 +7,6 @@
 
 package mashine.ui;
 
-import mashine.*;
 
 public abstract class Focusable{
 

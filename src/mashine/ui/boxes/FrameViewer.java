@@ -7,9 +7,7 @@
 
 package mashine.ui.boxes;
 
-import mashine.*;
-import mashine.ui.*;
-import java.util.*;
+import mashine.ui.UIBox;
 
 public class FrameViewer extends UIBox{
 

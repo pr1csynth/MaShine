@@ -7,17 +7,16 @@
 
 package mashine.outputs;
 
-import mashine.*;
-import mashine.scene.*;
-import mashine.scene.features.*;
-import ola.OlaClient;
-import ola.proto.Ola.DmxData;
-import ola.proto.Ola.PluginListReply;
-import ola.proto.Ola.UniverseInfo;
+import java.util.HashMap;
+import java.util.List;
 
-import java.util.HashMap; 
-import java.util.List; 
-import java.util.Arrays; 
+import mashine.MaShine;
+import mashine.scene.Device;
+import mashine.scene.Frame;
+import mashine.scene.features.EditableFeature;
+import mashine.scene.features.Feature;
+import ola.OlaClient;
+import ola.proto.Ola.UniverseInfo;
 
 public class Ola extends Output{
 
