@@ -103,7 +103,6 @@ public class UI{
 			Focusable el = uiElements.get(uiElementName);
 			if(!openedUiElements.contains(el)){
 				openedUiElements.add(el);
-				el.focus();
 			}
 		}
 	}
