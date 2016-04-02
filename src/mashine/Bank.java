@@ -29,10 +29,15 @@ public class Bank{
 		sequences.add(new Sequence("unamed sequence"));
 
 		for(int i = 0; i < 154; i++){
-			colors.add(Colors.MATERIAL.RED.A400
-				.withHue((i % 14)/14)
+			colors.add(new FlatColor(0xFF, 0x00, 0x00)
+				.withHue((i % 14)/(float)14.0)
 				.withBrightness((float) Math.floor((167-i)/14)/11)
 				.withAlpha(0));
+		}
+
+		colors.add(Colors.WHITE.withAlpha(255));
+		for(int i = 0; i < 5; i++){
+			colors.add(Colors.BLACK.withAlpha(0));
 		}
 	}
 

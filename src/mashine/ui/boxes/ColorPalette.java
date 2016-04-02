@@ -26,9 +26,9 @@ public class ColorPalette extends UIBox{
 		super("COLORS", 450, 400, 250, 352);
 		colorParamInputs = new HashMap<String, RangeInput>();
 
-		colorParamInputs.put("hue", new RangeInput(this, 0f, 0f, 1f, 0.01f, 116, 30, 128));
-		colorParamInputs.put("sat", new RangeInput(this, 0f, 0f, 1f, 0.01f, 116, 47, 128));
-		colorParamInputs.put("lum", new RangeInput(this, 0f, 0f, 1f, 0.01f, 116, 64, 128));
+		colorParamInputs.put("hue", new RangeInput(this, 0f, 0f, 1f, 0.0001f, 116, 30, 128));
+		colorParamInputs.put("sat", new RangeInput(this, 0f, 0f, 1f, 0.0001f, 116, 47, 128));
+		colorParamInputs.put("lum", new RangeInput(this, 0f, 0f, 1f, 0.0001f, 116, 64, 128));
 
 		colorParamInputs.put("red",   new RangeInput(this, 0f, 0f, 255f, 1f, 116, 84, 128));
 		colorParamInputs.put("green", new RangeInput(this, 0f, 0f, 255f, 1f, 116, 101, 128));
@@ -40,26 +40,22 @@ public class ColorPalette extends UIBox{
 			elements.add(e);
 		}
 
-		elements.add(new TextButton(this, "select", 8, 138, 
-			new Do(){public void x(){updateReference();}}
-		));
-
 		color = new FlatColor(Colors.WHITE);
 	}
 
 	public void tick(){
 
-		if(Math.abs(color.getHue() - colorParamInputs.get("hue").value()) > 0.011){
+		if(Math.abs(color.getHue() - colorParamInputs.get("hue").value()) > 0.00011){
 			color.setHue(colorParamInputs.get("hue").value());
 			updateRGBInputs();
 			return;
 		}
-		if(Math.abs(color.getSaturation() - colorParamInputs.get("sat").value()) > 0.011){
+		if(Math.abs(color.getSaturation() - colorParamInputs.get("sat").value()) > 0.00011){
 			color.setSaturation(colorParamInputs.get("sat").value());
 			updateRGBInputs();
 			return;
 		}
-		if(Math.abs(color.getBrightness() - colorParamInputs.get("lum").value()) > 0.011){
+		if(Math.abs(color.getBrightness() - colorParamInputs.get("lum").value()) > 0.00011){
 			color.setBrightness(colorParamInputs.get("lum").value());
 			updateRGBInputs();
 			return;
@@ -109,8 +105,16 @@ public class ColorPalette extends UIBox{
 		for(FlatColor c : colors){
 			canvas.noStroke();
 			FlatColor.fill(canvas,c.withAlphaAsWhite());
-			int x = 8 + (i % 14) * 17;
-			int y = 160 + (int) Math.floor(i/14)*17;
+
+			int x, y;
+
+			if(i < 154){
+				x = 8 + (i % 14) * 17;
+				y = 160 + (int) Math.floor(i/14)*17;
+			}else{
+				x = 8 + (i % 154) * 17;
+				y = 138;
+			}
 
 			if(hasFocus() && 
 				y-1 < mouseY() &&
