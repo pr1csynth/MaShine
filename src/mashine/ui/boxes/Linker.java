@@ -205,7 +205,7 @@ public class Linker extends UIBox{
 				canvas.text(a, 5, offset);
 
 				if(isClicked(offset)){
-					if(actionLinks.containsKey(a)){
+					if(stateLinks.containsKey(a)){
 						linkInput.setValue(stateLinks.get(a));
 					}else{
 						linkInput.setValue("");
@@ -282,7 +282,7 @@ public class Linker extends UIBox{
 	}
 
 	private boolean isClicked(int offset){
-		return mouseY() > 49 &&
+		return mouseY() > 70 &&
 			hasFocus() &&
 			offset - 3 - getScroll() < mouseY() &&
 			mouseY() < offset + 11 - getScroll() &&

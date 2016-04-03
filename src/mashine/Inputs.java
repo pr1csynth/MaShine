@@ -5,18 +5,13 @@
  *	@since  13-02-2016`
  */
 
- package mashine;
+package mashine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import mashine.inputs.InputSource;
-import mashine.inputs.KeyboardInputs;
-import mashine.inputs.Learnable;
-import mashine.inputs.MidiInputs;
-import mashine.inputs.MinimAnalysis;
-import mashine.inputs.MouseInputs;
+import mashine.inputs.*;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
@@ -63,6 +58,7 @@ public class Inputs{
 			put("mouse", mouse);
 			put("minim", new MinimAnalysis());
 			put("midi", new MidiInputs());
+			put("c", new InputConstants());
 		}};
 
 		learnable = new ArrayList<Learnable>();
@@ -96,11 +92,11 @@ public class Inputs{
 			inputs.get(key).clear();
 		}
 
-		for(String key : actionLinks.keySet()){
-			String s = actionLinks.get(key);
-			if(stateInputs.containsKey(s)){
-				if(stateInputs.get(s)){
-					actions.get(key).x();
+		for(String destination : actions.keySet()){
+			String source = actionLinks.get(destination);
+			if(stateInputs.containsKey(source)){
+				if(stateInputs.get(source)){
+					actions.get(destination).x();
 				}
 			}
 		}
@@ -135,25 +131,21 @@ public class Inputs{
 		}
 	}
 
-
-
-
-
 	public void registerAction(String destination, Do action){	actions.put(destination, action);}
 	public void registerState(String destination){  states.add(destination);}
 	public void registerRange(String destination){	ranges.add(destination);}
 
-	public void link(String what, String with){actionLinks.put(what, with);}
-	public void range(String what, String with){rangeLinks.put(what, with);}
-	public void state(String what, String with){stateLinks.put(what, with);}
+	public void link(String destination, String source){actionLinks.put(destination, source);}
+	public void range(String destination, String source){rangeLinks.put(destination, source);}
+	public void state(String destination, String source){stateLinks.put(destination, source);}
 
-	public void unlink(String what){	actionLinks.remove(what);}
-	public void unrange(String what){	 rangeLinks.remove(what);}
-	public void unstate(String what){	 stateLinks.remove(what);}
+	public void unlink(String destination){		actionLinks.remove(destination);}
+	public void unrange(String destination){	rangeLinks.remove(destination);}
+	public void unstate(String destination){	stateLinks.remove(destination);}
 	
 	public HashMap<String,String> getActionLinks(){	return actionLinks;}
 	public HashMap<String,String> getRangeLinks(){	return rangeLinks;}
-	public HashMap<String,String> getStateLinks(){	return rangeLinks;}
+	public HashMap<String,String> getStateLinks(){	return stateLinks;}
 
 	public Set<String> 		 getActionSet(){ return actions.keySet();}
 	public ArrayList<String> getRangeSet(){	 return ranges;}
