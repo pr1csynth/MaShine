@@ -8,6 +8,7 @@
 package mashine.engine;
 
 import mashine.MaShine;
+import mashine.Do;
 import mashine.scene.Frame;
 import mashine.scene.DeviceGroup;
 
@@ -42,6 +43,7 @@ public class Filter implements Serializable{
 	public Filter(String name, Robot robot){
 		this.name = name;
 		this.robot = robot;
+		this.enabled = false;
 	}
 
 	public Filter(String parent, Filter f){
@@ -50,6 +52,12 @@ public class Filter implements Serializable{
 		parameters = new HashMap<String, Short>();
 		values = new HashMap<String, Object>();
 		robot.setup(this);
+		this.enabled = true;
+
+		MaShine.inputs.registerState(this.name+".enabled");
+		MaShine.inputs.registerAction(this.name+".toggle", new Do(){public void x(){toggle();}});
+		MaShine.inputs.registerAction(this.name+".enable", new Do(){public void x(){enable();}});
+		MaShine.inputs.registerAction(this.name+".disable", new Do(){public void x(){disable();}});
 	}
 
 	public Frame filter(Frame f){
@@ -113,12 +121,10 @@ public class Filter implements Serializable{
 	public Robot getRobot(){return robot;}
 	public HashMap<String, Short> getParameters(){return parameters;}
 	public HashMap<String, Object> getValues(){return values;}
-	public boolean isEnabled(){return enabled;}
+	public boolean isEnabled(){return enabled && MaShine.inputs.getState(this.name+".enabled");}
 	public void disable(){enabled = false;}
-	public void enable(){
-		enabled = true;
-		robot.setup(this);
-	}
+	public void enable(){enabled = true;}
+	public void toggle(){enabled = !enabled;}
 
 
 }

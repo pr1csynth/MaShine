@@ -43,7 +43,7 @@ public class Bank{
 
 		filters.put("dimmer", new Filter("dimmer", new Filter.Robot(){
 			public void setup(Filter filter){
-				filter.declare("dimmer", Filter.RANGE);
+				filter.declare("value", Filter.RANGE);
 			}
 
 			public Frame f(Filter filter, Frame frame){
