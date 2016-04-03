@@ -25,7 +25,7 @@ public class SequenceSelector extends UIBox{
 	private Sequence selectedSequence;
 
 	public SequenceSelector () {
-		super("SEQUENCES", 950, 50, 150, 350);
+		super("SEQUENCES", 950, 600, 150, 350);
 
 		selectedSequence = MaShine.bank.getSequence(0);
 

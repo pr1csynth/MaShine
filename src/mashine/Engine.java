@@ -31,7 +31,7 @@ public class Engine{
 	public void tick(){
 		Frame frame = new Frame();
 
-		for(int i = tracks.size() -1; i >= 0; i --){
+		for(int i = 0; i < tracks.size(); i ++){
 			frame = Frame.mix(frame, tracks.get(i).getFrame()); 
 		}
 
