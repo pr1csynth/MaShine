@@ -26,7 +26,10 @@ public class Track implements Serializable{
 		sequencer = new Sequencer(name, MaShine.bank.getSequence(0));
 		filters = new ArrayList<Filter>();
 
-		filters.add(new Filter("track."+name, MaShine.bank.getFilter("dimmer")));
+		Filter dimmer = new Filter("track."+name, MaShine.bank.getFilter("dimmer"));
+		MaShine.inputs.state("track."+name+".filter.dimmer.enabled", "_true");
+
+		filters.add(dimmer);
 	}
 
 	public Frame getFrame(){

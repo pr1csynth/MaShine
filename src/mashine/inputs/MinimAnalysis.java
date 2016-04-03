@@ -27,13 +27,13 @@ public class MinimAnalysis extends InputSource{
 	private AudioInput in;
 	private FFT fft;
 
-	private String beatInputName = "minim.onset";
 	private long lastBeat = 0;
 	private int lastBeatDistance = 0;
 	private int meanBeatDistance = 0;
 	private long lastInterpolatedBeat = 0;
 	private long lastInterpolatedMeanBeat = 0;
 	private ArrayList<Integer> beatDistances;
+	private boolean init = false;
 
 	public MinimAnalysis () {
 
@@ -62,6 +62,12 @@ public class MinimAnalysis extends InputSource{
 
 	public void tick() {
 
+		if(!init){
+			MaShine.inputs.registerState("minim.beat");
+			MaShine.inputs.state("minim.beat", "minim.onset");
+			init = true;
+		}
+
 		// audio analysis
 		beatSE.detect(in.mix);	
 		beatFE.detect(in.mix);
@@ -79,6 +85,8 @@ public class MinimAnalysis extends InputSource{
 		long now = MaShine.m.millis();
 
 		// get user selected beat input (key, pad, ext source, minim beatdetect, ...)
+		String beatInputName = MaShine.inputs.getStateLinks().get("minim.beat");
+
 		if(states.containsKey(beatInputName)){
 			// instant
 			isBeat = states.get(beatInputName);

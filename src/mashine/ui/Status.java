@@ -23,6 +23,10 @@ public class Status{
 	public Status(){
 		status = new StringDict();
 		tetrahedron = new Tetrahedron(6);
+		MaShine.inputs.registerRange("status.tetra.fill");
+		MaShine.inputs.registerState("status.tetra.line");
+		MaShine.inputs.range("status.tetra.fill", "minim.rms");
+		MaShine.inputs.state("status.tetra.line", "minim.beat.interpolated");
 	}
 
 	public void draw(){
@@ -46,13 +50,13 @@ public class Status{
 
 		MaShine.m.ortho();
 
-		if(MaShine.inputs.getState("minim.beat.interpolated")){
+		if(MaShine.inputs.getState("status.tetra.line")){
 			beatFade = 255;
 		}
 
 		MaShine.m.stroke(0x64, 0xFF, 0xDA, beatFade);
 		MaShine.m.strokeWeight((float)1.1);
-		MaShine.m.fill(0, (float)MaShine.inputs.getRange("minim.rms")*255);
+		MaShine.m.fill(0, (float)MaShine.inputs.getRange("status.tetra.fill")*255);
 		tetrahedron.draw(MaShine.m.width - 13, MaShine.m.height - 11, 120);
 
 		beatFade = Math.max(50, beatFade - 15);
