@@ -12,11 +12,17 @@ Midi device only tested on Linux. Otherwise it should be crossplateform.
 
 # TODO
 
+- [x] Inputs basics
+- [x] Outputs basics
 - [x] Patch
 - [x] Animation
 - [x] Saves
 - [x] Input binding
 - [ ] Filters
+- [ ] DMX input
+- [ ] MIDI outputs
+- [ ] FFT ranges
+- [ ] More viewers
 - [ ] More device features
 - [ ] Go in the details of the UI/interactions
 
