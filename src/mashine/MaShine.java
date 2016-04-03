@@ -54,11 +54,11 @@ public class MaShine extends PApplet{
 		scene = new Scene();
 		ui = new UI();
 
-		inputs.register("mashine.test", new Do(){public void x(){println("TEST");}});
-		inputs.register("mashine.save_as", new Do(){public void x(){save();}});
-		inputs.register("mashine.open", new Do(){public void x(){restore();}});
-		inputs.register("mashine.save", new Do(){public void x(){save(lastSavedTo);}});
-		inputs.register("mashine.restore", new Do(){public void x(){restore(lastBackupFile);}});
+		inputs.registerAction("mashine.test", new Do(){public void x(){println("TEST");}});
+		inputs.registerAction("mashine.save_as", new Do(){public void x(){save();}});
+		inputs.registerAction("mashine.open", new Do(){public void x(){restore();}});
+		inputs.registerAction("mashine.save", new Do(){public void x(){save(lastSavedTo);}});
+		inputs.registerAction("mashine.restore", new Do(){public void x(){restore(lastBackupFile);}});
 		inputs.link("mashine.save", "keyboard.97.press");
 		inputs.link("mashine.open", "keyboard.98.press");
 		inputs.link("mashine.restore", "keyboard.99.press");

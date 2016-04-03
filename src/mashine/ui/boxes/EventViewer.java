@@ -30,7 +30,7 @@ public class EventViewer extends UIBox{
 		canvas.noStroke();
 		int offset = 30;
 		canvas.textAlign(PConstants.LEFT, PConstants.TOP);
-		ArrayList<String> stateInputsName = new ArrayList<String>(MaShine.inputs.getStateSet());
+		ArrayList<String> stateInputsName = new ArrayList<String>(MaShine.inputs.getStateInputSet());
 		Collections.sort(stateInputsName);
 
 		for(String a : stateInputsName){
@@ -55,7 +55,7 @@ public class EventViewer extends UIBox{
 		for(String h : highlight.keySet()){
 			Integer newVal;
 			if(h.contains("encod") || h.contains("beat") ){
-				newVal = highlight.get(h) - 35;
+				newVal = highlight.get(h) - 45;
 			}else{
 				newVal = highlight.get(h) - 10;
 			}

@@ -36,18 +36,24 @@ public class Inputs{
 
 	private HashMap<String,Do>      actions;
 	private ArrayList<String>       ranges;
+	private ArrayList<String>       states;
+
 	private HashMap<String,String>  actionLinks;
 	private HashMap<String,String>  rangeLinks;
+	private HashMap<String,String>  stateLinks;
 
 	public Inputs(){
 
-		stateInputs = new HashMap<String,Boolean>();
 		rangeInputs = new HashMap<String,Double>();
+		stateInputs = new HashMap<String,Boolean>();
 
 		actions     = new HashMap<String,Do>();
 		ranges      = new ArrayList<String> ();
-		rangeLinks  = new HashMap<String,String>();
+		states      = new ArrayList<String> ();
+
 		actionLinks = new HashMap<String,String>();
+		rangeLinks  = new HashMap<String,String>();
+		stateLinks  = new HashMap<String,String>();
 
 		keyboard = new KeyboardInputs();
 		mouse = new MouseInputs();
@@ -64,6 +70,9 @@ public class Inputs{
 		learnable.add((Learnable)inputs.get("midi"));
 
 	}
+
+	public void passKeyEvent(KeyEvent e){keyboard.keyEvent(e);}
+	public void passMouseEvent(MouseEvent e){mouse.mouseEvent(e);}
 
 	public void poll(){
 
@@ -97,20 +106,23 @@ public class Inputs{
 		}
 	}
 
+	public Set<String> getStateInputSet(){return stateInputs.keySet();}
+	public Set<String> getRangeInputSet(){return rangeInputs.keySet();}
+
+	public boolean hasRange(String inputName){	return rangeInputs.containsKey(inputName);}
+	public boolean hasState(String inputName){	return stateInputs.containsKey(inputName);}
+	
+	public void setRange(String inputName, double range){	rangeInputs.put(inputName, range);}
+	public void setState(String inputName, Boolean state){	stateInputs.put(inputName, state);}
+
 	public boolean getState(String inputName){
 		if(stateInputs.containsKey(inputName)){
 			return stateInputs.get(inputName);
+		}else if(stateLinks.containsKey(inputName)){
+			return getState(stateLinks.get(inputName));
 		}else{
 			return false;		
 		}
-	}
-
-	public boolean hasState(String inputName){
-		return stateInputs.containsKey(inputName);
-	}
-
-	public void setState(String inputName, Boolean state){
-		stateInputs.put(inputName, state);
 	}
 
 	public double getRange(String inputName){
@@ -123,91 +135,48 @@ public class Inputs{
 		}
 	}
 
-	public boolean hasRange(String inputName){
-		return rangeInputs.containsKey(inputName);
-	}
 
-	public void setRange(String inputName, double range){
-		rangeInputs.put(inputName, range);
-	}
 
-	public void passKeyEvent(KeyEvent e){
-		keyboard.keyEvent(e);
-	}
 
-	public void passMouseEvent(MouseEvent e){
-		mouse.mouseEvent(e);
-	}
 
-	public void register(String actionName, Do action){
-		actions.put(actionName, action);
-	}
+	public void registerAction(String destination, Do action){	actions.put(destination, action);}
+	public void registerState(String destination){  states.add(destination);}
+	public void registerRange(String destination){	ranges.add(destination);}
 
-	public void registerRange(String destination){
-		ranges.add(destination);
-	}
+	public void link(String what, String with){actionLinks.put(what, with);}
+	public void range(String what, String with){rangeLinks.put(what, with);}
+	public void state(String what, String with){stateLinks.put(what, with);}
 
-	public void link(String actionName, String stateInputName){
-		actionLinks.put(actionName, stateInputName);
-	}
+	public void unlink(String what){	actionLinks.remove(what);}
+	public void unrange(String what){	 rangeLinks.remove(what);}
+	public void unstate(String what){	 stateLinks.remove(what);}
+	
+	public HashMap<String,String> getActionLinks(){	return actionLinks;}
+	public HashMap<String,String> getRangeLinks(){	return rangeLinks;}
+	public HashMap<String,String> getStateLinks(){	return rangeLinks;}
 
-	public void range(String what, String with){
-		rangeLinks.put(what, with);
-	}
+	public Set<String> 		 getActionSet(){ return actions.keySet();}
+	public ArrayList<String> getRangeSet(){	 return ranges;}
+	public ArrayList<String> getStateSet(){	 return states;}
+	
+	public Do getAction(String actionName){return actions.get(actionName);}
 
-	public void unrange(String what){
-		rangeLinks.remove(what);
-	}
-
-	public void unlink(String actionName){
-		actionLinks.remove(actionName);
-	}
-
-	public Set<String> getActionSet(){
-		return actions.keySet();
-	}
-	public Do getAction(String actionName){
-		return actions.get(actionName);
-	}
-
-	public Set<String> getStateSet(){
-		return stateInputs.keySet();
-	}
-
-	public Set<String> getRangeInputSet(){
-		return rangeInputs.keySet();
-	}
-	public HashMap<String,String> getActionLinks(){
-		return actionLinks;
-	}
-	public HashMap<String,String> getRangeLinks(){
-		return rangeLinks;
-	}
-	public ArrayList<String> getRangeSet(){
-		return ranges;
-	}
-
-	public String getLastKey(){
-		return lastTyped;
-	}
-	public String getLastState(){
-		return lastState;
-	}
-	public String getLastRange(){
-		return lastRange;
-	}
+	public String getLastKey(){		return lastTyped;}
+	public String getLastState(){	return lastState;}
+	public String getLastRange(){	return lastRange;}
 
 	public Object save(){
 		HashMap<String,Object> saveObject = new HashMap<String,Object>();
 		saveObject.put("actions", actionLinks);
+		saveObject.put("states", stateLinks);
 		saveObject.put("ranges", rangeLinks);
 		return saveObject;
 	}
-	
 
 	public void restore(Object restoredObject){
 		HashMap<String, Object> r = (HashMap<String, Object>) restoredObject;
 		actionLinks = (HashMap<String, String>) r.get("actions");
+		stateLinks = (HashMap<String, String>) r.get("states");
 		rangeLinks = (HashMap<String, String>) r.get("ranges");
 	}
 

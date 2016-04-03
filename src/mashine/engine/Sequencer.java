@@ -34,23 +34,23 @@ public class Sequencer implements Serializable{
 		this.offset = 0;
 		this.index = 0;
 
-		MaShine.inputs.register("sequencer."+name+".tweak.start", new Do(){public void x(){startTweak();}});
-		MaShine.inputs.register("sequencer."+name+".tweak.end", new Do(){public void x(){endTweak();}});
-		MaShine.inputs.register("sequencer."+name+".manual.start", new Do(){public void x(){manual = true;}});
-		MaShine.inputs.register("sequencer."+name+".manual.end", new Do(){public void x(){manual = false;}});
+		MaShine.inputs.registerAction("sequencer."+name+".tweak.start", new Do(){public void x(){startTweak();}});
+		MaShine.inputs.registerAction("sequencer."+name+".tweak.end", new Do(){public void x(){endTweak();}});
+		MaShine.inputs.registerAction("sequencer."+name+".manual.start", new Do(){public void x(){manual = true;}});
+		MaShine.inputs.registerAction("sequencer."+name+".manual.end", new Do(){public void x(){manual = false;}});
 
-		MaShine.inputs.register("sequencer."+name+".reset", new Do(){public void x(){setIndex(clip);}});
+		MaShine.inputs.registerAction("sequencer."+name+".reset", new Do(){public void x(){setIndex(clip);}});
 
-		MaShine.inputs.register("sequencer."+name+".clip.less.tweak", new Do(){public void x(){if(tweaking)setClip(clip +1);}});
-		MaShine.inputs.register("sequencer."+name+".clip.more.tweak", new Do(){public void x(){if(tweaking)setClip(clip -1);}});
-		MaShine.inputs.register("sequencer."+name+".offset.less.tweak", new Do(){public void x(){if(tweaking)setOffset(offset +1);}});
-		MaShine.inputs.register("sequencer."+name+".offset.more.tweak", new Do(){public void x(){if(tweaking)setOffset(offset -1);}});
+		MaShine.inputs.registerAction("sequencer."+name+".clip.less.tweak", new Do(){public void x(){if(tweaking)setClip(clip +1);}});
+		MaShine.inputs.registerAction("sequencer."+name+".clip.more.tweak", new Do(){public void x(){if(tweaking)setClip(clip -1);}});
+		MaShine.inputs.registerAction("sequencer."+name+".offset.less.tweak", new Do(){public void x(){if(tweaking)setOffset(offset +1);}});
+		MaShine.inputs.registerAction("sequencer."+name+".offset.more.tweak", new Do(){public void x(){if(tweaking)setOffset(offset -1);}});
 
-		MaShine.inputs.register("sequencer."+name+".forward.manual", new Do(){public void x(){if(manual)setIndex(index +1);}});
-		MaShine.inputs.register("sequencer."+name+".backward.manual", new Do(){public void x(){if(manual)setIndex(index -1);}});
+		MaShine.inputs.registerAction("sequencer."+name+".forward.manual", new Do(){public void x(){if(manual)setIndex(index +1);}});
+		MaShine.inputs.registerAction("sequencer."+name+".backward.manual", new Do(){public void x(){if(manual)setIndex(index -1);}});
 
-		MaShine.inputs.register("sequencer."+name+".forward.auto", new Do(){public void x(){if(!manual)setIndex(index +1);}});
-		MaShine.inputs.register("sequencer."+name+".backward.auto", new Do(){public void x(){if(!manual)setIndex(index -1);}});
+		MaShine.inputs.registerAction("sequencer."+name+".forward.auto", new Do(){public void x(){if(!manual)setIndex(index +1);}});
+		MaShine.inputs.registerAction("sequencer."+name+".backward.auto", new Do(){public void x(){if(!manual)setIndex(index -1);}});
 
 		MaShine.inputs.link("sequencer."+name+".forward.auto", "minim.beat.interpolated");
 
