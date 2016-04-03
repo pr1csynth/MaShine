@@ -20,7 +20,6 @@ public class Sequencer implements Serializable{
 
 	private String name;
 	private Sequence sequence;
-	private Sequence selectedSequence;
 	private boolean tweaking = false;
 	private boolean manual = false;
 	private int clip;
@@ -34,8 +33,6 @@ public class Sequencer implements Serializable{
 		this.offset = 0;
 		this.index = 0;
 
-		MaShine.inputs.registerAction("sequencer."+name+".tweak.start", new Do(){public void x(){startTweak();}});
-		MaShine.inputs.registerAction("sequencer."+name+".tweak.end", new Do(){public void x(){endTweak();}});
 		MaShine.inputs.registerAction("sequencer."+name+".manual.start", new Do(){public void x(){manual = true;}});
 		MaShine.inputs.registerAction("sequencer."+name+".manual.end", new Do(){public void x(){manual = false;}});
 
@@ -95,6 +92,10 @@ public class Sequencer implements Serializable{
 	public Sequence getSequence(){
 		return sequence;
 	}
+	public void setSequence(Sequence sequence){
+		this.sequence = sequence;
+		setIndex(0);
+	}
 
 	public String getName(){
 		return name;
@@ -106,14 +107,10 @@ public class Sequencer implements Serializable{
 
 	public void startTweak(){
 		MaShine.ui.open("SequenceSelector");
-		selectedSequence = MaShine.ui.getSelectedSequence(); 
 		tweaking = true;
 	}
 	public void endTweak(){
-		if(selectedSequence != MaShine.ui.getSelectedSequence()){
-			sequence = MaShine.ui.getSelectedSequence();
-			setIndex(0);
-		}
+		MaShine.ui.close("SequenceSelector");
 		tweaking = false;
 	}
 

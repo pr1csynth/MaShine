@@ -13,6 +13,7 @@ import java.util.List;
 import mashine.Do;
 import mashine.MaShine;
 import mashine.scene.Sequence;
+import mashine.engine.Track;
 import mashine.ui.Colors;
 import mashine.ui.FlatColor;
 import mashine.ui.UIBox;
@@ -27,6 +28,9 @@ public class SequenceSelector extends UIBox{
 		super("SEQUENCES", 950, 50, 150, 350);
 
 		selectedSequence = MaShine.bank.getSequence(0);
+
+		MaShine.inputs.registerAction("ui.seq_select.next", new Do(){public void x(){nextSequence();}});
+		MaShine.inputs.registerAction("ui.seq_select.prev", new Do(){public void x(){prevSequence();}});
 
 		elements.add(new TextButton(this, "new", 0, 310, 55, 
 			new Do(){public void x(){newSequence();}}
@@ -69,7 +73,7 @@ public class SequenceSelector extends UIBox{
 				canvas.rect(1, offset - 3, width - 1, 14);
 
 				if(hasFocus() && offset - 3 < mouseY() && mouseY() < offset + 11 && MaShine.inputs.getState("mouse.left.press")){
-					selectedSequence = s;
+					setSelectedSequence(s);
 				}
 
 				FlatColor.fill(canvas,Colors.WHITE);
@@ -98,8 +102,20 @@ public class SequenceSelector extends UIBox{
 		selectedSequence = MaShine.bank.getSequence(0);
 	}
 
-	private void nextSequence(){}
-	private void prevSequence(){}
+	private void nextSequence(){
+		List<Sequence> sequences = MaShine.bank.getSequences();
+		int i = sequences.indexOf(selectedSequence) + 1;
+		if(i == sequences.size())
+			i = 0;
+		setSelectedSequence(MaShine.bank.getSequence(i));
+	}
+	private void prevSequence(){
+		List<Sequence> sequences = MaShine.bank.getSequences();
+		int i = sequences.indexOf(selectedSequence) - 1;
+		if(i == -1)
+			i = sequences.size() -1;
+		setSelectedSequence(MaShine.bank.getSequence(i));
+	}
 	
 	private void moveUpSequence(){
 		List<Sequence> sequences = MaShine.bank.getSequences();
@@ -114,5 +130,14 @@ public class SequenceSelector extends UIBox{
 			Collections.swap(sequences, i, i + 1);
 	}
 	public Sequence getSelectedSequence(){return selectedSequence;}
-	public void setSelectedSequence(Sequence s){selectedSequence = s;}
+	public void setSelectedSequence(Sequence s){
+		selectedSequence = s;
+
+		for(Track t : MaShine.engine.getTracks()){
+			if(t.isTweaked()){
+				t.sequencer.setSequence(s);
+			}
+		}
+
+	}
 }

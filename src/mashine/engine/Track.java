@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import mashine.MaShine;
+import mashine.Do;
 import mashine.scene.Frame;
 
 public class Track implements Serializable{
@@ -21,6 +22,8 @@ public class Track implements Serializable{
 	public Sequencer sequencer;
 	private ArrayList<Filter> filters;
 
+	private boolean tweaked = false;
+
 	public Track(String name){
 		this.name = name;
 		sequencer = new Sequencer(name, MaShine.bank.getSequence(0));
@@ -29,11 +32,27 @@ public class Track implements Serializable{
 		Filter dimmer = new Filter("track."+name, MaShine.bank.getFilter("dimmer"));
 		MaShine.inputs.state("track."+name+".filter.dimmer.enabled", "_true");
 
+		MaShine.inputs.registerAction("track."+name+".tweak.start", new Do(){public void x(){startTweak();}});
+		MaShine.inputs.registerAction("track."+name+".tweak.end", new Do(){public void x(){endTweak();}});
+
 		filters.add(dimmer);
 	}
 
 	public Frame getFrame(){
 		// todo : filter it
 		return sequencer.getFrame();
+	}
+
+	public boolean isTweaked(){
+		return tweaked;
+	}
+
+	public void startTweak(){
+		sequencer.startTweak();
+		tweaked = true;
+	}
+	public void endTweak(){
+		sequencer.endTweak();
+		tweaked = false;
 	}
 }
