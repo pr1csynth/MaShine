@@ -91,9 +91,9 @@ public class SequenceEditor extends UIBox{
 		}
 
 		currentFrame = selectedSequence.getFrame(currentFrameIndex);
-		MaShine.ui.setDisplayedFrame(currentFrame);
+		MaShine.ui.setDisplayedFrame(new Frame(currentFrame));
 		if(sendFrameOnOutputs){
-			MaShine.outputs.setFrame(currentFrame);
+			MaShine.outputs.setFrame(new Frame(currentFrame));
 		}
 
 		if(selectedColor != MaShine.ui.getSelectedColor()){

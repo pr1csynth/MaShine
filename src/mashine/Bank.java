@@ -47,14 +47,15 @@ public class Bank{
 			}
 
 			public Frame f(Filter filter, Frame frame){
-				Frame filteredFrame = new Frame(frame);
+				
 				for(EditableFeature f : frame.getFeatures().values()){
 					if(f instanceof ColorFeature){
-						//FlatColor
-						//f.link()
+						ColorFeature c = (ColorFeature) f;
+						c.link(c.getColor().dim((float)filter.getRange("value")));
+		
 					}
 				}
-				return filteredFrame;
+				return frame;
 			}
 		}));
 
@@ -85,6 +86,9 @@ public class Bank{
 
 	public Filter getFilter(String f){
 		return filters.get(f);
+	}
+	public HashMap<String, Filter> getFilters(){
+		return filters;
 	}
 
 	public Object save(){

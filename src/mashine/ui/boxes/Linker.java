@@ -56,7 +56,7 @@ public class Linker extends UIBox{
 	}
 
 	public void drawFixedUI(){
-		FlatColor.fill(canvas, Colors.MATERIAL.GREY._800);
+		FlatColor.fill(canvas, Colors.MATERIAL.BLUE_GREY._800);
 		canvas.rect(1, 22, width-1, 45);
 	}
 

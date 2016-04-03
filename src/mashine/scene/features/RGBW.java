@@ -52,7 +52,7 @@ public final class RGBW extends ColorFeature {
 		}else{
 			rc = new FlatColor(fields.get("red"), fields.get("green"), fields.get("blue"), fields.get("white"));
 		}
-		return rc.withAlphaAsWhite();
+		return rc;
 	}
 
 	public LinkedHashMap<String,Integer> getFields(){

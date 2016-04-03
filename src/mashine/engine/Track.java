@@ -31,6 +31,7 @@ public class Track implements Serializable{
 
 		Filter dimmer = new Filter("track."+name, MaShine.bank.getFilter("dimmer"));
 		MaShine.inputs.state("track."+name+".filter.dimmer.enabled", "_true");
+		MaShine.inputs.range("track."+name+".filter.dimmer.value", "_100");
 
 		MaShine.inputs.registerAction("track."+name+".tweak.start", new Do(){public void x(){startTweak();}});
 		MaShine.inputs.registerAction("track."+name+".tweak.end", new Do(){public void x(){endTweak();}});
@@ -39,8 +40,13 @@ public class Track implements Serializable{
 	}
 
 	public Frame getFrame(){
-		// todo : filter it
-		return sequencer.getFrame();
+		Frame frame = new Frame(sequencer.getFrame());
+		for(Filter f : filters){
+			if(f.isEnabled()){
+				frame = f.filter(frame);
+			}
+		}
+		return frame;
 	}
 
 	public boolean isTweaked(){

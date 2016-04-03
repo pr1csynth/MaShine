@@ -32,7 +32,7 @@ public class Menu extends Drawable{
 
 		Do switchToScene = new Do(){public void x(){MaShine.ui.open("DeviceEditor");}};
 		Do switchToAnimate = new Do(){public void x(){MaShine.ui.open("SequenceEditor");MaShine.ui.open("SequenceSelector");MaShine.ui.open("ColorPalette");}};
-		Do switchToLive = new Do(){public void x(){/*  OPEN SCENE TOOLS HERE  */}};
+		Do switchToLive = new Do(){public void x(){MaShine.ui.open("FilterSelector");}};
 		Do openDataViewer = new Do(){public void x(){MaShine.ui.open("DataViewer");}};
 		Do openEventViewer = new Do(){public void x(){MaShine.ui.open("EventViewer");}};
 		Do openLinker = new Do(){public void x(){MaShine.ui.open("Linker");}};

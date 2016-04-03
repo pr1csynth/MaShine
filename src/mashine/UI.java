@@ -28,6 +28,7 @@ import mashine.ui.boxes.Menu;
 import mashine.ui.boxes.SceneView;
 import mashine.ui.boxes.SequenceEditor;
 import mashine.ui.boxes.SequenceSelector;
+import mashine.ui.boxes.FilterSelector;
 import processing.core.PFont;
 
 public class UI{
@@ -89,6 +90,7 @@ public class UI{
 		uiElements.put("ColorPalette", colorPalette);
 		uiElements.put("SequenceEditor", new SequenceEditor());
 		uiElements.put("Linker", new Linker());
+		uiElements.put("FilterSelector", new FilterSelector());
 		openedUiElements = new LinkedList<Focusable>();
 
 		displayFrame = new Frame();
