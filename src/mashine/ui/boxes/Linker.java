@@ -86,7 +86,7 @@ public class Linker extends UIBox{
 				}
 			}else if(selectedRange != ""){
 				if(null != linkInput.value()){
-					MaShine.inputs.range(selectedState, linkInput.value());
+					MaShine.inputs.range(selectedRange, linkInput.value());
 				}else{
 					MaShine.inputs.unrange(selectedRange);
 				}
@@ -148,9 +148,9 @@ public class Linker extends UIBox{
 					canvas.rect(1, offset - 3, width - 1, 14);
 				}else if(actionLinks.containsKey(a)){
 					if(index % 2 == 0){
-						FlatColor.fill(canvas,Colors.MATERIAL.TEAL._700);
+						FlatColor.fill(canvas,Colors.MATERIAL.CYAN._700);
 					}else{
-						FlatColor.fill(canvas,Colors.MATERIAL.TEAL._600);
+						FlatColor.fill(canvas,Colors.MATERIAL.CYAN._600);
 					}
 					canvas.rect(1, offset - 3, width - 1, 14);
 				}else{
@@ -182,21 +182,45 @@ public class Linker extends UIBox{
 			}	
 		}
 
-		// offset += 10;
+		for(String a : rangeSet){
+			if(a.contains(filterInput.value())){
+				if(a.equals(selectedRange)){
+					FlatColor.fill(canvas,Colors.MATERIAL.ORANGE.A400);
+				}else if(rangeLinks.containsKey(a)){
+					if(index % 2 == 0){
+						FlatColor.fill(canvas,Colors.MATERIAL.TEAL._600);
+					}else{
+						FlatColor.fill(canvas,Colors.MATERIAL.TEAL._400);
+					}
+				}else{
+					if(index % 2 == 0){
+						FlatColor.fill(canvas,Colors.MATERIAL.INDIGO._600);
+					}else{
+						FlatColor.fill(canvas,Colors.MATERIAL.INDIGO._500);
+					}
+				}
 
-		// for(String a : rangeSet){
-		// 	if(a.contains(filterInput.value())){
-		// 		if(index % 2 == 0){
-		// 			FlatColor.fill(canvas,Colors.MATERIAL.BLUE_GREY._700);
-		// 			canvas.rect(1, offset - 3, width - 1, 14);
-		// 		}
+				canvas.rect(1, offset - 3, width - 1, 14);
 
-		// 		FlatColor.fill(canvas,Colors.WHITE);
-		// 		canvas.text(a, 5, offset);
-		// 		offset += 14;
-		// 		index ++;
-		// 	}
-		// }
+				FlatColor.fill(canvas,Colors.WHITE);
+				canvas.text(a, 5, offset);
+
+				if(mouseY() > 49 &&hasFocus() && offset - 3 - getScroll() < mouseY() && mouseY() < offset + 11 - getScroll() && MaShine.inputs.getState("mouse.left.press")){
+					if(rangeLinks.containsKey(a)){
+						linkInput.setValue(rangeLinks.get(a));
+					}else{
+						linkInput.setValue("");
+					}
+					selectedRange = a;
+					selectedState = "";
+					learnedRange = "";
+					learnedState = "";
+				}
+
+				offset += 14;
+				index ++;
+			}	
+		}
 
 		setVirtualHeight(offset);
 	}

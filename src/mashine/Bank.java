@@ -11,19 +11,22 @@ import java.util.HashMap;
 
 import mashine.engine.Filter;
 import mashine.scene.Sequence;
+import mashine.scene.Frame;
+import mashine.scene.features.*;
 import mashine.ui.Colors;
 import mashine.ui.FlatColor;
 
 public class Bank{
 
 	private ArrayList<Sequence> sequences;
-	private ArrayList<Filter> filters;
+	private HashMap<String, Filter> filters;
 	private ArrayList<FlatColor> colors;
 
 	public Bank(){
 		sequences = new ArrayList<Sequence>();
-		filters = new ArrayList<Filter>();
+		filters = new HashMap<String, Filter>();
 		colors = new ArrayList<FlatColor>();
+
 		sequences.add(new Sequence("unamed sequence"));
 
 		for(int i = 0; i < 154; i++){
@@ -37,6 +40,24 @@ public class Bank{
 		for(int i = 0; i < 5; i++){
 			colors.add(Colors.BLACK.withAlpha(0));
 		}
+
+		filters.put("dimmer", new Filter("dimmer", new Filter.Robot(){
+			public void setup(Filter filter){
+				filter.declare("dimmer", Filter.RANGE);
+			}
+
+			public Frame f(Filter filter, Frame frame){
+				Frame filteredFrame = new Frame(frame);
+				for(EditableFeature f : frame.getFeatures().values()){
+					if(f instanceof ColorFeature){
+						//FlatColor
+						//f.link()
+					}
+				}
+				return filteredFrame;
+			}
+		}));
+
 	}
 
 	public void addSequence(Sequence seq){
@@ -62,6 +83,10 @@ public class Bank{
 		return colors;
 	}
 
+	public Filter getFilter(String f){
+		return filters.get(f);
+	}
+
 	public Object save(){
 		HashMap<String,Object> saveObject = new HashMap<String,Object>();
 		saveObject.put("sequences", sequences);
@@ -74,7 +99,7 @@ public class Bank{
 		HashMap<String,Object> r = (HashMap<String,Object>) restoredObject;
 		sequences = (ArrayList<Sequence>) r.get("sequences");
 		colors = (ArrayList<FlatColor>) r.get("colors");
-		filters = (ArrayList<Filter>) r.get("filters");
+		filters = (HashMap<String, Filter>) r.get("filters");
 		MaShine.ui.setSelectedSequence(sequences.get(0));
 	}
 }

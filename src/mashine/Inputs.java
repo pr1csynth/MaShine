@@ -143,6 +143,10 @@ public class Inputs{
 		actions.put(actionName, action);
 	}
 
+	public void registerRange(String destination){
+		ranges.add(destination);
+	}
+
 	public void link(String actionName, String stateInputName){
 		actionLinks.put(actionName, stateInputName);
 	}
