@@ -33,6 +33,11 @@ public class Sequencer implements Serializable{
 		this.offset = 0;
 		this.index = 0;
 
+		MaShine.inputs.link("sequencer."+name+".forward.auto", "minim.beat.interpolated");
+		registerActions();
+	}
+
+	public void registerActions(){
 		MaShine.inputs.registerAction("sequencer."+name+".manual.start", new Do(){public void x(){manual = true;}});
 		MaShine.inputs.registerAction("sequencer."+name+".manual.end", new Do(){public void x(){manual = false;}});
 
@@ -48,9 +53,6 @@ public class Sequencer implements Serializable{
 
 		MaShine.inputs.registerAction("sequencer."+name+".forward.auto", new Do(){public void x(){if(!manual)setIndex(index +1);}});
 		MaShine.inputs.registerAction("sequencer."+name+".backward.auto", new Do(){public void x(){if(!manual)setIndex(index -1);}});
-
-		MaShine.inputs.link("sequencer."+name+".forward.auto", "minim.beat.interpolated");
-
 	}
 
 	public void setClip(int v){

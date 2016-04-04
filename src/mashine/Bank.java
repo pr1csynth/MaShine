@@ -8,6 +8,7 @@ package mashine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.Serializable;
 
 import mashine.engine.Filter;
 import mashine.scene.Sequence;
@@ -16,7 +17,7 @@ import mashine.scene.features.*;
 import mashine.ui.Colors;
 import mashine.ui.FlatColor;
 
-public class Bank{
+public class Bank implements Serializable{
 
 	private ArrayList<Sequence> sequences;
 	private HashMap<String, Filter> filters;
@@ -117,19 +118,27 @@ public class Bank{
 		return filters;
 	}
 
+	public static class SaveObject implements Serializable{
+		public ArrayList<Sequence> sequences;
+		public HashMap<String, Filter> filters;
+		public ArrayList<FlatColor> colors;
+
+		public SaveObject(ArrayList<Sequence> sequences,HashMap<String, Filter> filters,ArrayList<FlatColor> colors){
+			this.sequences = sequences;
+			this.filters = filters;
+			this.colors = colors;
+		}
+	}
+
 	public Object save(){
-		HashMap<String,Object> saveObject = new HashMap<String,Object>();
-		saveObject.put("sequences", sequences);
-		saveObject.put("colors", colors);
-		saveObject.put("filters", filters);
-		return saveObject;
+		return new SaveObject(sequences, filters, colors);
 	}
 
 	public void restore(Object restoredObject){
-		HashMap<String,Object> r = (HashMap<String,Object>) restoredObject;
-		sequences = (ArrayList<Sequence>) r.get("sequences");
-		colors = (ArrayList<FlatColor>) r.get("colors");
-		filters = (HashMap<String, Filter>) r.get("filters");
+		SaveObject s = (SaveObject) restoredObject;
+		sequences = s.sequences;
+		colors = s.colors;
+		filters = s.filters;
 		MaShine.ui.setSelectedSequence(sequences.get(0));
 	}
 }

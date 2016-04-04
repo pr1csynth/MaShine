@@ -35,10 +35,13 @@ public class Track implements Serializable{
 			MaShine.inputs.state(filterName+".enabled", "_true");
 			MaShine.inputs.range(filterName+".value", "_100");
 		}
+		registerActions();
+	}
 
+	public void registerActions(){
 		MaShine.inputs.registerAction("track."+name+".tweak.start", new Do(){public void x(){startTweak();}});
 		MaShine.inputs.registerAction("track."+name+".tweak.end", new Do(){public void x(){endTweak();}});
-
+		sequencer.registerActions();
 	}
 
 	public Frame getFrame(){

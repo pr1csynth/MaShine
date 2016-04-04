@@ -28,7 +28,9 @@ public class Filter implements Serializable{
 	public static final short LONG  = 4;
 
 	private HashMap<String, Short> parameters;
-	private HashMap<String, Object>  values;
+	private HashMap<String, DeviceGroup> groups;
+	private HashMap<String, Frame> frames;
+	private HashMap<String, Long>  longs;
 
 	private Robot robot;
 
@@ -36,9 +38,9 @@ public class Filter implements Serializable{
 	private String type;
 	private Boolean enabled;
 
-	public static interface Robot{
-		public void  setup(Filter filter);
-		public Frame f(Filter filter, Frame frame);
+	public static abstract class Robot implements Serializable{
+		public void  setup(Filter filter){};
+		public abstract Frame f(Filter filter, Frame frame);
 	}
 
 	public Filter(String name, Robot robot){
@@ -52,7 +54,9 @@ public class Filter implements Serializable{
 		this.name = parent + "." + f.getName();
 		this.robot = f.getRobot();
 		parameters = new HashMap<String, Short>();
-		values = new HashMap<String, Object>();
+		groups = new HashMap<String, DeviceGroup>();
+		frames = new HashMap<String, Frame>();
+		longs = new HashMap<String, Long>();
 		robot.setup(this);
 		this.enabled = false;
 
@@ -69,15 +73,15 @@ public class Filter implements Serializable{
 		if(type == RANGE){
 			MaShine.inputs.registerRange(this.name+"."+param);
 		}else if(type == STATE){
-			values.put(param, "");
-		}else{
-			values.put(param, null);
+			MaShine.inputs.registerState(this.name+"."+param);
+		}else if(type == FRAME){
+			frames.put(param, new Frame());
+		}else if(type == GROUP){
+			groups.put(param, new DeviceGroup(""));
+		}else if(type == LONG){
+			longs.put(param, 0L);
 		}
 		parameters.put(param, type);
-	}
-
-	public void set(String param, Object value){
-		values.put(param, value);
 	}
 
 	public double getRange(String param){
@@ -88,42 +92,37 @@ public class Filter implements Serializable{
 	}
 
 	public boolean getState(String param){
-		if(parameters.containsKey(param) && parameters.get(param) == STATE && null != values.get(param)){
-			return MaShine.inputs.getState((String) values.get(param));
+		if(parameters.containsKey(param) && parameters.get(param) == STATE){
+			return MaShine.inputs.getState(this.name + "." + param);
 		}
 		return false;	
 	}
 
 	public long getLong(String param){
-		if(parameters.containsKey(param) && parameters.get(param) == LONG && null != values.get(param)){
-			return (Long) values.get(param);
+		if(parameters.containsKey(param) && parameters.get(param) == LONG && null != longs.get(param)){
+			return longs.get(param);
 		}
 		return 0L;	
 	}
 
 	public Frame getFrame(String param){
-		if(parameters.containsKey(param) && parameters.get(param) == FRAME && null != values.get(param)){
-			return (Frame) values.get(param);
+		if(parameters.containsKey(param) && parameters.get(param) == FRAME && null != frames.get(param)){
+			return frames.get(param);
 		}
 		return new Frame();	
 	}
 
 	public DeviceGroup getGroup(String param){
-		if(parameters.containsKey(param) && parameters.get(param) == GROUP && null != values.get(param)){
-			return (DeviceGroup) values.get(param);
+		if(parameters.containsKey(param) && parameters.get(param) == GROUP && null != groups.get(param)){
+			return groups.get(param);
 		}
 		return new DeviceGroup("empty");	
-	}
-
-	public Object get(String param){
-		return values.get(param);
 	}
 
 	public String getName(){return name;}
 	public String getType(){return type;}
 	public Robot getRobot(){return robot;}
 	public HashMap<String, Short> getParameters(){return parameters;}
-	public HashMap<String, Object> getValues(){return values;}
 	public boolean isEnabled(){return enabled || MaShine.inputs.getState(this.name+".enabled");}
 	public void disable(){enabled = false;}
 	public void enable(){enabled = true;}
