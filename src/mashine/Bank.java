@@ -85,6 +85,9 @@ public class Bank implements Serializable{
 				return frame;
 			}
 		}));
+		filters.put("dummy", new Filter("dummy", new Filter.Robot(){
+			public Frame f(Filter filter, Frame frame){return frame;}
+		}));
 
 	}
 
@@ -120,25 +123,22 @@ public class Bank implements Serializable{
 
 	public static class SaveObject implements Serializable{
 		public ArrayList<Sequence> sequences;
-		public HashMap<String, Filter> filters;
 		public ArrayList<FlatColor> colors;
 
-		public SaveObject(ArrayList<Sequence> sequences,HashMap<String, Filter> filters,ArrayList<FlatColor> colors){
+		public SaveObject(ArrayList<Sequence> sequences, ArrayList<FlatColor> colors){
 			this.sequences = sequences;
-			this.filters = filters;
 			this.colors = colors;
 		}
 	}
 
 	public Object save(){
-		return new SaveObject(sequences, filters, colors);
+		return new SaveObject(sequences, colors);
 	}
 
 	public void restore(Object restoredObject){
 		SaveObject s = (SaveObject) restoredObject;
 		sequences = s.sequences;
 		colors = s.colors;
-		filters = s.filters;
 		MaShine.ui.setSelectedSequence(sequences.get(0));
 	}
 }
