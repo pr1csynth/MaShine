@@ -21,6 +21,7 @@ public class Track implements Serializable{
 	private String name;
 	public Sequencer sequencer;
 	private ArrayList<Filter> filters;
+	private int filterIndex; 
 
 	private boolean tweaked = false;
 
@@ -29,14 +30,15 @@ public class Track implements Serializable{
 		sequencer = new Sequencer(name, MaShine.bank.getSequence(0));
 		filters = new ArrayList<Filter>();
 
-		Filter dimmer = new Filter("track."+name, MaShine.bank.getFilter("dimmer"));
-		MaShine.inputs.state("track."+name+".filter.dimmer.enabled", "_true");
-		MaShine.inputs.range("track."+name+".filter.dimmer.value", "_100");
+		String filterName = addFilter("dimmer");
+		if(filterName != null){
+			MaShine.inputs.state(filterName+".enabled", "_true");
+			MaShine.inputs.range(filterName+".value", "_100");
+		}
 
 		MaShine.inputs.registerAction("track."+name+".tweak.start", new Do(){public void x(){startTweak();}});
 		MaShine.inputs.registerAction("track."+name+".tweak.end", new Do(){public void x(){endTweak();}});
 
-		filters.add(dimmer);
 	}
 
 	public Frame getFrame(){
@@ -49,16 +51,25 @@ public class Track implements Serializable{
 		return frame;
 	}
 
-	public boolean isTweaked(){
-		return tweaked;
+	public String addFilter(String type){
+		if(MaShine.bank.getFilter(type) != null){
+			filterIndex ++;
+			String name = "track."+this.name+".filter."+hex(filterIndex);
+			Filter f = new Filter(name, MaShine.bank.getFilter(type));
+			filters.add(f);
+			return name+"."+type;
+		}
+		return null;
 	}
 
-	public void startTweak(){
-		sequencer.startTweak();
-		tweaked = true;
-	}
-	public void endTweak(){
-		sequencer.endTweak();
-		tweaked = false;
+	public ArrayList<Filter> getFilters(){return filters;}
+	public String getName(){return name;}
+
+	public boolean isTweaked(){return tweaked;}
+	public void startTweak(){sequencer.startTweak(); tweaked = true;}
+	public void endTweak(){sequencer.endTweak();tweaked = false;}
+
+	public static String hex(int n) {
+		return String.format("%2s", Integer.toHexString(n)).replace(' ', '0');
 	}
 }

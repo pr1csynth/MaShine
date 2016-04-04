@@ -36,11 +36,13 @@ public class UI{
 	private Menu menu;
 	private HashMap<String,Focusable> uiElements;
 	private LinkedList<Focusable> openedUiElements;
+	private ArrayList<Focusable> toBeOpenedUiElements;
 	private Frame displayFrame;
 	public SceneView sceneView;
 	public EngineView engineView;
 	public SequenceSelector sequenceSelector;
 	public ColorPalette colorPalette;
+	public Linker linker;
 	public Status status;
 	public PFont TEXTFONT;
 	public PFont TITLEFONT;
@@ -81,6 +83,7 @@ public class UI{
 		engineView = new EngineView();
 		sequenceSelector = new SequenceSelector();
 		colorPalette = new ColorPalette();
+		linker = new Linker();
 
 		uiElements = new HashMap<String,Focusable>();
 		uiElements.put("EventViewer", new EventViewer());
@@ -89,9 +92,10 @@ public class UI{
 		uiElements.put("SequenceSelector", sequenceSelector);
 		uiElements.put("ColorPalette", colorPalette);
 		uiElements.put("SequenceEditor", new SequenceEditor());
-		uiElements.put("Linker", new Linker());
+		uiElements.put("Linker", linker);
 		uiElements.put("FilterSelector", new FilterSelector());
 		openedUiElements = new LinkedList<Focusable>();
+		toBeOpenedUiElements = new ArrayList<Focusable>();
 
 		displayFrame = new Frame();
 	}
@@ -115,7 +119,7 @@ public class UI{
 		if(uiElements.containsKey(uiElementName)){
 			Focusable el = uiElements.get(uiElementName);
 			if(!openedUiElements.contains(el)){
-				openedUiElements.add(el);
+				toBeOpenedUiElements.add(el);
 			}
 		}
 	}
@@ -132,6 +136,12 @@ public class UI{
 		displayFrame = null;
 		sceneView.draw();
 		engineView.draw();
+
+		for(Focusable f : toBeOpenedUiElements){
+			openedUiElements.add(f);
+		}
+
+		toBeOpenedUiElements.clear();
 
 		openedUiElements.sort(new SortByFocus());
 

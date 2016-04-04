@@ -289,4 +289,8 @@ public class Linker extends UIBox{
 			MaShine.inputs.getState("mouse.left.press");
 	}
 
+	public void setFilterValue(String v){
+		filterInput.setValue(v);
+	}
+
 }

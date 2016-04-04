@@ -50,8 +50,8 @@ public class MaShine extends PApplet{
 		inputs = new Inputs();
 		outputs = new Outputs();
 		bank = new Bank();
-		engine = new Engine();
 		scene = new Scene();
+		engine = new Engine();
 		ui = new UI();
 
 		inputs.registerAction("mashine.test", new Do(){public void x(){println("TEST");}});

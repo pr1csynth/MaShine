@@ -33,6 +33,7 @@ public class Filter implements Serializable{
 	private Robot robot;
 
 	private String name;
+	private String type;
 	private Boolean enabled;
 
 	public static interface Robot{
@@ -41,18 +42,19 @@ public class Filter implements Serializable{
 	}
 
 	public Filter(String name, Robot robot){
-		this.name = name;
+		this.name = this.type = name;
 		this.robot = robot;
 		this.enabled = false;
 	}
 
 	public Filter(String parent, Filter f){
-		this.name = parent + ".filter." + f.getName();
+		this.type = f.getType();
+		this.name = parent + "." + f.getName();
 		this.robot = f.getRobot();
 		parameters = new HashMap<String, Short>();
 		values = new HashMap<String, Object>();
 		robot.setup(this);
-		this.enabled = true;
+		this.enabled = false;
 
 		MaShine.inputs.registerState(this.name+".enabled");
 		MaShine.inputs.registerAction(this.name+".toggle", new Do(){public void x(){toggle();}});
@@ -118,10 +120,11 @@ public class Filter implements Serializable{
 	}
 
 	public String getName(){return name;}
+	public String getType(){return type;}
 	public Robot getRobot(){return robot;}
 	public HashMap<String, Short> getParameters(){return parameters;}
 	public HashMap<String, Object> getValues(){return values;}
-	public boolean isEnabled(){return enabled && MaShine.inputs.getState(this.name+".enabled");}
+	public boolean isEnabled(){return enabled || MaShine.inputs.getState(this.name+".enabled");}
 	public void disable(){enabled = false;}
 	public void enable(){enabled = true;}
 	public void toggle(){enabled = !enabled;}

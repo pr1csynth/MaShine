@@ -52,7 +52,33 @@ public class Bank{
 					if(f instanceof ColorFeature){
 						ColorFeature c = (ColorFeature) f;
 						c.link(c.getColor().dim((float)filter.getRange("value")));
-		
+					}
+				}
+				return frame;
+			}
+		}));
+
+		filters.put("blackout", new Filter("blackout", new Filter.Robot(){
+			public void setup(Filter filter){}
+
+			public Frame f(Filter filter, Frame frame){	
+				for(EditableFeature f : frame.getFeatures().values()){
+					if(f instanceof ColorFeature){
+						ColorFeature c = (ColorFeature) f;
+						c.link(new FlatColor(0,0,0,0));
+					}
+				}
+				return frame;
+			}
+		}));
+		filters.put("whiteout", new Filter("whiteout", new Filter.Robot(){
+			public void setup(Filter filter){}
+
+			public Frame f(Filter filter, Frame frame){	
+				for(EditableFeature f : frame.getFeatures().values()){
+					if(f instanceof ColorFeature){
+						ColorFeature c = (ColorFeature) f;
+						c.link(new FlatColor(255));
 					}
 				}
 				return frame;
