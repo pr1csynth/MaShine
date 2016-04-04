@@ -13,7 +13,7 @@ import mashine.ui.FlatColor;
 public class TextInput extends Element{
 
 	private String value;
-	private static String validChar;
+	private String validChar;
 
 	public TextInput(Drawable parent, String defaultValue, int x, int y, int width){
 		this(parent, defaultValue, x, y, width, "");
