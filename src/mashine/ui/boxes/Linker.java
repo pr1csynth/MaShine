@@ -42,16 +42,16 @@ public class Linker extends UIBox{
 		elements.add(filterInput);
 		elements.add(linkInput);
 		elements.add(new TextButton(this, "learn", width-54, 45, 55, 
-			new Do(){public void x(){link();}}
+			new Do(){public void x(){learn();}}
 			));
 		elements.add(new TextButton(this, "learn all", width-141, 45, 85, 
-			new Do(){public void x(){linkAll();}}
+			new Do(){public void x(){learnAll();}}
 			));
 		elements.add(new TextButton(this, "unlink", width-54, 28, 55, 
 			new Do(){public void x(){unlink();}}
 			));
 		elements.add(new TextButton(this, "link", width-111, 28, 55, 
-			new Do(){public void x(){commitLink();}}
+			new Do(){public void x(){link();}}
 			));
 	}
 
@@ -60,14 +60,14 @@ public class Linker extends UIBox{
 		canvas.rect(1, 22, width-1, 45);
 	}
 
-	public void link(){
+	public void learn(){
 		learnedAction = selectedAction;
 		learnedState = selectedState;
 		learnedRange = selectedRange;
 		linkInput.setValue("LEARNING...");
 		learningAll = false;
 	}
-	public void linkAll(){
+	public void learnAll(){
 		if(!filterInput.value().equals("")){
 			learnedAction = "";
 			learnedState = "";
@@ -82,13 +82,13 @@ public class Linker extends UIBox{
 		MaShine.inputs.unstate(selectedState);
 	}
 
-	public void commitLink(){
+	public void link(){
 		if(!isLearning()){
 			if(selectedAction != ""){
 				if(null != linkInput.value()){
-					MaShine.inputs.link(selectedState, linkInput.value());
+					MaShine.inputs.link(selectedAction, linkInput.value());
 				}else{
-					MaShine.inputs.unlink(selectedState);
+					MaShine.inputs.unlink(selectedAction);
 				}
 			}else if(selectedRange != ""){
 				if(null != linkInput.value()){
