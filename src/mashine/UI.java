@@ -151,11 +151,17 @@ public class UI{
 			el.defocus();
 		}
 
-		if(!openedUiElements.isEmpty())
-			if(openedUiElements.getLast().mouseIn())
+		sceneView.defocus();
+
+		if(!openedUiElements.isEmpty()){
+			if(openedUiElements.getLast().mouseIn()){
 				openedUiElements.getLast().focus();
-			else
+			}else if(sceneView.mouseIn()){
 				sceneView.focus();
+			}
+		}else if(sceneView.mouseIn()){
+			sceneView.focus();
+		}
 		
 		status.draw();
 	}
