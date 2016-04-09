@@ -33,7 +33,7 @@ public class UIBox extends Drawable{
 		super(x, y, w, h);
 		title = t;
 		this.x = Math.min(x, MaShine.m.width - width);
-		this.y = Math.min(y, MaShine.m.height - height);
+		this.y = Math.min(y, MaShine.m.height - height - 23);
 		width = Math.min(w, MaShine.m.width);
 		height = Math.min(h, MaShine.m.height);
 		vheight = vh;
@@ -110,7 +110,7 @@ public class UIBox extends Drawable{
 
 	public void moveBox(int x, int y) {
 		this.x = Math.max(0, Math.min(x, MaShine.m.width - width));
-		this.y = Math.max(0, Math.min(y, MaShine.m.height - height));
+		this.y = Math.max(0, Math.min(y, MaShine.m.height - height - 23));
 	}
 
 	protected int getScroll(){
