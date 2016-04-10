@@ -17,17 +17,17 @@ Midi device only tested on Linux. Otherwise it should be crossplateform.
 - [x] Patch
 - [x] Animation
 - [x] Saves
-- [ ] Selective saves/imports/exports
 - [x] Input binding
 - [x] Filters mechanism
-- [ ] More filters
+- [ ] Device groups in filters
 - [ ] DMX input
-- [ ] MIDI outputs
 - [ ] FFT ranges
-- [ ] More viewers
 - [ ] More device features
-- [ ] Device groups
+- [ ] More filters
+- [ ] More viewers
+- [ ] Selective saves/imports/exports
 - [ ] Go in the details of the UI/interactions
+- [ ] MIDI outputs
 
 # WHICH LICENSE ?
 
