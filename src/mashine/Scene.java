@@ -9,6 +9,7 @@ package mashine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.Serializable;
 
 import mashine.scene.Device;
 import mashine.scene.DeviceGroup;
@@ -33,6 +34,8 @@ public class Scene{
 	}
 
 	public Scene(){
+
+		groups = new ArrayList<DeviceGroup>();
 
 		devices = new ArrayList<Device>();
 		Device testDevice = new Device("RGB", 1, 30, 10, 10, 200, 50);
@@ -68,13 +71,33 @@ public class Scene{
 		device.setName(newName);
 	}
 
+	public void addGroup(DeviceGroup grp){groups.add(grp);}
+	public void deleteGroup(DeviceGroup grp){groups.remove(grp);}
+	public ArrayList<DeviceGroup> getGroups(){return groups;}
+	public DeviceGroup getGroup(int index){return groups.get(index);}
+	public int getGroupsSize(){return groups.size();}
+	
+	public static class SaveObject implements Serializable{
+		public ArrayList<Device> devices;
+		public ArrayList<DeviceGroup> groups;
+
+		public SaveObject(
+			ArrayList<Device> devices,
+			ArrayList<DeviceGroup> groups
+		){
+			this.devices = devices;
+			this.groups = groups;
+		}
+	}
+
 	public Object save(){
-		return devices;
+		return new SaveObject(devices, groups);
 	}
 
 	public void restore(Object restoredObject){
-		devices = (ArrayList<Device>) restoredObject;
-
+		SaveObject s = (SaveObject) restoredObject;
+		devices = s.devices;
+		groups = s.groups;
 		MaShine.ui.reloadElements();
 	}
 }

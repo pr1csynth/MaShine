@@ -30,8 +30,8 @@ public class Menu extends Drawable{
 		new ArrayList<Element>();
 		focus = true;
 
-		Do switchToScene = new Do(){public void x(){MaShine.ui.open("DeviceEditor");}};
-		Do switchToAnimate = new Do(){public void x(){MaShine.ui.open("SequenceEditor");MaShine.ui.open("SequenceSelector");MaShine.ui.open("ColorPalette");}};
+		Do switchToScene = new Do(){public void x(){MaShine.ui.open("DeviceEditor");MaShine.ui.open("DeviceSelector");}};
+		Do switchToAnimate = new Do(){public void x(){MaShine.ui.open("DeviceSelector");MaShine.ui.open("SequenceEditor");MaShine.ui.open("SequenceSelector");MaShine.ui.open("ColorPalette");}};
 		Do switchToLive = new Do(){public void x(){MaShine.ui.open("FilterSelector");}};
 		Do openDataViewer = new Do(){public void x(){MaShine.ui.open("DataViewer");}};
 		Do openEventViewer = new Do(){public void x(){MaShine.ui.open("EventViewer");}};

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import mashine.scene.Device;
+import mashine.scene.DeviceGroup;
 import mashine.scene.Frame;
 import mashine.scene.Sequence;
 import mashine.ui.FlatColor;
@@ -21,6 +22,7 @@ import mashine.ui.Status;
 import mashine.ui.boxes.ColorPalette;
 import mashine.ui.boxes.DataViewer;
 import mashine.ui.boxes.DeviceEditor;
+import mashine.ui.boxes.DeviceSelector;
 import mashine.ui.boxes.EngineView;
 import mashine.ui.boxes.EventViewer;
 import mashine.ui.boxes.Linker;
@@ -41,6 +43,7 @@ public class UI{
 	public SceneView sceneView;
 	public EngineView engineView;
 	public SequenceSelector sequenceSelector;
+	public DeviceSelector deviceSelector;
 	public ColorPalette colorPalette;
 	public Linker linker;
 	public Status status;
@@ -82,6 +85,7 @@ public class UI{
 		sceneView = new SceneView();
 		engineView = new EngineView();
 		sequenceSelector = new SequenceSelector();
+		deviceSelector = new DeviceSelector();
 		colorPalette = new ColorPalette();
 		linker = new Linker();
 
@@ -89,6 +93,7 @@ public class UI{
 		uiElements.put("EventViewer", new EventViewer());
 		uiElements.put("DataViewer", new DataViewer());
 		uiElements.put("DeviceEditor", new DeviceEditor());
+		uiElements.put("DeviceSelector", deviceSelector);
 		uiElements.put("SequenceSelector", sequenceSelector);
 		uiElements.put("ColorPalette", colorPalette);
 		uiElements.put("SequenceEditor", new SequenceEditor());
@@ -176,7 +181,10 @@ public class UI{
 	public void setSelectedSequence(Sequence s){sequenceSelector.setSelectedSequence(s);}
 
 	public FlatColor getSelectedColor(){return colorPalette.getSelectedColor();}
-	public void setSelectedColor(FlatColor s){colorPalette.setSelectedColor(s);}
+	public void setSelectedColor(FlatColor c){colorPalette.setSelectedColor(c);}
+
+	public DeviceGroup getSelectedGroup(){return deviceSelector.getSelectedGroup();}
+	public void setSelectedGroup(DeviceGroup g){deviceSelector.setSelectedGroup(g);}
 
 	public void setDisplayedFrame(Frame frame){if(null == displayFrame)displayFrame = frame;}
 }
