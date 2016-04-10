@@ -19,11 +19,12 @@ Midi device only tested on Linux. Otherwise it should be crossplateform.
 - [x] Saves
 - [x] Input binding
 - [x] Filters mechanism
-- [ ] Device groups in filters
+- [x] Device groups in filters
 - [ ] DMX input
 - [ ] FFT ranges
 - [ ] More device features
 - [ ] More filters
+- [ ] A complete demo set
 - [ ] More viewers
 - [ ] Selective saves/imports/exports
 - [ ] Go in the details of the UI/interactions
