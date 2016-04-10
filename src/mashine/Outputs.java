@@ -17,10 +17,12 @@ public class Outputs{
 
 	private HashMap<String,Output> outputs;
 	private Frame frame;
+	public Ola ola;
 
 	public Outputs(){
 		outputs = new HashMap<String,Output>();
-		outputs.put("OLA", new Ola());
+		ola = new Ola();
+		outputs.put("OLA", ola);
 	}
 
 	public void push(){

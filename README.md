@@ -20,7 +20,7 @@ Midi device only tested on Linux. Otherwise it should be crossplateform.
 - [x] Input binding
 - [x] Filters mechanism
 - [x] Device groups in filters
-- [ ] DMX input
+- [x] DMX input
 - [ ] FFT ranges
 - [ ] More device features
 - [ ] More filters

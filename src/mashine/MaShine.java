@@ -47,8 +47,8 @@ public class MaShine extends PApplet{
 		frameRate(50);
 		surface.setResizable(true);
 
-		inputs = new Inputs();
 		outputs = new Outputs();
+		inputs = new Inputs();
 		bank = new Bank();
 		scene = new Scene();
 		engine = new Engine();

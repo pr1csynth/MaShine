@@ -58,6 +58,7 @@ public class Inputs{
 			put("mouse", mouse);
 			put("minim", new MinimAnalysis());
 			put("midi", new MidiInputs());
+			put("ola", new OlaInput());
 			put("c", new InputConstants());
 		}};
 

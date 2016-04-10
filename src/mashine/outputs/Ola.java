@@ -17,10 +17,12 @@ import mashine.scene.features.EditableFeature;
 import mashine.scene.features.Feature;
 import ola.OlaClient;
 import ola.proto.Ola.UniverseInfo;
+import ola.proto.Ola.DmxData;
 
 public class Ola extends Output{
 
 	private OlaClient ola;
+	private Integer inputUniverse;
 
 	public Ola(){
 		//connectToServer();
@@ -79,6 +81,7 @@ public class Ola extends Output{
 				MaShine.ui.status.set("OLA", "disconnected");
 			}
 
+			//testReceive(3);
 
 		}else{
 			if(MaShine.m.frameCount % 120 == 0)
@@ -106,9 +109,19 @@ public class Ola extends Output{
 				for(UniverseInfo u : r){
 					if(u.getOutputPortCount()>0)
 						ports.put(u.getUniverse(), u.getName());
+					if(u.getInputPortCount()>0)
+						inputUniverse = u.getUniverse();
 				}
 			}catch (Exception e) {}
 		}
 		MaShine.ui.status.set("OLA", ports.size()+ " universes");
+	}
+
+	public short[] getDmx(){
+		if(inputUniverse == null){
+			return null;
+		}
+		DmxData r = ola.getDmx(inputUniverse);
+		return ola.convertFromUnsigned(r.getData());
 	}
 }
