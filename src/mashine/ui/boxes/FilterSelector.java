@@ -16,6 +16,7 @@ import mashine.Do;
 import mashine.MaShine;
 import mashine.engine.Track;
 import mashine.engine.Filter;
+import mashine.scene.DeviceGroup;
 import mashine.ui.Colors;
 import mashine.ui.FlatColor;
 import mashine.ui.UIBox;
@@ -24,8 +25,10 @@ import processing.core.PConstants;
 
 public class FilterSelector extends UIBox{
 
-	private Filter selectedModel;
 	private Filter selectedFilter;
+	private Filter selectedModel;
+
+	private DeviceGroup selectedGroup;
 
 	public FilterSelector () {
 		super("FILTERS", 400, 600, 500, 230);
@@ -47,9 +50,21 @@ public class FilterSelector extends UIBox{
 		elements.add(new TextButton(this, "delete", 232, height-15, 55, 
 			new Do(){public void x(){removeFilter();}}
 			));	
-		elements.add(new TextButton(this, "toggle", width - 74, height-15, 75, 
+		elements.add(new TextButton(this, "toggle", width - 74, height-66, 75, 
 			new Do(){public void x(){toggleFilter();}}
 			));
+
+		elements.add(new TextButton(this, "set group", width - 74, height-49, 75,
+			new Do(){public void x(){
+				MaShine.ui.open("DeviceSelector");
+				if(selectedFilter != null){
+					selectedGroup = selectedFilter.getGroup();
+				}else{
+					selectedGroup = null;
+				}
+				MaShine.ui.setSelectedGroup(selectedGroup);
+			}}
+		));
 
 		elements.add(new TextButton(this, "bind", width - 74, height-32, 75,
 			new Do(){public void x(){
@@ -64,6 +79,12 @@ public class FilterSelector extends UIBox{
 	}
 
 	public void tick(){
+		if(MaShine.ui.getSelectedGroup() != selectedGroup){
+			selectedGroup = MaShine.ui.getSelectedGroup();
+			if(selectedFilter != null){
+				selectedFilter.setGroup(selectedGroup);
+			}
+		}
 	}
 
 	public void drawFixedUI(){
@@ -84,8 +105,9 @@ public class FilterSelector extends UIBox{
 			int offset = 28;
 
 			canvas.text(selectedFilter.getType() + " (" + (selectedFilter.isEnabled() ? "enabled" : "disabled") + ")", 355,  offset);	
-	
-			offset += 20;
+			canvas.text("group: " + (selectedFilter.getGroup() != null ? selectedFilter.getGroup().getName() : "(unset)"), 355,  offset+14);	
+		
+			offset += 34;
 
 			canvas.textAlign(PConstants.RIGHT, PConstants.TOP);
 			Map<String,Short> params = selectedFilter.getParameters();
@@ -95,7 +117,6 @@ public class FilterSelector extends UIBox{
 				if(ti != Filter.FRAME && ti != Filter.LONG){
 					if(ti == Filter.RANGE) t = "RANGE";
 					if(ti == Filter.STATE) t = "STATE";
-					if(ti == Filter.GROUP) t = "GROUP";
 					canvas.text(p+" :  "+ t, width - 5, offset);
 					offset += 14;
 				}
@@ -119,7 +140,9 @@ public class FilterSelector extends UIBox{
 	}
 
 	public void setSelectedModel(Filter model){selectedModel = model;}
-	public void setSelectedFilter(Filter filter){selectedFilter = filter;}
+	public void setSelectedFilter(Filter filter){
+		selectedFilter = filter;
+	}
 
 	private boolean isClicked(int offsetX, int offsetY, int width){
 		return 

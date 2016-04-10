@@ -242,30 +242,37 @@ public class DeviceSelector extends UIBox{
 
 	private void setSelectedDevice(Device d){
 		selectedDevice = d;
-		if(null != d){
+		if(null != d && null != selectedGroup && selectedGroup.isIn(d)){
 			weightInput.setValue((float) selectedGroup.getWeight(d));
 		}
 	}
 
-	public DeviceGroup getSelectedGroup(){return selectedGroup;}
+	public DeviceGroup getSelectedGroup(){
+		if(null != selectedGroup && selectedGroup.getName().equals("(selection)")){
+			return null;
+		}
+		return selectedGroup;
+	}
 
 	public void setSelectedGroup(DeviceGroup  g){
-		selectedGroup = g;
-		if(selectedGroup.getName().equals("(selection)")){
-			groupNameInput.setValue("new group");
-		}else{
-			groupNameInput.setValue(g.getName());
-		}
-		if(!selectedGroup.isIn(selectedDevice)){
-			if(!selectedGroup.isEmpty()){
-				setSelectedDevice(selectedGroup.getFirst());
+		if(g != null && g != selectedGroup){
+			if(g.getName().equals("(selection)")){
+				groupNameInput.setValue("new group");
 			}else{
-				setSelectedDevice(null);
+				groupNameInput.setValue(g.getName());
 			}
-		}else{
-					// update weight input
-			setSelectedDevice(selectedDevice);
+			if(!g.isIn(selectedDevice)){
+				if(!g.isEmpty()){
+					setSelectedDevice(g.getFirst());
+				}else{
+					setSelectedDevice(null);
+				}
+			}else{
+						// update weight input
+				setSelectedDevice(selectedDevice);
+			}
 		}
+		selectedGroup = g;
 	}
 
 }

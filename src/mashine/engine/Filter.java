@@ -23,12 +23,11 @@ public class Filter implements Serializable{
 
 	public static final short RANGE = 0;
 	public static final short STATE = 1;
-	public static final short GROUP = 2;
 	public static final short FRAME = 3;
 	public static final short LONG  = 4;
 
 	private HashMap<String, Short> parameters;
-	private HashMap<String, DeviceGroup> groups;
+	private DeviceGroup group;
 	private HashMap<String, Frame> frames;
 	private HashMap<String, Long>  longs;
 
@@ -54,7 +53,6 @@ public class Filter implements Serializable{
 		this.name = parent + "." + f.getName();
 		this.robot = f.getRobot();
 		parameters = new HashMap<String, Short>();
-		groups = new HashMap<String, DeviceGroup>();
 		frames = new HashMap<String, Frame>();
 		longs = new HashMap<String, Long>();
 		robot.setup(this);
@@ -76,8 +74,6 @@ public class Filter implements Serializable{
 			MaShine.inputs.registerState(this.name+"."+param);
 		}else if(type == FRAME){
 			frames.put(param, new Frame());
-		}else if(type == GROUP){
-			groups.put(param, new DeviceGroup(""));
 		}else if(type == LONG){
 			longs.put(param, 0L);
 		}
@@ -112,12 +108,8 @@ public class Filter implements Serializable{
 		return new Frame();	
 	}
 
-	public DeviceGroup getGroup(String param){
-		if(parameters.containsKey(param) && parameters.get(param) == GROUP && null != groups.get(param)){
-			return groups.get(param);
-		}
-		return new DeviceGroup("empty");	
-	}
+	public DeviceGroup getGroup(){return group;}
+	public void setGroup(DeviceGroup g){group = g;}
 
 	public String getName(){return name;}
 	public String getType(){return type;}
