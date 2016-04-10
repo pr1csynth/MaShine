@@ -91,35 +91,16 @@ public class Bank implements Serializable{
 
 	}
 
-	public void addSequence(Sequence seq){
-		sequences.add(seq);
-	}
-	public void deleteSequence(Sequence seq){
-		sequences.remove(seq);
-	}
+	public void addSequence(Sequence seq){sequences.add(seq);}
+	public void deleteSequence(Sequence seq){sequences.remove(seq);}
+	public ArrayList<Sequence> getSequences(){return sequences;}
+	public Sequence getSequence(int index){return sequences.get(index);}
+	public int getSequencesSize(){return sequences.size();}
 
-	public ArrayList<Sequence> getSequences(){
-		return sequences;
-	}
+	public ArrayList<FlatColor> getColors(){return colors;}
 
-	public Sequence getSequence(int index){
-		return sequences.get(index);
-	}
-
-	public int getSequencesSize(){
-		return sequences.size();
-	}
-
-	public ArrayList<FlatColor> getColors(){
-		return colors;
-	}
-
-	public Filter getFilter(String f){
-		return filters.get(f);
-	}
-	public HashMap<String, Filter> getFilters(){
-		return filters;
-	}
+	public Filter getFilter(String f){return filters.get(f);}
+	public HashMap<String, Filter> getFilters(){return filters;}
 
 	public static class SaveObject implements Serializable{
 		public ArrayList<Sequence> sequences;
