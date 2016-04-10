@@ -38,8 +38,8 @@ public class Scene{
 		groups = new ArrayList<DeviceGroup>();
 
 		devices = new ArrayList<Device>();
-		Device testDevice = new Device("RGB", 1, 30, 10, 10, 200, 50);
-		Device testDevice2 = new Device("RGBW", 5, 30, 10, 65, 200, 50);
+		Device testDevice = new Device("RGB", 1, 0, 10, 10, 200, 50);
+		Device testDevice2 = new Device("RGBW", 5, 0, 10, 65, 200, 50);
 		testDevice.addFeature(new RGB(255));
 		testDevice.addFeature(new SingleField("dimmer", 255));
 		testDevice.addFeature(new FixedField("strobe", 255));

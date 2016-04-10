@@ -75,7 +75,7 @@ public class DeviceEditor extends UIBox{
 		}
 
 		deviceNameElement = new TextInput(this, "devName", 0, 28, 93);
-		universeElement = new RangeInput(this, 42f, 1f, 99f, 1f, 95, 28, 20);
+		universeElement = new RangeInput(this, 42f, 0f, 99f, 1f, 95, 28, 20);
 		addressElement = new RangeInput(this, 1f, 1f, 512f, 1f, 117, 28, 27);
 		genericFieldInputElement = new TextInput(this, "generic", 43, height - 20, 100);
 		

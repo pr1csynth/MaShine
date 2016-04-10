@@ -65,7 +65,7 @@ public class DeviceSelector extends UIBox{
 			new Do(){public void x(){selectUniverse();}}
 		));
 
-		univSelectInput = new RangeInput(this, 1f, 1f, 99f, 1f, width-19, 73, 20);
+		univSelectInput = new RangeInput(this, 1f, 0f, 99f, 1f, width-19, 73, 20);
 		elements.add(univSelectInput);
 
 
