@@ -24,7 +24,7 @@ Midi device only tested on Linux. Otherwise it should be crossplateform.
 - [ ] FFT ranges
 - [ ] More device features
 - [ ] More filters
-- [ ] A complete demo set
+- [ ] __A complete demo set__
 - [ ] More viewers
 - [ ] Selective saves/imports/exports
 - [ ] Go in the details of the UI/interactions
