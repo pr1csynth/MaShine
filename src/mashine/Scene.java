@@ -17,6 +17,7 @@ import mashine.scene.Frame;
 import mashine.scene.features.FixedField;
 import mashine.scene.features.RGB;
 import mashine.scene.features.RGBW;
+import mashine.scene.features.Coords;
 import mashine.scene.features.SingleField;
 
 public class Scene{
@@ -31,6 +32,7 @@ public class Scene{
 		FEATURES = new HashMap<String, Class<?>>();
 		FEATURES.put(RGBW.class.getName(), RGBW.class);
 		FEATURES.put(RGB.class.getName(), RGB.class);
+		FEATURES.put(Coords.class.getName(), Coords.class);
 	}
 
 	public Scene(){
