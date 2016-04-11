@@ -41,7 +41,7 @@ public class OlaInput extends InputSource implements Runnable{
 			}
 			if(dmxData != null){				
 				synchronized (ranges) {
-					for(int i = 0; i < 8; i++){
+					for(int i = 0; i < Math.min(8, dmxData.length); i++){
 						ranges.put("ola.in."+(i+1), (double) dmxData[i]/255.0);
 					}
 				}
