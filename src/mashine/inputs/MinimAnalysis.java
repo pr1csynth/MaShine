@@ -50,6 +50,7 @@ public class MinimAnalysis extends InputSource{
 
 		in = minim.getLineIn();
 		fft = new FFT(in.bufferSize(), in.sampleRate());
+		fft.logAverages( 22, 3 );
 
 		beatSE = new BeatDetect();
 		beatFE = new BeatDetect();
@@ -65,6 +66,8 @@ public class MinimAnalysis extends InputSource{
 		if(!init){
 			MaShine.inputs.registerState("minim.beat");
 			MaShine.inputs.state("minim.beat", "minim.onset");
+			MaShine.inputs.registerState("minim.do_interpolate");
+			MaShine.inputs.state("minim.do_interpolate", "_true");
 			init = true;
 		}
 
@@ -72,6 +75,23 @@ public class MinimAnalysis extends InputSource{
 		beatSE.detect(in.mix);	
 		beatFE.detect(in.mix);
 		fft.forward(in.mix);
+
+		float maxBandValue = 0;
+		int maxBand = 0;
+
+		for(int i = 0; i < fft.avgSize(); i++){	
+			float bandValue = fft.getAvg(i);
+			ranges.put("minim.fft."+
+				String.format("%2s", i).replace(' ', '0'), 
+				(double) bandValue/64.0);
+			if(bandValue > maxBandValue){
+				maxBand = i;
+				maxBandValue = bandValue;
+			}
+		}
+
+		ranges.put("minim.fft.maxband"  , (double) maxBand);
+
 		double rms = in.mix.level();
 		states.put("minim.onset" , beatSE.isOnset());
 		states.put("minim.kick" , beatFE.isKick());
@@ -124,7 +144,7 @@ public class MinimAnalysis extends InputSource{
 		}
 
 		// interpolated beat
-		if(now == lastInterpolatedBeat || now > lastInterpolatedBeat + lastBeatDistance){
+		if(now == lastInterpolatedBeat || MaShine.inputs.getState("minim.do_interpolate") && now > lastInterpolatedBeat + lastBeatDistance){
 			lastInterpolatedBeat = now;
 			states.put("minim.beat.interpolated", true);
 		}else{
@@ -132,7 +152,7 @@ public class MinimAnalysis extends InputSource{
 		}
 
 		// interpolated mean beat
-		if(now == lastInterpolatedMeanBeat || now > lastInterpolatedMeanBeat + meanBeatDistance){
+		if(now == lastInterpolatedMeanBeat || MaShine.inputs.getState("minim.do_interpolate") && now > lastInterpolatedMeanBeat + meanBeatDistance){
 			lastInterpolatedMeanBeat = now;
 			states.put("minim.beat.mean", true);
 		}else{
