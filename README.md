@@ -21,8 +21,8 @@ Midi device only tested on Linux. Otherwise it should be crossplateform.
 - [x] Filters mechanism
 - [x] Device groups in filters
 - [x] DMX input
-- [ ] FFT ranges
-- [ ] More device features
+- [x] FFT ranges
+- [x] More device features
 - [ ] More filters
 - [ ] __A complete demo set__
 - [ ] More viewers
