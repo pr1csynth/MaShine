@@ -113,13 +113,14 @@ public class DeviceSelector extends UIBox{
 			if(!groupNameInput.value().equals(selectedGroup.getName())){
 				selectedGroup.setName(groupNameInput.value());
 			}
-			if(selectedDevice != null && !weightInput.value().equals(selectedGroup.getWeight(selectedDevice))){
-				selectedGroup.setWeight(selectedDevice, Math.round(weightInput.value()));
-			}
+			//if(selectedDevice != null && !weightInput.value().equals(selectedGroup.getWeight(selectedDevice))){
+			//	selectedGroup.setWeight(selectedDevice, Math.round(weightInput.value()));
+			//}
 		}
 		Map<Device, Integer> selectedDevices = selectedGroup.getDevices();
 
 		canvas.noStroke();
+
 
 		int index = 0;
 		int offset = 30;
@@ -172,6 +173,14 @@ public class DeviceSelector extends UIBox{
 			offset += 14;
 			index ++;
 		}
+
+		if(selectedGroup != null && !selectedGroup.getName().equals("(selection)")){
+			if(selectedDevice != null && !weightInput.value().equals(selectedGroup.getWeight(selectedDevice))){
+				selectedGroup.setWeight(selectedDevice, Math.round(weightInput.value()));
+			}
+		}
+
+		setVirtualHeight(30 + Math.max(groups.size(), selectedDevices.size()) * 14 + 16);
 	}
 
 	private boolean isClicked(int offsetX, int offsetY, int width){
@@ -256,6 +265,7 @@ public class DeviceSelector extends UIBox{
 
 	public void setSelectedGroup(DeviceGroup  g){
 		if(g != null && g != selectedGroup){
+			selectedGroup = g;
 			if(g.getName().equals("(selection)")){
 				groupNameInput.setValue("new group");
 			}else{
@@ -272,7 +282,6 @@ public class DeviceSelector extends UIBox{
 				setSelectedDevice(selectedDevice);
 			}
 		}
-		selectedGroup = g;
 	}
 
 }
