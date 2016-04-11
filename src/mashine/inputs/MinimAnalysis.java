@@ -17,7 +17,7 @@ import ddf.minim.analysis.FFT;
 
 public class MinimAnalysis extends InputSource{
 
-	private final int MINIM_BD_SENSITIVITY = 120;
+	private final int MINIM_BD_SENSITIVITY = 200;
 	private final int MEAN_BEAT_SAMPLE = 4;
 	private final double MINUTE = 60000.0;
 
