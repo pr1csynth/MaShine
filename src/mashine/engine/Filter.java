@@ -108,7 +108,7 @@ public class Filter implements Serializable{
 		return new Frame();	
 	}
 
-	public DeviceGroup getGroup(){return group;}
+	public DeviceGroup getGroup(){return (null != group ? group : new DeviceGroup(""));}
 	public void setGroup(DeviceGroup g){group = g;}
 
 	public String getName(){return name;}
