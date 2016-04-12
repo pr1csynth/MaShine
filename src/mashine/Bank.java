@@ -77,10 +77,17 @@ public class Bank implements Serializable{
 
 		filters.put("whiteout", new Filter("whiteout", new Filter.Robot(){
 			public Frame f(Filter filter, Frame frame){	
-				for(EditableFeature f : frame.getFeatures().values()){
-					if(f instanceof ColorFeature){
-						ColorFeature c = (ColorFeature) f;
-						c.link(new FlatColor(255));
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				for(Device d : weights.keySet()){
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof ColorFeature){
+							ColorFeature c = (ColorFeature) f;
+							if(f instanceof RGB) c = new RGB();
+							if(f instanceof RGBW) c = new RGBW();
+							c.link(new FlatColor(255));
+							frame.addFeature(d, c);
+						}
 					}
 				}
 				return frame;
@@ -93,11 +100,45 @@ public class Bank implements Serializable{
 
 		filters.put("shine", new Filter("shine", new Filter.Robot(){
 			public Frame f(Filter filter, Frame frame){
-				for(EditableFeature f : frame.getFeatures().values()){
-					if(f instanceof ColorFeature){
-						if(Math.random() > 0.95){
-							ColorFeature c = (ColorFeature) f;
-							c.link(new FlatColor(255));
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				for(Device d : weights.keySet()){
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof ColorFeature){
+							if(Math.random() > 0.95){
+								ColorFeature c = (ColorFeature) f;
+								if(f instanceof RGB) c = new RGB();
+								if(f instanceof RGBW) c = new RGBW();
+								c.link(new FlatColor(255));
+								frame.addFeature(d, c);
+							}
+						}
+					}
+				}
+				return frame;
+			}
+		}));
+
+		filters.put("strobe", new Filter("strobe", new Filter.Robot(){
+			public void setup(Filter filter){
+				filter.declare("on", Filter.RANGE);
+				filter.declare("off", Filter.RANGE);
+			}
+			public Frame f(Filter filter, Frame frame){
+				long on = Math.round(1+ 1000.0*filter.getRange("on"));
+				long off = Math.round(1+ 1000.0*filter.getRange("off"));
+				if(MaShine.m.millis() % (on+off) >= off){			
+					Map<Device, Integer> weights = filter.getGroup().getDevices();
+					for(Device d : weights.keySet()){
+						List<Feature> feats = d.getFeatures();
+						for(Feature f : feats){
+							if(f instanceof ColorFeature){
+								ColorFeature c = (ColorFeature) f;
+								if(f instanceof RGB) c = new RGB();
+								if(f instanceof RGBW) c = new RGBW();
+								c.link(new FlatColor(255));
+								frame.addFeature(d, c);
+							}
 						}
 					}
 				}
