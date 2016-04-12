@@ -56,7 +56,7 @@ public class Bank implements Serializable{
 				for(EditableFeature f : frame.getFeatures().values()){
 					if(f instanceof ColorFeature){
 						ColorFeature c = (ColorFeature) f;
-						c.link(c.getColor().dim((float)filter.getRange("value")));
+						c.link(c.getLinkedColor().dim((float)filter.getRange("value")));
 					}
 				}
 				return frame;

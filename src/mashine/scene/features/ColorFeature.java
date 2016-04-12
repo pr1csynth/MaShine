@@ -37,10 +37,7 @@ public abstract class ColorFeature extends EditableFeature {
 		}
 	}
 
-	public FlatColor getLinkedColor(){
-		return linkedColor;
-	}
-
+	public abstract FlatColor getLinkedColor();
 	public abstract FlatColor getColor();
 	public abstract LinkedHashMap<String,Integer> getFields();
 	public abstract short[] toArray();

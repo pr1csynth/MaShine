@@ -174,7 +174,7 @@ public class FlatColor implements Serializable{
 	public FlatColor dim(float multiplier){
 		FlatColor c = new FlatColor(this);
 		c.setBrightness(c.getBrightness() * multiplier);
-		c.setAlpha((int)(c.getAlpha() * multiplier));
+		c.setAlpha(Math.round(c.getAlpha() * multiplier));
 		return c;
 	}
 

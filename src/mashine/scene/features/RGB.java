@@ -42,13 +42,17 @@ public final class RGB extends ColorFeature {
 	}	
 
 	public FlatColor getColor(){
+		return getLinkedColor().withAlpha(255);
+	}
+
+	public FlatColor getLinkedColor(){
 		FlatColor rc;
 		if(linkedColor != null){
-			rc = new FlatColor(linkedColor);
+			rc = linkedColor;
 		}else{
 			rc = new FlatColor(fields.get("red"), fields.get("green"), fields.get("blue"));
 		}
-		return rc.withAlpha(255);
+		return rc;
 	}
 
 	public LinkedHashMap<String,Integer> getFields(){

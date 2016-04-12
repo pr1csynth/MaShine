@@ -46,13 +46,17 @@ public final class RGBW extends ColorFeature {
 	}	
 
 	public FlatColor getColor(){
+		return getLinkedColor().withAlphaAsWhite();
+	}
+
+	public FlatColor getLinkedColor(){
 		FlatColor rc;
 		if(linkedColor != null){
 			rc = linkedColor;
 		}else{
 			rc = new FlatColor(fields.get("red"), fields.get("green"), fields.get("blue"), fields.get("white"));
 		}
-		return rc.withAlphaAsWhite();
+		return rc;
 	}
 
 	public LinkedHashMap<String,Integer> getFields(){
