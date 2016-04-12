@@ -40,6 +40,9 @@ public class SequenceEditor extends UIBox{
 
 		selectedSequence = MaShine.bank.getSequence(0);
 
+		MaShine.inputs.registerAction("ui.seq_edit.nextframe", new Do(){public void x(){nextFrame();}});
+		MaShine.inputs.registerAction("ui.seq_edit.prevframe", new Do(){public void x(){prevFrame();}});
+
 		ui = new HashMap<String,Element>();
 
 		ui.put("seqName", new TextInput(this, selectedSequence.getName(), 0, 28, 120));

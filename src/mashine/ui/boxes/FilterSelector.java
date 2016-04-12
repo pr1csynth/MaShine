@@ -34,8 +34,9 @@ public class FilterSelector extends UIBox{
 		super("FILTERS", 400, 600, 500, 230);
 
 
-		MaShine.inputs.registerAction("ui.filt_select.next", new Do(){public void x(){}});
-		MaShine.inputs.registerAction("ui.filt_select.prev", new Do(){public void x(){}});
+		MaShine.inputs.registerAction("ui.filt_select.next", new Do(){public void x(){nextFilter();}});
+		MaShine.inputs.registerAction("ui.filt_select.prev", new Do(){public void x(){prevFilter();}});
+		MaShine.inputs.registerAction("ui.filt_select.toggle", new Do(){public void x(){toggleFilter();}});
 
 		elements.add(new TextButton(this, "add >", 90, height-15, 55, 
 			new Do(){public void x(){addFilter();}}
@@ -204,6 +205,44 @@ public class FilterSelector extends UIBox{
 			MaShine.engine.addFilter(selectedModel.getType());
 		}
 		return;
+	}
+
+	private void nextFilter(){
+		List<Filter> filters = getFilterList();
+		if(filters.size() == 0){
+			setSelectedFilter(null);
+		}else{
+			int i = 0;
+			if(selectedFilter != null){
+				i = filters.indexOf(selectedFilter);
+				i ++;
+				if(i >= filters.size()){
+					i = 0;
+				}
+			}else{
+				i = 0;
+			}
+			setSelectedFilter(filters.get(i));	
+		}
+	}
+
+	private void prevFilter(){
+		List<Filter> filters = getFilterList();
+		if(filters.size() == 0){
+			setSelectedFilter(null);
+		}else{
+			int i = 0;
+			if(selectedFilter != null){
+				i = filters.indexOf(selectedFilter);
+				i --;
+				if(i <= -1){
+					i = filters.size() - 1;
+				}
+			}else{
+				i = filters.size() - 1;
+			}
+			setSelectedFilter(filters.get(i));
+		}
 	}
 
 	private void toggleFilter(){
