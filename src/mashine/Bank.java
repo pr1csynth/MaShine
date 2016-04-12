@@ -8,11 +8,15 @@ package mashine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.io.Serializable;
 
 import mashine.engine.Filter;
 import mashine.scene.Sequence;
 import mashine.scene.Frame;
+import mashine.scene.Device;
+import mashine.scene.DeviceGroup;
 import mashine.scene.features.*;
 import mashine.ui.Colors;
 import mashine.ui.FlatColor;
@@ -60,8 +64,6 @@ public class Bank implements Serializable{
 		}));
 
 		filters.put("blackout", new Filter("blackout", new Filter.Robot(){
-			public void setup(Filter filter){}
-
 			public Frame f(Filter filter, Frame frame){	
 				for(EditableFeature f : frame.getFeatures().values()){
 					if(f instanceof ColorFeature){
@@ -72,9 +74,8 @@ public class Bank implements Serializable{
 				return frame;
 			}
 		}));
-		filters.put("whiteout", new Filter("whiteout", new Filter.Robot(){
-			public void setup(Filter filter){}
 
+		filters.put("whiteout", new Filter("whiteout", new Filter.Robot(){
 			public Frame f(Filter filter, Frame frame){	
 				for(EditableFeature f : frame.getFeatures().values()){
 					if(f instanceof ColorFeature){
@@ -85,8 +86,55 @@ public class Bank implements Serializable{
 				return frame;
 			}
 		}));
+
 		filters.put("dummy", new Filter("dummy", new Filter.Robot(){
 			public Frame f(Filter filter, Frame frame){return frame;}
+		}));
+
+		filters.put("shine", new Filter("shine", new Filter.Robot(){
+			public Frame f(Filter filter, Frame frame){
+				for(EditableFeature f : frame.getFeatures().values()){
+					if(f instanceof ColorFeature){
+						if(Math.random() > 0.95){
+							ColorFeature c = (ColorFeature) f;
+							c.link(new FlatColor(255));
+						}
+					}
+				}
+				return frame;
+			}
+		}));
+
+		filters.put("direct_control", new Filter("direct_control", new Filter.Robot(){
+			public void setup(Filter filter){
+				filter.declare("x", Filter.RANGE);
+				filter.declare("x_", Filter.RANGE);
+				filter.declare("y", Filter.RANGE);
+				filter.declare("y_", Filter.RANGE);
+			}
+
+			public Frame f(Filter filter, Frame frame){
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				for(Device d : weights.keySet()){
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof Coords){
+							Coords cf = new Coords();
+							boolean symetry = weights.get(d) % 2 == 1;
+
+							double pan  = (symetry ? 255 : 0) + (symetry ? -1 : 1)*filter.getRange("x")*255;
+							double pan_ = (symetry ? 255 : 0) + (symetry ? -1 : 1)*filter.getRange("x_")*255;
+
+							cf.setField("x", (int) Math.round(pan));
+							cf.setField("x_", (int) Math.round(pan_));
+							cf.setField("y", (int) Math.round(filter.getRange("y")*255));
+							cf.setField("y_", (int) Math.round(filter.getRange("y_")*255));
+							frame.addFeature(d, cf);
+						}
+					}
+				}
+				return frame;
+			}
 		}));
 
 	}
