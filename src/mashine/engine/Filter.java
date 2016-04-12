@@ -58,10 +58,7 @@ public class Filter implements Serializable{
 		robot.setup(this);
 		this.enabled = false;
 
-		MaShine.inputs.registerState(this.name+".enabled");
-		MaShine.inputs.registerAction(this.name+".toggle", new Do(){public void x(){toggle();}});
-		MaShine.inputs.registerAction(this.name+".enable", new Do(){public void x(){enable();}});
-		MaShine.inputs.registerAction(this.name+".disable", new Do(){public void x(){disable();}});
+		registerActions();
 	}
 
 	public Frame filter(Frame f){
@@ -78,6 +75,24 @@ public class Filter implements Serializable{
 			longs.put(param, 0L);
 		}
 		parameters.put(param, type);
+	}
+
+	public void redeclare(){
+		for(String param : parameters.keySet()){
+			int type = parameters.get(param);
+			if(type == RANGE){
+				MaShine.inputs.registerRange(this.name+"."+param);
+			}else if(type == STATE){
+				MaShine.inputs.registerState(this.name+"."+param);
+			}
+		}
+	}
+
+	public void registerActions(){
+		MaShine.inputs.registerState(this.name+".enabled");
+		MaShine.inputs.registerAction(this.name+".toggle", new Do(){public void x(){toggle();}});
+		MaShine.inputs.registerAction(this.name+".enable", new Do(){public void x(){enable();}});
+		MaShine.inputs.registerAction(this.name+".disable", new Do(){public void x(){disable();}});
 	}
 
 	public double getRange(String param){

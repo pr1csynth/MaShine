@@ -94,6 +94,14 @@ public class Engine{
 		tracks = (ArrayList<Track>) r.get("tracks");
 		for(Track t : tracks){
 			t.registerActions();
+			for(Filter f : t.getFilters()){
+				f.redeclare();
+				f.registerActions();
+			}
+		}
+		for(Filter f : filters){
+			f.redeclare();
+			f.registerActions();
 		}
 	}
 }
