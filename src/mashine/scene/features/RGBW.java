@@ -73,7 +73,12 @@ public final class RGBW extends ColorFeature {
 
 	public short[] toArray(){
 		if(null == linkedColor){
-			return new short[]{0,0,0,0};
+			return new short[]{
+				fields.get("red").shortValue(), 
+				fields.get("green").shortValue(), 
+				fields.get("blue").shortValue(), 
+				fields.get("white").shortValue()
+			};
 		}
 		
 		return new short[]{
