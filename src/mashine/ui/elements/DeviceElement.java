@@ -73,7 +73,7 @@ public class DeviceElement extends Element{
 					// special case color, coordinates, ...
 
 				if(feature instanceof ColorFeature){
-					FlatColor.fill(P.canvas, ((ColorFeature)feature).getColor().withAlphaAsWhite());
+					FlatColor.fill(P.canvas, ((ColorFeature)feature).getColor());
 					P.canvas.noStroke();
 				}else if(feature instanceof SingleField){
 					for(String f : featureFields.keySet()){
