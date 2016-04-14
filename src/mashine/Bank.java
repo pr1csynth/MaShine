@@ -178,7 +178,51 @@ public class Bank implements Serializable{
 			}
 		}));
 
+		filters.put("hue_abs", new Filter("hue_abs", new Filter.Robot(){
+			public void setup(Filter filter){
+				filter.declare("newhue", Filter.RANGE);
+			}
+			public Frame f(Filter filter, Frame frame){
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				for(Device d : weights.keySet()){
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof ColorFeature && frame.isIn(d,f)){
+							ColorFeature c = (ColorFeature) frame.getFeature(d, f);
+							c.link(c.getLinkedColor().withHue((float)filter.getRange("newhue")));
+						}
+					}
+				}
+				return frame;
+			}
+		}));
+
+		filters.put("hue_rot", new Filter("hue_rot", new Filter.Robot(){
+			public void setup(Filter filter){
+				filter.declare("rotation", Filter.RANGE);
+			}
+			public Frame f(Filter filter, Frame frame){
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				for(Device d : weights.keySet()){
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof ColorFeature && frame.isIn(d,f)){
+							ColorFeature c = (ColorFeature) frame.getFeature(d, f);
+							c.link(c.getLinkedColor().withRotatedHue((float)filter.getRange("rotation") * 2.0f));
+						}
+					}
+				}
+				return frame;
+			}
+		}));
+
+		filters.put("drop_all", new Filter("drop_all", new Filter.Robot(){
+			public Frame f(Filter filter, Frame frame){
+				return new Frame();
+			}
+		}));
 	}
+
 
 	public void addSequence(Sequence seq){sequences.add(seq);}
 	public void deleteSequence(Sequence seq){sequences.remove(seq);}

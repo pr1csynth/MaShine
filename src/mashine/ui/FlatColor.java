@@ -101,6 +101,7 @@ public class FlatColor implements Serializable{
 
 	public void rotateHue(float angle) {
 		h += angle;
+		h = h % 1.0f;
 		updateRGB();
 	}
 
