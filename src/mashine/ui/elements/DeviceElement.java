@@ -15,6 +15,7 @@ import processing.core.PConstants;
 
 import mashine.scene.Device;
 import mashine.scene.features.ColorFeature;
+import mashine.scene.features.Coords;
 import mashine.scene.features.EditableFeature;
 import mashine.scene.features.Feature;
 import mashine.scene.features.FixedField;
@@ -51,6 +52,9 @@ public class DeviceElement extends Element{
 		height = d.getHeight();
 
 		boolean drawcrossline = false;
+		boolean drawreticule = false;
+		int reticuleX = 0;
+		int reticuleY = 0;
 		ArrayList<Feature> devFeatures = d.getFeatures();
 		P.canvas.noStroke();
 
@@ -71,6 +75,11 @@ public class DeviceElement extends Element{
 				featureFields = feature.getFields();
 
 					// special case color, coordinates, ...
+				if(feature instanceof Coords){
+					drawreticule = true;
+					reticuleX = (int) Math.round((double)feature.getField("x")/255.0 * d.getWidth());
+					reticuleY = (int) Math.round((double)feature.getField("y")/255.0 * d.getHeight());
+				}
 
 				if(feature instanceof ColorFeature){
 					FlatColor.fill(P.canvas, ((ColorFeature)feature).getColor());
@@ -119,6 +128,18 @@ public class DeviceElement extends Element{
 
 		if(drawcrossline)
 			P.canvas.line(d.getX(), d.getHeight() + d.getY(), d.getWidth() +d.getX(), d.getY());
+
+		if(drawreticule){
+			FlatColor.stroke(P.canvas, Colors.MATERIAL.CYAN.A700);
+			P.canvas.noFill();
+			P.canvas.line(d.getX() + reticuleX, d.getY() + 1, d.getX() + reticuleX, d.getY() + d.getHeight() - 1);
+			P.canvas.line(d.getX() + 1, d.getY() + reticuleY, d.getX() + d.getWidth() - 1, d.getY() + reticuleY);
+			P.canvas.rectMode(PConstants.CENTER);
+			FlatColor.stroke(P.canvas, Colors.MATERIAL.RED.A700);
+			P.canvas.rect(d.getX() + reticuleX, d.getY() + reticuleY, 6, 6);
+			P.canvas.rectMode(PConstants.CORNER);
+		}
+
 
 			// identifier 
 		FlatColor.fill(P.canvas, Colors.MATERIAL.GREEN.A700);
