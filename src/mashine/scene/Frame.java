@@ -73,6 +73,10 @@ public class Frame implements Serializable{
 		features.remove(d.getIdentifier()+"."+f.getType());
 	}
 
+	public boolean isIn(Device d, Feature f){
+		return features.containsKey(d.getIdentifier()+"."+f.getType());
+	}
+
 	public void updateFeature(Device d, String featureType, String fieldName, int value){
 		if(features.containsKey(d.getIdentifier()+"."+featureType))
 			features.get(d.getIdentifier()+"."+featureType).setField(fieldName, value);
