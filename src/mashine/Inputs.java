@@ -60,6 +60,7 @@ public class Inputs{
 			put("midi", new MidiInputs());
 			put("ola", new OlaInput());
 			put("c", new InputConstants());
+			put("clock", new Clock());
 		}};
 
 		learnable = new ArrayList<Learnable>();
