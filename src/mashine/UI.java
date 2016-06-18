@@ -74,7 +74,7 @@ public class UI{
 	public UI(){
 		MaShine.m.colorMode(MaShine.RGB);
 
-		TEXTFONT = MaShine.m.loadFont("RobotoMono-Light-11.vlw");
+		TEXTFONT = MaShine.m.loadFont("data/RobotoMono-Light-11.vlw");
 		TEXTSIZE = 11;
 
 		MaShine.m.textFont(TEXTFONT);

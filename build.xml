@@ -1,7 +1,5 @@
 <project name="mashine" basedir="." default="run">
 
-    <property name="processing.dir"
-              value="/opt/processing-3.0/core/library/" />
     <property name="lib.dir"     value="lib" />
     <property name="src.dir"     value="src" />
     <property name="build.dir"   value="build" />
@@ -9,16 +7,12 @@
     <property name="jar.dir"     value="dist" />
     <property name="main-class"  value="mashine.MaShine" />
 
-    <fileset id="processing.library" dir="${processing.dir}">
-        <include name="*.jar" />
-    </fileset>
 
     <fileset id="library.directory" dir="${lib.dir}">
         <include name="**/*" />
     </fileset>
 
     <path id="build.classpath">
-        <fileset refid="processing.library" />
         <fileset refid="library.directory" />
     </path>
 
@@ -26,8 +20,8 @@
         <path refid="build.classpath"/>
         <mapper>
             <chainedmapper>
-               <flattenmapper />
-               <globmapper from="*.jar" to="${processing.dir}/*.jar"/>
+                <flattenmapper />
+                <globmapper from="*.jar" to="${lib.dir}/*.jar"/>
             </chainedmapper>
         </mapper>
     </pathconvert>
@@ -48,6 +42,8 @@
     <target name="jar">
         <mkdir dir="${jar.dir}" />
         <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+            <fileset file="README.md" />
+            <fileset dir="." includes="data/**" />
             <zipgroupfileset dir="${lib.dir}" includes="**/*.jar" />
             <manifest>
                 <attribute name="Main-Class" value="${main-class}" />

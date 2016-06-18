@@ -86,7 +86,7 @@ public class Menu extends Drawable{
 		bigButtons.add(new TextButton(this, 722, 17, 70, 15, "restore", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			restore));
-			mashineImage = MaShine.m.loadImage("mashine.png");
+			mashineImage = MaShine.m.loadImage("data/mashine.png");
 	}
 
 	public void drawContent(){
