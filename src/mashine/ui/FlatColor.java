@@ -200,6 +200,9 @@ public class FlatColor implements Serializable{
 	public float getBrightness(){
 		return v;
 	}
+	public int getGrayscale(){
+		return (int)Math.round(v*255.0);
+	}
 
 
 }

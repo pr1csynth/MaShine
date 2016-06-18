@@ -38,7 +38,9 @@ public abstract class Feature implements Serializable {
 
 		Feature n = null;
 
-		if(f instanceof RGB){
+		if(f instanceof Tradi){
+			n = new Tradi(f);
+		}else if(f instanceof RGB){
 			n = new RGB(f);
 		}else if(f instanceof RGBW){
 			n = new RGBW(f);
@@ -48,6 +50,8 @@ public abstract class Feature implements Serializable {
 			n = new FixedField(f);
 		}else if(f instanceof SingleField){
 			n = new SingleField(f);
+		}else{
+			// TODO: throw exception if unknow feature
 		}
 
 		return n;

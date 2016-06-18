@@ -15,6 +15,7 @@ import mashine.scene.Device;
 import mashine.scene.DeviceGroup;
 import mashine.scene.Frame;
 import mashine.scene.features.FixedField;
+import mashine.scene.features.Tradi;
 import mashine.scene.features.RGB;
 import mashine.scene.features.RGBW;
 import mashine.scene.features.Coords;
@@ -30,6 +31,7 @@ public class Scene{
 
 	static{
 		FEATURES = new HashMap<String, Class<?>>();
+		FEATURES.put(Tradi.class.getName(), Tradi.class);
 		FEATURES.put(RGBW.class.getName(), RGBW.class);
 		FEATURES.put(RGB.class.getName(), RGB.class);
 		FEATURES.put(Coords.class.getName(), Coords.class);
