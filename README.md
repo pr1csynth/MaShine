@@ -4,11 +4,16 @@ MaShine is a software to do live light show  using live audio analysis, prerecor
 
 ![mashine](https://cloud.githubusercontent.com/assets/321345/14266488/eed3cbbc-fac8-11e5-8db3-842b1792f12e.png)
 
+# HOW TO USE 
+Download the [latest build](https://github.com/procsynth/MaShine/blob/devel/dist/mashine.jar?raw=true). You may want to install (https://www.openlighting.org/ola/)[OLA](https://www.openlighting.org/ola/) to output real DMX, but you can still use MaShine without it.
 
-# HOW
+Midi devices only tested on Linux. Otherwise it should be crossplateform.
 
-Require Processing 3, Java 8 and ant to build. Run `ant` in the root folder to build and run, or `java -jar dist/mashine.jar` to run. You may want to edit the Processing paths in `build.xml` to match your installation.
-Midi device only tested on Linux. Otherwise it should be crossplateform.
+TODO : user manual.
+
+# HOW TO BUILD
+
+Require Java 8 and ant to build. Run `ant` in the root folder to build and run, or `java -jar dist/mashine.jar` to run. You may want to edit the Processing paths in `build.xml` to match your installation.
 
 # TODO
 
@@ -29,6 +34,7 @@ Midi device only tested on Linux. Otherwise it should be crossplateform.
 - [ ] Selective saves/imports/exports
 - [ ] Go in the details of the UI/interactions
 - [ ] MIDI outputs
+- [ ] User manual
 
 # WHICH LICENSE ?
 
