@@ -5,7 +5,7 @@ MaShine is a software to do live light show  using live audio analysis, prerecor
 ![mashine](https://cloud.githubusercontent.com/assets/321345/14266488/eed3cbbc-fac8-11e5-8db3-842b1792f12e.png)
 
 # HOW TO USE 
-Download the [latest build](https://github.com/procsynth/MaShine/blob/devel/dist/mashine.jar?raw=true). You may want to install (https://www.openlighting.org/ola/)[OLA](https://www.openlighting.org/ola/) to output real DMX, but you can still use MaShine without it.
+Download the [latest build](https://github.com/procsynth/MaShine/blob/devel/dist/mashine.jar?raw=true). You may want to install [OLA](https://www.openlighting.org/ola/) to output real DMX, but you can still use MaShine without it.
 
 Midi devices only tested on Linux. Otherwise it should be crossplateform.
 
