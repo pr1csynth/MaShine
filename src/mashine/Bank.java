@@ -259,8 +259,6 @@ public class Bank implements Serializable{
 				float size = (float)filter.getRange("size")*length/2f;
 				long offset = filter.getLong("offset");
 				offset += filter.getRange("speed")*9000f*filter.getRange("speedMult")*10f;
-				MaShine.println(offset + "\t" + filter.getRange("speed")*9000f);
-				//offset = Math.round(offset % length*1000.0);
 				filter.setLong("offset", offset);
 
 				float scaledOffset = offset/10000.0f;
@@ -270,13 +268,9 @@ public class Bank implements Serializable{
 					int w = weights.get(d);
 					List<Feature> feats = d.getFeatures();
 					for(Feature f : feats){
-						if(f instanceof ColorFeature){
-							ColorFeature c = (ColorFeature) f;
-							FlatColor fc = new FlatColor(255);
-
-							fc.setBrightness(waveFunction(scaledOffset, w, size, length));
-							c.link(fc);
-							frame.addFeature(d, c);
+						if(f instanceof ColorFeature && frame.isIn(d,f)){
+							ColorFeature c = (ColorFeature) frame.getFeature(d, f);
+							c.link(c.getLinkedColor().dim(waveFunction(scaledOffset, w, size, length)));
 						}
 					}
 				}
@@ -291,6 +285,49 @@ public class Bank implements Serializable{
 					return (float)Math.cos(PConstants.PI*(-index + offset)/size - PConstants.PI)/2f+0.5f;
 				}else if(offset < index && index < offset + 2*size){
 					return (float)Math.cos(PConstants.PI*(-index + offset)/size - PConstants.PI)/2f+0.5f;
+				}
+				return 0f;	
+			}
+		}));
+
+		filters.put("wave_bounce", new Filter("wave_bounce", new Filter.Robot(){
+			public void setup(Filter filter){
+				filter.declare("size", Filter.RANGE);
+				filter.declare("speed", Filter.RANGE);
+				filter.declare("speedMult", Filter.RANGE);
+				filter.declare("offset", Filter.LONG);
+				filter.setLong("offset", 0L);
+			}
+			public Frame f(Filter filter, Frame frame){
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				int length = weights.size();
+				float size = (float)filter.getRange("size")*length/2f;
+				long offset = filter.getLong("offset");
+				offset += filter.getRange("speed")*9000f*filter.getRange("speedMult")*10f;
+				filter.setLong("offset", offset);
+
+				float scaledOffset = offset/10000.0f;
+
+
+				for(Device d : weights.keySet()){
+					int w = weights.get(d);
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof ColorFeature && frame.isIn(d,f)){
+							ColorFeature c = (ColorFeature) frame.getFeature(d, f);
+							c.link(c.getLinkedColor().dim(waveFunction(scaledOffset, w, size, length)));
+						}
+					}
+				}
+
+				return frame;
+			}
+
+			public float waveFunction(float offset, int index, float size, int length){
+				length --;			
+				offset = Math.abs((offset % (2*length)) -(length));
+				if(offset - size <= index && index < offset + size){
+					return (float)Math.cos(PConstants.PI*(-index + (offset - size))/size - PConstants.PI)/2f+0.5f;
 				}
 				return 0f;	
 			}
