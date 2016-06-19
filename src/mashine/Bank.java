@@ -221,6 +221,31 @@ public class Bank implements Serializable{
 				return new Frame();
 			}
 		}));
+
+		filters.put("fft_graph", new Filter("fft_graph", new Filter.Robot(){
+			public Frame f(Filter filter, Frame frame){
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				for(Device d : weights.keySet()){
+					int w = weights.get(d);
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof ColorFeature){
+							String fftName = String.format("%2s", w).replace(' ', '0');
+							ColorFeature c = (ColorFeature) f;
+							if(f instanceof RGB) c = new RGB();
+							if(f instanceof RGBW) c = new RGBW();
+							FlatColor fc = new FlatColor(100, 0, 255, 0);
+							fc.setBrightness((float)MaShine.inputs.getRange("minim.fft."+fftName));
+							c.link(fc);
+							frame.addFeature(d, c);
+							
+						}
+					}
+				}
+				return frame;
+			}
+		}));
+
 	}
 
 
