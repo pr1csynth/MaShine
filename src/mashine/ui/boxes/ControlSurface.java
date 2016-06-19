@@ -63,7 +63,7 @@ public class ControlSurface extends UIBox{
 		canvas.text(title,width / 2, 7);
 
 		for(int i = 0; i < nbSliders; i++){
-			MaShine.inputs.setRange("console.slider."+String.format("%2s", i).replace(' ', '0'), sliders.get(i).value());
+			MaShine.inputs.setRange("console.slider."+String.format("%2s", i+1).replace(' ', '0'), sliders.get(i).value());
 		}
 
 	}
