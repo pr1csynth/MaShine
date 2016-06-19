@@ -135,5 +135,8 @@ public class Filter implements Serializable{
 	public void enable(){enabled = true;}
 	public void toggle(){enabled = !enabled;}
 
+	public void setLong(String param, Long value){longs.put(param, value);}
+	public void setFrame(String param, Frame value){frames.put(param, value);}
+
 
 }

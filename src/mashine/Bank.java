@@ -21,6 +21,8 @@ import mashine.scene.features.*;
 import mashine.ui.Colors;
 import mashine.ui.FlatColor;
 
+import processing.core.PConstants;
+
 public class Bank implements Serializable{
 
 	private ArrayList<Sequence> sequences;
@@ -92,10 +94,6 @@ public class Bank implements Serializable{
 				}
 				return frame;
 			}
-		}));
-
-		filters.put("dummy", new Filter("dummy", new Filter.Robot(){
-			public Frame f(Filter filter, Frame frame){return frame;}
 		}));
 
 		filters.put("shine", new Filter("shine", new Filter.Robot(){
@@ -232,6 +230,7 @@ public class Bank implements Serializable{
 						if(f instanceof ColorFeature){
 							String fftName = String.format("%2s", w).replace(' ', '0');
 							ColorFeature c = (ColorFeature) f;
+							if(f instanceof Tradi) c = new Tradi();
 							if(f instanceof RGB) c = new RGB();
 							if(f instanceof RGBW) c = new RGBW();
 							FlatColor fc = new FlatColor(100, 0, 255, 0);
@@ -246,6 +245,56 @@ public class Bank implements Serializable{
 			}
 		}));
 
+		filters.put("wave_circle", new Filter("wave_circle", new Filter.Robot(){
+			public void setup(Filter filter){
+				filter.declare("size", Filter.RANGE);
+				filter.declare("speed", Filter.RANGE);
+				filter.declare("speedMult", Filter.RANGE);
+				filter.declare("offset", Filter.LONG);
+				filter.setLong("offset", 0L);
+			}
+			public Frame f(Filter filter, Frame frame){
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				int length = weights.size();
+				float size = (float)filter.getRange("size")*length/2f;
+				long offset = filter.getLong("offset");
+				offset += filter.getRange("speed")*9000f*filter.getRange("speedMult")*10f;
+				MaShine.println(offset + "\t" + filter.getRange("speed")*9000f);
+				//offset = Math.round(offset % length*1000.0);
+				filter.setLong("offset", offset);
+
+				float scaledOffset = offset/10000.0f;
+
+
+				for(Device d : weights.keySet()){
+					int w = weights.get(d);
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof ColorFeature){
+							ColorFeature c = (ColorFeature) f;
+							FlatColor fc = new FlatColor(255);
+
+							fc.setBrightness(waveFunction(scaledOffset, w, size, length));
+							c.link(fc);
+							frame.addFeature(d, c);
+						}
+					}
+				}
+
+				return frame;
+			}
+
+			public float waveFunction(float offset, int index, float size, int length){
+				offset = offset % length;
+				if(length < offset+ 2*size && index < (offset + 2*size) - length){
+					offset = (offset+ 2*size) - length;
+					return (float)Math.cos(PConstants.PI*(-index + offset)/size - PConstants.PI)/2f+0.5f;
+				}else if(offset < index && index < offset + 2*size){
+					return (float)Math.cos(PConstants.PI*(-index + offset)/size - PConstants.PI)/2f+0.5f;
+				}
+				return 0f;	
+			}
+		}));
 	}
 
 
