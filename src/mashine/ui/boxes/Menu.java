@@ -36,6 +36,7 @@ public class Menu extends Drawable{
 		Do openDataViewer = new Do(){public void x(){MaShine.ui.open("DataViewer");}};
 		Do openEventViewer = new Do(){public void x(){MaShine.ui.open("EventViewer");}};
 		Do openLinker = new Do(){public void x(){MaShine.ui.open("Linker");}};
+		Do openControlSurface = new Do(){public void x(){MaShine.ui.open("ControlSurface");}};
 
 		Do save = new Do(){public void x(){MaShine.inputs.getAction("mashine.save").x();}};
 		Do saveAs = new Do(){public void x(){MaShine.inputs.getAction("mashine.save_as").x();}};
@@ -72,18 +73,23 @@ public class Menu extends Drawable{
 			Colors.MATERIAL.TEAL._600,
 			Colors.MATERIAL.TEAL._800,
 			openLinker));
+		bigButtons.add(new TextButton(this, 648, 0, 70, 15, "console", 
+			Colors.WHITE, 10,
+			Colors.MATERIAL.ORANGE._600,
+			Colors.MATERIAL.ORANGE._800,
+			openControlSurface));
 
-		bigButtons.add(new TextButton(this, 650, 0, 70, 15, "save", 
+		bigButtons.add(new TextButton(this, 750, 0, 70, 15, "save", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			save));
-		bigButtons.add(new TextButton(this, 650, 17, 70, 15, "save as", 
+		bigButtons.add(new TextButton(this, 750, 17, 70, 15, "save as", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			saveAs));
 
-		bigButtons.add(new TextButton(this, 722, 0, 70, 15, "open", 
+		bigButtons.add(new TextButton(this, 822, 0, 70, 15, "open", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			open));
-		bigButtons.add(new TextButton(this, 722, 17, 70, 15, "restore", 
+		bigButtons.add(new TextButton(this, 822, 17, 70, 15, "restore", 
 			Colors.WHITE, 10,Colors.MATERIAL.YELLOW._600,Colors.MATERIAL.YELLOW._800,
 			restore));
 			mashineImage = MaShine.m.loadImage("data/mashine.png");

@@ -31,6 +31,7 @@ import mashine.ui.boxes.SceneView;
 import mashine.ui.boxes.SequenceEditor;
 import mashine.ui.boxes.SequenceSelector;
 import mashine.ui.boxes.FilterSelector;
+import mashine.ui.boxes.ControlSurface;
 import processing.core.PFont;
 
 public class UI{
@@ -99,6 +100,7 @@ public class UI{
 		uiElements.put("SequenceEditor", new SequenceEditor());
 		uiElements.put("Linker", linker);
 		uiElements.put("FilterSelector", new FilterSelector());
+		uiElements.put("ControlSurface", new ControlSurface());
 		openedUiElements = new LinkedList<Focusable>();
 		toBeOpenedUiElements = new ArrayList<Focusable>();
 

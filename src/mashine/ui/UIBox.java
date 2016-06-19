@@ -79,7 +79,7 @@ public class UIBox extends Drawable{
 
 	}
 
-	private void drawFrame(){
+	protected void drawFrame(){
 		canvas.noStroke();
 		FlatColor.fill(canvas,Colors.MATERIAL.BLUE_GREY._900);
 		canvas.rect(0, 0, width+1, 22);
