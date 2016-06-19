@@ -116,6 +116,7 @@ public class MaShine extends PApplet{
 		saveObject.put("bank", bank.save());
 		saveObject.put("inputs", inputs.save());
 		saveObject.put("engine", engine.save());
+		saveObject.put("ui", ui.save());
 
 		try{
 			FileOutputStream fileOut = new FileOutputStream(path);
@@ -156,6 +157,7 @@ public class MaShine extends PApplet{
 			bank.restore(restoredObject.get("bank"));
 			inputs.restore(restoredObject.get("inputs"));
 			engine.restore(restoredObject.get("engine"));
+			ui.restore(restoredObject.get("ui"));
 
 			println("Restored from "+ path);
 			ui.status.set("file", path.split("/")[path.split("/").length -1]);

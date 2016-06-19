@@ -8,6 +8,7 @@
 package mashine;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,7 +33,10 @@ import mashine.ui.boxes.SequenceEditor;
 import mashine.ui.boxes.SequenceSelector;
 import mashine.ui.boxes.FilterSelector;
 import mashine.ui.boxes.ControlSurface;
+
 import processing.core.PFont;
+
+import java.io.Serializable;
 
 public class UI{
 
@@ -46,6 +50,7 @@ public class UI{
 	public SequenceSelector sequenceSelector;
 	public DeviceSelector deviceSelector;
 	public ColorPalette colorPalette;
+	public ControlSurface controlSurface;
 	public Linker linker;
 	public Status status;
 	public PFont TEXTFONT;
@@ -89,6 +94,7 @@ public class UI{
 		deviceSelector = new DeviceSelector();
 		colorPalette = new ColorPalette();
 		linker = new Linker();
+		controlSurface = new ControlSurface();
 
 		uiElements = new HashMap<String,Focusable>();
 		uiElements.put("EventViewer", new EventViewer());
@@ -100,7 +106,7 @@ public class UI{
 		uiElements.put("SequenceEditor", new SequenceEditor());
 		uiElements.put("Linker", linker);
 		uiElements.put("FilterSelector", new FilterSelector());
-		uiElements.put("ControlSurface", new ControlSurface());
+		uiElements.put("ControlSurface", controlSurface);
 		openedUiElements = new LinkedList<Focusable>();
 		toBeOpenedUiElements = new ArrayList<Focusable>();
 
@@ -189,5 +195,20 @@ public class UI{
 	public void setSelectedGroup(DeviceGroup g){deviceSelector.setSelectedGroup(g);}
 
 	public void setDisplayedFrame(Frame frame){if(null == displayFrame)displayFrame = frame;}
+
+	public static class SaveObject implements Serializable{
+		public List<Float> sliderValues;
+
+		public SaveObject(List<Float> sliderValues){this.sliderValues = sliderValues;}
+	}
+
+	public Object save(){
+		return new SaveObject(controlSurface.getValues());
+	}
+
+	public void restore(Object restoredObject){
+		SaveObject s = (SaveObject) restoredObject;
+		controlSurface.setValues(s.sliderValues);
+	}
 }
 

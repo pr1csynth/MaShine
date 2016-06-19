@@ -8,6 +8,7 @@
 package mashine.ui.boxes;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.lang.Math;
 
 import mashine.MaShine;
@@ -66,6 +67,20 @@ public class ControlSurface extends UIBox{
 			MaShine.inputs.setRange("console.slider."+String.format("%2s", i+1).replace(' ', '0'), sliders.get(i).value());
 		}
 
+	}
+
+	public List<Float> getValues(){
+		List<Float> l = new ArrayList<Float>(nbSliders);
+		for(int i = 0; i < nbSliders; i++){
+			l.add(sliders.get(i).value());
+		}
+		return l;
+	}
+
+	public void setValues(List<Float> l){
+		for(int i = 0; i < nbSliders; i++){
+			sliders.get(i).setValue(l.get(i));
+		}
 	}
 
 }
