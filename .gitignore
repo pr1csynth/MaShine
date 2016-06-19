@@ -1,6 +1,5 @@
 # Ant
 /build/
-/dist/
 
 # pack.sh
 /releases/
