@@ -22,6 +22,7 @@ public class Sequencer implements Serializable{
 	private Sequence sequence;
 	private boolean tweaking = false;
 	private boolean manual = false;
+	private boolean loop = true;
 	private int clip;
 	private int offset;
 	private int index;
@@ -42,6 +43,7 @@ public class Sequencer implements Serializable{
 		MaShine.inputs.registerAction("sequencer."+name+".manual.end", new Do(){public void x(){manual = false;}});
 
 		MaShine.inputs.registerAction("sequencer."+name+".reset", new Do(){public void x(){setIndex(clip);}});
+		MaShine.inputs.registerAction("sequencer."+name+".loop.toggle", new Do(){public void x(){loop = !loop;}});
 
 		MaShine.inputs.registerAction("sequencer."+name+".clip.less.tweak", new Do(){public void x(){if(tweaking)setClip(clip +1);}});
 		MaShine.inputs.registerAction("sequencer."+name+".clip.more.tweak", new Do(){public void x(){if(tweaking)setClip(clip -1);}});
@@ -73,7 +75,10 @@ public class Sequencer implements Serializable{
 				v = sequence.getSize() - 1;
 			}
 			if(v >= sequence.getSize()){
-				v = offset;
+				if(loop)
+					v = offset;
+				else
+					v = sequence.getSize() - 1;
 			}
 		}else{
 			if(v < offset){
@@ -81,7 +86,10 @@ public class Sequencer implements Serializable{
 			}
 
 			if(v >= offset + clip ){
-				v = offset;
+				if(loop)
+					v = offset;
+				else
+					v = (offset + clip) - 1;
 			}
 		}
 		index = v;
