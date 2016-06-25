@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Collection;
 import java.io.Serializable;
 
 import mashine.engine.Filter;
@@ -255,7 +256,13 @@ public class Bank implements Serializable{
 			}
 			public Frame f(Filter filter, Frame frame){
 				Map<Device, Integer> weights = filter.getGroup().getDevices();
-				int length = weights.size();
+				int min = -1; 
+				int max = 0;
+				for(int v : weights.values()){
+					if(min == -1 || v < min) min = v;
+					else if(v > max) max = v;
+				}
+				int length = Math.max(1, (max - min) + 1);
 				float size = (float)filter.getRange("size")*length/2f;
 				long offset = filter.getLong("offset");
 				offset += filter.getRange("speed")*9000f*filter.getRange("speedMult")*10f;
@@ -300,7 +307,13 @@ public class Bank implements Serializable{
 			}
 			public Frame f(Filter filter, Frame frame){
 				Map<Device, Integer> weights = filter.getGroup().getDevices();
-				int length = weights.size();
+				int min = -1;
+				int max = 0;
+				for(int v : weights.values()){
+					if(min == -1 || v < min) min = v;
+					else if(v > max) max = v;
+				}
+				int length = Math.max(1, (max - min) + 1);
 				float size = (float)filter.getRange("size")*length/2f;
 				long offset = filter.getLong("offset");
 				offset += filter.getRange("speed")*9000f*filter.getRange("speedMult")*10f;
