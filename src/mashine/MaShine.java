@@ -73,8 +73,10 @@ public class MaShine extends PApplet{
 	}
 
 	public void keyPressed(KeyEvent e){
+		if (key == ESC) {key = 0;} // prevent window from closing
 		inputs.passKeyEvent(e);
 	}
+
 	public void keyReleased(KeyEvent e){
 		inputs.passKeyEvent(e);
 	}
@@ -128,7 +130,7 @@ public class MaShine extends PApplet{
 		}catch(IOException i){
 			i.printStackTrace();
 		}
-		
+
 	}
 
 	public void restore(){
