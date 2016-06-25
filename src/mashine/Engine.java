@@ -59,12 +59,8 @@ public class Engine{
 		MaShine.outputs.setFrame(frame);
 	}
 
-	public ArrayList<Track> getTracks(){
-		return tracks;
-	}
-	public ArrayList<Filter> getFilters(){
-		return filters;
-	}
+	public ArrayList<Track> getTracks(){return tracks;}
+	public ArrayList<Filter> getFilters(){return filters;}
 
 	public String addFilter(String type){
 		if(MaShine.bank.getFilter(type) != null){
