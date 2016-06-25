@@ -86,8 +86,6 @@ public class Bank implements Serializable{
 					for(Feature f : feats){
 						if(f instanceof ColorFeature){
 							ColorFeature c = (ColorFeature) f;
-							if(f instanceof RGB) c = new RGB();
-							if(f instanceof RGBW) c = new RGBW();
 							c.link(new FlatColor(255));
 							frame.addFeature(d, c);
 						}
@@ -106,8 +104,6 @@ public class Bank implements Serializable{
 						if(f instanceof ColorFeature){
 							if(Math.random() > 0.95){
 								ColorFeature c = (ColorFeature) f;
-								if(f instanceof RGB) c = new RGB();
-								if(f instanceof RGBW) c = new RGBW();
 								c.link(new FlatColor(255));
 								frame.addFeature(d, c);
 							}
@@ -133,8 +129,6 @@ public class Bank implements Serializable{
 						for(Feature f : feats){
 							if(f instanceof ColorFeature){
 								ColorFeature c = (ColorFeature) f;
-								if(f instanceof RGB) c = new RGB();
-								if(f instanceof RGBW) c = new RGBW();
 								c.link(new FlatColor(255));
 								frame.addFeature(d, c);
 							}
@@ -231,9 +225,6 @@ public class Bank implements Serializable{
 						if(f instanceof ColorFeature){
 							String fftName = String.format("%2s", w).replace(' ', '0');
 							ColorFeature c = (ColorFeature) f;
-							if(f instanceof Tradi) c = new Tradi();
-							if(f instanceof RGB) c = new RGB();
-							if(f instanceof RGBW) c = new RGBW();
 							FlatColor fc = new FlatColor(100, 0, 255, 0);
 							fc.setBrightness((float)MaShine.inputs.getRange("minim.fft."+fftName));
 							c.link(fc);
@@ -419,6 +410,29 @@ public class Bank implements Serializable{
 						if(f instanceof ColorFeature && frame.isIn(d,f)){
 							ColorFeature c = (ColorFeature) frame.getFeature(d, f);
 							c.link(c.getLinkedColor().dim((float)filter.getRange("value")));
+						}
+					}
+				}
+				return frame;
+			}
+		}));
+
+		filters.put("shine_adv", new Filter("shine_adv", new Filter.Robot(){
+			public void setup(Filter filter){
+				filter.declare("probabilty", Filter.RANGE);
+			}
+			public Frame f(Filter filter, Frame frame){
+				float probabilty = (float)filter.getRange("probabilty");
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				for(Device d : weights.keySet()){
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof ColorFeature){
+							if(Math.random() < probabilty){
+								ColorFeature c = (ColorFeature) f;
+								c.link(new FlatColor(255));
+								frame.addFeature(d, c);
+							}
 						}
 					}
 				}
