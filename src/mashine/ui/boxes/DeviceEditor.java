@@ -79,8 +79,8 @@ public class DeviceEditor extends UIBox{
 		addressElement = new RangeInput(this, 1f, 1f, 512f, 1f, 117, 28, 27);
 		genericFieldInputElement = new TextInput(this, "generic", 43, height - 20, 100);
 		
-		xPosElement = new RangeInput(this, 0f, 0f, 1000f, 1f, 0, height - 74, 60);
-		yPosElement = new RangeInput(this, 0f, 0f, 700f, 1f, 62, height - 74, 60);
+		xPosElement = new RangeInput(this, 0f, 0f, 4000f, 1f, 0, height - 74, 60);
+		yPosElement = new RangeInput(this, 0f, 0f, 3000f, 1f, 62, height - 74, 60);
 		widthElement = new RangeInput(this, 60f, 60f, 300f, 1f, 0, height - 57, 60);
 		heightElement = new RangeInput(this, 15f, 15f, 600f, 1f, 62, height - 57, 60);
 

@@ -38,7 +38,7 @@ public class MaShine extends PApplet{
 	}
 
 	public void settings() {
-		size(1200, 700, PApplet.P3D);
+		size(1920, 1080, PApplet.P3D);
 		noSmooth();
 	}
 
