@@ -345,6 +345,86 @@ public class Bank implements Serializable{
 				return 0f;	
 			}
 		}));
+
+		filters.put("waves", new Filter("waves", new Filter.Robot(){
+			public void setup(Filter filter){
+				filter.declare("size", Filter.RANGE);
+				filter.declare("speed", Filter.RANGE);
+				filter.declare("min", Filter.RANGE);
+				filter.declare("max", Filter.RANGE);
+				filter.declare("speedMult", Filter.RANGE);
+				filter.declare("direction", Filter.STATE);
+				filter.declare("oneWave", Filter.STATE);
+				filter.declare("offset", Filter.LONG);
+				filter.setLong("offset", 0L);
+			}
+			public Frame f(Filter filter, Frame frame){
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				int min = -1; 
+				int max = 0;
+				for(int v : weights.values()){
+					if(min == -1 || v < min) min = v;
+					else if(v > max) max = v;
+				}
+				int length = Math.max(1, (max - min) + 1);
+				float size = (float)filter.getRange("size")*length/2f;
+				long offset = filter.getLong("offset");
+				float minDim = (float)filter.getRange("min");
+				float rangeDim = (float)filter.getRange("max") - min;
+				boolean cut = filter.getState("oneWave");
+				offset += filter.getRange("speed")*9000f*filter.getRange("speedMult")*10f;
+				filter.setLong("offset", offset);
+
+				float scaledOffset = offset/10000.0f;
+
+
+				for(Device d : weights.keySet()){
+					int w = weights.get(d);
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof ColorFeature && frame.isIn(d,f)){
+							ColorFeature c = (ColorFeature) frame.getFeature(d, f);
+							c.link(c.getLinkedColor().dim(minDim + rangeDim * waveFunction(scaledOffset, w, size, length, cut)));
+						}
+					}
+				}
+
+				return frame;
+			}
+
+			public float waveFunction(float offset, int index, float size, int length, boolean cut){
+				offset = offset % length;
+				if(cut && length < offset+ 2*size && index < (offset + 2*size) - length){
+					offset = (offset+ 2*size) - length;
+					return (float)Math.cos(PConstants.PI*(-index + offset)/size - PConstants.PI)/2f+0.5f;
+				}else if(offset < index && index < offset + 2*size){
+					return (float)Math.cos(PConstants.PI*(-index + offset)/size - PConstants.PI)/2f+0.5f;
+				}
+				return 0f;	
+			}
+		}));
+
+		filters.put("group_dimmer", new Filter("group_dimmer", new Filter.Robot(){
+			public void setup(Filter filter){
+				filter.declare("value", Filter.RANGE);
+			}
+
+			public Frame f(Filter filter, Frame frame){
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+
+				for(Device d : weights.keySet()){
+					int w = weights.get(d);
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof ColorFeature && frame.isIn(d,f)){
+							ColorFeature c = (ColorFeature) frame.getFeature(d, f);
+							c.link(c.getLinkedColor().dim((float)filter.getRange("value")));
+						}
+					}
+				}
+				return frame;
+			}
+		}));
 	}
 
 
