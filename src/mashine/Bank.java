@@ -68,10 +68,15 @@ public class Bank implements Serializable{
 
 		filters.put("blackout", new Filter("blackout", new Filter.Robot(){
 			public Frame f(Filter filter, Frame frame){	
-				for(EditableFeature f : frame.getFeatures().values()){
-					if(f instanceof ColorFeature){
-						ColorFeature c = (ColorFeature) f;
-						c.link(new FlatColor(0,0,0,0));
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				for(Device d : weights.keySet()){
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof ColorFeature){
+							ColorFeature c = (ColorFeature) f;
+							c.link(new FlatColor(0));
+							frame.addFeature(d, c);
+						}
 					}
 				}
 				return frame;
