@@ -19,6 +19,8 @@ public class Clock extends InputSource {
 	private static final long MINUTE = 60000L;
 	private static final long SECOND = 1000L;
 
+	private boolean init = false;
+
 	public Clock () {
 		super();
 		next = new ArrayList<Long>();
@@ -32,19 +34,28 @@ public class Clock extends InputSource {
 		rates.add(SECOND/1);
 
 		for(int i = 0; i < rates.size(); i ++){
-			MaShine.println(rates.get(i)+"");
 			str.add(rates.get(i)+"");
 			next.add(0L);
 		}
+
+		str.add("variable");
+		next.add(0L);
 		
 	}
 
 	public void tick(){
+		if(!init){ init = true; MaShine.inputs.registerRange("clock.variable.adjust"); }
 		long now = MaShine.m.millis();
 		int i = 0;
 		for(Long n : next){
 			if(n <= now){
-				long rate = rates.get(i);
+				long rate;
+				if(str.get(i).equals("variable")){
+					rate = Math.round(SECOND * MaShine.inputs.getRange("clock.variable.adjust"));
+					//MaShine.println(rate);
+				}else{
+					rate = rates.get(i);
+				}
 				states.put("clock."+str.get(i), true);
 				next.set(i, now+rate);
 			}
