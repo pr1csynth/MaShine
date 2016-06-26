@@ -12,6 +12,8 @@ import java.util.HashMap;
 import javax.sound.midi.MidiMessage;
 
 import mashine.inputs.midi_devices.*;
+import mashine.MaShine;
+import mashine.Do;
 import themidibus.MidiBus;
 
 public class MidiInputs extends InputSource implements Learnable{
@@ -21,6 +23,7 @@ public class MidiInputs extends InputSource implements Learnable{
 	
 	private String lastState;
 	private String lastRange;
+	private boolean init = false;
 
 	public MidiInputs () {
 		super();
@@ -55,8 +58,10 @@ public class MidiInputs extends InputSource implements Learnable{
 	}
 
 	public void tick(){
-		// rescan midi devices here
-		//M.inputs.setState("internal.midi.status", buses.size() != 0);
+		if(!init){
+			init = true;
+			MaShine.inputs.registerAction("mashine.inputs.reload_midi", new Do(){public void x(){rescanDevices();}});
+		}
 	}
 
 	public void clear(){

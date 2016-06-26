@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import mashine.MaShine;
+import mashine.Do;
 import mashine.scene.Device;
 import mashine.scene.Frame;
 import mashine.scene.features.EditableFeature;
@@ -23,6 +24,7 @@ public class Ola extends Output{
 
 	private OlaClient ola;
 	private Integer inputUniverse;
+	private boolean init = false;
 
 	public Ola(){
 		//connectToServer();
@@ -84,6 +86,10 @@ public class Ola extends Output{
 			//testReceive(3);
 
 		}else{
+			if(!init){
+				init = true;
+				MaShine.inputs.registerAction("mashine.outputs.reload_universes", new Do(){public void x(){connectToServer();}});
+			}
 			if(MaShine.m.frameCount % 120 == 0)
 				connectToServer();
 		}
