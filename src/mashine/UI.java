@@ -111,6 +111,8 @@ public class UI{
 		toBeOpenedUiElements = new ArrayList<Focusable>();
 
 		displayFrame = new Frame();
+
+		open("ControlSurface");
 	}
 
 	public void close(String uiElementName){
