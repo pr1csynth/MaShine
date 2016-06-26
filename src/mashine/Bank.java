@@ -450,6 +450,49 @@ public class Bank implements Serializable{
 				return frame;
 			}
 		}));
+		filters.put("easing_basic", new Filter("easing_basic", new Filter.Robot(){
+			public void setup(Filter filter){
+				filter.declare("rate", Filter.RANGE);
+				filter.declare("currentFrame", Filter.FRAME);
+			}
+			public Frame f(Filter filter, Frame frame){
+				Frame currentFrame = filter.getFrame("currentFrame");
+				Frame targetFrame = new Frame(frame);
+				Frame returnFrame = new Frame();
+				double rate = filter.getRange("rate");
+				rate = Math.max(0.002, rate*rate);
+
+				Map<String,EditableFeature> targetFeatures = targetFrame.getFeatures(); 
+
+				for(String targetId : targetFeatures.keySet()){
+
+					EditableFeature currentFeature = currentFrame.getFeature(targetId);
+					EditableFeature targetFeature = (EditableFeature)Feature.cloneFeature(targetFeatures.get(targetId));
+					// if target feature is not in current,  just put it in. 
+					if(currentFeature != null){
+						for(String targetFieldId : targetFeature.getFields().keySet()){
+							int currentFieldValue = currentFeature.getField(targetFieldId); 
+							int targetFieldValue = targetFeature.getField(targetFieldId);
+							if(currentFieldValue != targetFieldValue){
+								int newValue = 0;
+								double change = (targetFieldValue - currentFieldValue) * rate;
+								if(change < 0) newValue = currentFieldValue + (int)Math.round(Math.min(-1, change));
+								if(change > 0) newValue = currentFieldValue + (int)Math.round(Math.max(+1, change)); 
+								MaShine.println(newValue);
+								currentFeature.setField(targetFieldId,newValue);
+							}
+						}
+
+						returnFrame.addFeature(targetId, currentFeature);
+					}else{
+						returnFrame.addFeature(targetId, targetFeature);
+					}
+				}
+
+				filter.setFrame("currentFrame", returnFrame);
+				return returnFrame;
+			}
+		}));
 	}
 
 

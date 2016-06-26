@@ -61,6 +61,13 @@ public class Frame implements Serializable{
 			return null;
 		}
 	}
+	public EditableFeature getFeature(String featureString){
+		if(features.containsKey(featureString)){
+			return features.get(featureString);
+		}else{
+			return null;
+		}
+	}
 
 	public void addFeature(Device d, EditableFeature f){
 		features.put(d.getIdentifier()+"."+f.getType(), (EditableFeature) Feature.cloneFeature(f));

@@ -7,6 +7,8 @@
 
 package mashine.scene.features;
 
+import mashine.MaShine;
+
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
@@ -50,8 +52,10 @@ public abstract class Feature implements Serializable {
 			n = new FixedField(f);
 		}else if(f instanceof SingleField){
 			n = new SingleField(f);
+		}else if(f instanceof EditableFeature){
+			n = new EditableFeature(f);
 		}else{
-			// TODO: throw exception if unknow feature
+			MaShine.println("NULL FEATURE WILL BE RETURNED, exceptions will rain.");// TODO: throw exception if unknow feature
 		}
 
 		return n;
@@ -77,7 +81,7 @@ public abstract class Feature implements Serializable {
 
 	public void setField(String fieldName, int value){
 		if(fields.containsKey(fieldName)){
-			fields.put(fieldName, value);
+			fields.put(fieldName, Math.min(255, Math.max(0,value)));
 		}
 	}
 
