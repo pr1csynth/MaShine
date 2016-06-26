@@ -9,8 +9,7 @@ package mashine;
 
 import java.util.HashMap;
 
-import mashine.outputs.Ola;
-import mashine.outputs.Output;
+import mashine.outputs.*;
 import mashine.scene.Frame;
 
 public class Outputs{
@@ -23,6 +22,7 @@ public class Outputs{
 		outputs = new HashMap<String,Output>();
 		ola = new Ola();
 		outputs.put("OLA", ola);
+		outputs.put("UDP", new UDP());
 	}
 
 	public void push(){

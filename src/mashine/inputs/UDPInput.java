@@ -28,8 +28,7 @@ public class UDPInput extends InputSource {
 
 	public class ReceiveThread extends Thread {
 
-		InetAddress group;
-
+		protected InetAddress group;
 		protected MulticastSocket socket = null;
 
 		public ReceiveThread() throws IOException {
@@ -48,7 +47,7 @@ public class UDPInput extends InputSource {
 			Boolean running = true;
 			while (running) {
 				try{
-					byte[] buf = new byte[256];
+					byte[] buf = new byte[4096];
 					packet = new DatagramPacket(buf, buf.length);
 					socket.receive(packet);
 					String received = new String(packet.getData());
@@ -62,10 +61,10 @@ public class UDPInput extends InputSource {
 					
 					try{
 						socket.leaveGroup(group);
-						socket.close();
 					}catch(Exception ignore){}
 				}
 			}
+			socket.close();
 		}
 	}
 
@@ -76,6 +75,7 @@ public class UDPInput extends InputSource {
 			String[] l = s.split(":");
 			if(l.length == 3 && l[0].equals("s")){
 				m.put("udp."+ l[1], l[2].equals("1"));
+				MaShine.println("udp."+ l[1]);
 			}
 		}
 		return m;
