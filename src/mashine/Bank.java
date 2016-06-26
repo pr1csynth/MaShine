@@ -370,7 +370,7 @@ public class Bank implements Serializable{
 				//MaShine.println(filter.getRange("min") + "\t" + filter.getRange("max")+ "\t" + rangeDim);
 				boolean cut = filter.getState("oneWave");
 
-				offset += filter.getRange("speed")*9000f*filter.getRange("speedMult")*10f;
+				offset += (filter.getState("direction") ? 1 : -1) *filter.getRange("speed")*9000f*filter.getRange("speedMult")*10f;
 				filter.setLong("offset", offset);
 
 				float scaledOffset = offset/10000.0f;
