@@ -365,9 +365,11 @@ public class Bank implements Serializable{
 				int length = Math.max(1, (max - min) + 1);
 				float size = (float)filter.getRange("size")*length/2f;
 				long offset = filter.getLong("offset");
-				float minDim = (float)filter.getRange("min");
-				float rangeDim = (float)filter.getRange("max") - min;
+				float minDim = Math.min((float)filter.getRange("min"), (float)filter.getRange("max"));
+				float rangeDim = Math.max((float)filter.getRange("min"), (float)filter.getRange("max")) - minDim;
+				//MaShine.println(filter.getRange("min") + "\t" + filter.getRange("max")+ "\t" + rangeDim);
 				boolean cut = filter.getState("oneWave");
+
 				offset += filter.getRange("speed")*9000f*filter.getRange("speedMult")*10f;
 				filter.setLong("offset", offset);
 
@@ -380,7 +382,9 @@ public class Bank implements Serializable{
 					for(Feature f : feats){
 						if(f instanceof ColorFeature && frame.isIn(d,f)){
 							ColorFeature c = (ColorFeature) frame.getFeature(d, f);
-							c.link(c.getLinkedColor().dim(minDim + rangeDim * waveFunction(scaledOffset, w, size, length, cut)));
+							float value = minDim + rangeDim * waveFunction(scaledOffset, w, size, length, cut);
+							//MaShine.println(value);
+							c.link(c.getLinkedColor().dim(value));
 						}
 					}
 				}
@@ -389,11 +393,13 @@ public class Bank implements Serializable{
 			}
 
 			public float waveFunction(float offset, int index, float size, int length, boolean cut){
-				offset = offset % length;
+				if(cut)
+					offset = offset % length;
 				if(cut && length < offset+ 2*size && index < (offset + 2*size) - length){
 					offset = (offset+ 2*size) - length;
 					return (float)Math.cos(PConstants.PI*(-index + offset)/size - PConstants.PI)/2f+0.5f;
-				}else if(offset < index && index < offset + 2*size){
+				}
+				if(!cut || (cut && offset < index && index < offset + 2*size)){
 					return (float)Math.cos(PConstants.PI*(-index + offset)/size - PConstants.PI)/2f+0.5f;
 				}
 				return 0f;	
