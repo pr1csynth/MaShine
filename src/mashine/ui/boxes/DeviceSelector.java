@@ -50,6 +50,9 @@ public class DeviceSelector extends UIBox{
 		elements.add(new TextButton(this,"remove", 250, height-15, 50,
 			new Do(){public void x(){removeDevice();}}
 		));
+		elements.add(new TextButton(this,"reverse", 305, height-15, 55,
+			new Do(){public void x(){reverseWeights();}}
+		));
 
 		// SIDE BUTTONS
 
@@ -203,12 +206,17 @@ public class DeviceSelector extends UIBox{
 	}
 	private void deleteGroup(){
 		MaShine.scene.deleteGroup(selectedGroup);
-		selectedGroup = null;
+		setSelectedGroup(null);
 	}
 
 	private void removeDevice(){
 		selectedGroup.removeDevice(selectedDevice);
 		setSelectedDevice(selectedGroup.getFirst());
+	}
+	private void reverseWeights(){
+		if(null != selectedGroup || !selectedGroup.getName().equals("(selection)")){
+			selectedGroup.reverseWeights();
+		}
 	}
 
 	private void selectAll(){MaShine.ui.setSelectedDevices(MaShine.scene.getDevices());}

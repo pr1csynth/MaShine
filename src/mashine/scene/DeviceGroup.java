@@ -83,6 +83,19 @@ public class DeviceGroup implements Serializable{
 		return devices.put(d, w);
 	}
 
+	public void reverseWeights(){
+		int min = -1; 
+		int max = 0;
+		for(int v : devices.values()){
+			if(min == -1 || v < min) min = v;
+			if(v > max) max = v;
+		}
+		int range = Math.max(1, (max - min) + 1 );
+		for(Device d : devices.keySet()){
+			devices.put(d, min + range - devices.get(d));
+		}
+	}
+
 	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue( Map<K, V> map ){
 
 		Map<K,V> result = new LinkedHashMap<>();
