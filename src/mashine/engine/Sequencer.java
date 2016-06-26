@@ -44,6 +44,8 @@ public class Sequencer implements Serializable{
 
 		MaShine.inputs.registerAction("sequencer."+name+".reset", new Do(){public void x(){setIndex(clip);}});
 		MaShine.inputs.registerAction("sequencer."+name+".loop.toggle", new Do(){public void x(){loop = !loop;}});
+		MaShine.inputs.registerAction("sequencer."+name+".loop.on", new Do(){public void x(){loop = true;}});
+		MaShine.inputs.registerAction("sequencer."+name+".loop.off", new Do(){public void x(){loop = false;}});
 
 		MaShine.inputs.registerAction("sequencer."+name+".clip.less.tweak", new Do(){public void x(){if(tweaking)setClip(clip +1);}});
 		MaShine.inputs.registerAction("sequencer."+name+".clip.more.tweak", new Do(){public void x(){if(tweaking)setClip(clip -1);}});
