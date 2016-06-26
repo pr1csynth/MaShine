@@ -478,7 +478,6 @@ public class Bank implements Serializable{
 								double change = (targetFieldValue - currentFieldValue) * rate;
 								if(change < 0) newValue = currentFieldValue + (int)Math.round(Math.min(-1, change));
 								if(change > 0) newValue = currentFieldValue + (int)Math.round(Math.max(+1, change)); 
-								MaShine.println(newValue);
 								currentFeature.setField(targetFieldId,newValue);
 							}
 						}
