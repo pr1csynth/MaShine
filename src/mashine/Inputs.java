@@ -61,6 +61,7 @@ public class Inputs{
 			put("ola", new OlaInput());
 			put("c", new InputConstants());
 			put("clock", new Clock());
+			put("udp", new UDPInput());
 		}};
 
 		learnable = new ArrayList<Learnable>();
