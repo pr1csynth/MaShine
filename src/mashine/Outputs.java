@@ -22,7 +22,7 @@ public class Outputs{
 		outputs = new HashMap<String,Output>();
 		ola = new Ola();
 		outputs.put("OLA", ola);
-		outputs.put("UDP", new UDP());
+		//outputs.put("UDP", new UDP());
 	}
 
 	public void push(){

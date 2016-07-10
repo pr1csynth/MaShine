@@ -19,7 +19,7 @@ public class UDPInput extends InputSource {
 		super();
 		try{
 			new ReceiveThread().start();
-			MaShine.println("LISTENING ON UDP 224.0.0.1:1703");
+			MaShine.println("LISTENING ON UDP 227.16.20.1:1703");
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -38,7 +38,7 @@ public class UDPInput extends InputSource {
 		public ReceiveThread(String name) throws IOException {
 			super(name);
 			socket = new MulticastSocket(1703);
-			group = InetAddress.getByName("224.0.0.1");
+			group = InetAddress.getByName("227.16.20.1");
 			socket.joinGroup(group);
 		}
 
