@@ -492,6 +492,56 @@ public class Bank implements Serializable{
 				return returnFrame;
 			}
 		}));
+
+		filters.put("ERY", new Filter("ERY", new Filter.Robot(){
+			public Frame f(Filter filter, Frame frame){
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				for(Device d : weights.keySet()){
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						int w = weights.get(d);
+						if(f instanceof Coords){
+							Coords cf = new Coords();
+
+							cf.setField("x", (int) Math.ceil(MaShine.inputs.getRange("udp.ERY."+ w +".pan")));
+							cf.setField("x_", (int) Math.ceil(MaShine.inputs.getRange("udp.ERY."+ w +".panf")));
+							cf.setField("y", (int) Math.ceil(MaShine.inputs.getRange("udp.ERY."+ w +".tilt")));
+							cf.setField("y_", (int) Math.ceil(MaShine.inputs.getRange("udp.ERY."+ w +".tiltf")));
+							frame.addFeature(d, cf);
+						}else if(f instanceof Zoom){
+							Zoom cf = new Zoom();
+
+							cf.setField("z", (int) Math.ceil(MaShine.inputs.getRange("udp.ERY."+ w +".zoom")));
+							cf.setField("z_", (int)Math.ceil(MaShine.inputs.getRange("udp.ERY."+ w +".zoomf")));
+							frame.addFeature(d, cf);
+						}
+					}
+				}
+				return frame;
+			}
+		}));
+
+		filters.put("shine_dim", new Filter("shine_dim", new Filter.Robot(){
+			public void setup(Filter filter){
+				filter.declare("probabilty", Filter.RANGE);
+			}
+			public Frame f(Filter filter, Frame frame){
+				float probabilty = (float)filter.getRange("probabilty");
+				Map<Device, Integer> weights = filter.getGroup().getDevices();
+				for(Device d : weights.keySet()){
+					List<Feature> feats = d.getFeatures();
+					for(Feature f : feats){
+						if(f instanceof ColorFeature){
+							if(Math.random() < probabilty){
+								ColorFeature c = (ColorFeature) frame.getFeature(d, f);
+								c.link(c.getLinkedColor().dim(0f));
+							}
+						}
+					}
+				}
+				return frame;
+			}
+		}));
 	}
 
 
