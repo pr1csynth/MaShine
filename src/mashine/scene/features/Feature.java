@@ -48,6 +48,8 @@ public abstract class Feature implements Serializable {
 			n = new RGBW(f);
 		}else if(f instanceof Coords){
 			n = new Coords(f);
+		}else if(f instanceof Zoom){
+			n = new Zoom(f);
 		}else if(f instanceof FixedField){
 			n = new FixedField(f);
 		}else if(f instanceof SingleField){

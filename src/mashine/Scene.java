@@ -14,12 +14,7 @@ import java.io.Serializable;
 import mashine.scene.Device;
 import mashine.scene.DeviceGroup;
 import mashine.scene.Frame;
-import mashine.scene.features.FixedField;
-import mashine.scene.features.Tradi;
-import mashine.scene.features.RGB;
-import mashine.scene.features.RGBW;
-import mashine.scene.features.Coords;
-import mashine.scene.features.SingleField;
+import mashine.scene.features.*;
 
 public class Scene{
 
@@ -35,6 +30,7 @@ public class Scene{
 		FEATURES.put(RGBW.class.getName(), RGBW.class);
 		FEATURES.put(RGB.class.getName(), RGB.class);
 		FEATURES.put(Coords.class.getName(), Coords.class);
+		FEATURES.put(Zoom.class.getName(), Zoom.class);
 	}
 
 	public Scene(){
