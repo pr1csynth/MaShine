@@ -28,12 +28,12 @@ Require Java 8 and ant to build. Run `ant` in the root folder to build and run.
 - [x] DMX input
 - [x] FFT ranges
 - [x] More device features
-- [ ] More filters
+- [x] More filters
 - [ ] __A complete demo set__
-- [ ] More viewers
-- [ ] Selective saves/imports/exports
-- [ ] Go in the details of the UI/interactions
-- [ ] MIDI outputs
+- [ ] protobuf saves
+- [ ] grid ui (see [Blocks](https://github.com/procsynth/MaShine/Blocks))
+- [ ] MIDI outputs, get rid of themidibus ?
+- [ ] integrated Artnet node, get rid of OLA ?
 - [ ] User manual
 
 # WHICH LICENSE ?
