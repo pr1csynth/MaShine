@@ -31,7 +31,7 @@ Require Java 8 and ant to build. Run `ant` in the root folder to build and run.
 - [x] More filters
 - [ ] __A complete demo set__
 - [ ] protobuf saves
-- [ ] grid ui (see [Blocks](https://github.com/procsynth/MaShine/Blocks))
+- [ ] grid ui (see [Blocks](https://github.com/procsynth/Blocks))
 - [ ] MIDI outputs, get rid of themidibus ?
 - [ ] integrated Artnet node, get rid of OLA ?
 - [ ] User manual
