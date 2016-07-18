@@ -13,6 +13,12 @@ import java.util.Map;
 import java.util.Collection;
 import java.io.Serializable;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.Scanner;
+
 import mashine.engine.Filter;
 import mashine.scene.Sequence;
 import mashine.scene.Frame;
@@ -29,6 +35,7 @@ public class Bank implements Serializable{
 	private ArrayList<Sequence> sequences;
 	private HashMap<String, Filter> filters;
 	private ArrayList<FlatColor> colors;
+	private ScriptEngine nashorn;
 
 	public Bank(){
 		sequences = new ArrayList<Sequence>();
@@ -40,7 +47,7 @@ public class Bank implements Serializable{
 		for(int i = 0; i < 154; i++){
 			colors.add(new FlatColor(0xFF, 0x00, 0x00)
 				.withHue((i % 14)/(float)14.0)
-				.withBrightness((float) Math.floor((167-i)/14)/11)
+				.withSaturation((float) Math.floor((167-i)/14)/11)
 				.withAlpha(0));
 		}
 
@@ -49,6 +56,54 @@ public class Bank implements Serializable{
 			colors.add(Colors.BLACK.withAlpha(0));
 		}
 
+		registerFilters();
+
+		nashorn = new ScriptEngineManager().getEngineByName("nashorn");
+
+		try{
+			nashorn.eval(new InputStreamReader(getClass().getResourceAsStream("/javascript/imports.js"), "utf-8"));
+
+			MaShine.println(new Scanner(getClass().getResourceAsStream("/javascript/filters.list"), "utf-8").useDelimiter("\\A").next());
+
+		}catch(Exception e){e.printStackTrace();}
+
+	}
+
+
+
+	public void addSequence(Sequence seq){sequences.add(seq);}
+	public void deleteSequence(Sequence seq){sequences.remove(seq);}
+	public ArrayList<Sequence> getSequences(){return sequences;}
+	public Sequence getSequence(int index){return sequences.get(index);}
+	public int getSequencesSize(){return sequences.size();}
+
+	public ArrayList<FlatColor> getColors(){return colors;}
+
+	public Filter getFilter(String f){return filters.get(f);}
+	public HashMap<String, Filter> getFilters(){return filters;}
+
+	public static class SaveObject implements Serializable{
+		public ArrayList<Sequence> sequences;
+		public ArrayList<FlatColor> colors;
+
+		public SaveObject(ArrayList<Sequence> sequences, ArrayList<FlatColor> colors){
+			this.sequences = sequences;
+			this.colors = colors;
+		}
+	}
+
+	public Object save(){
+		return new SaveObject(sequences, colors);
+	}
+
+	public void restore(Object restoredObject){
+		SaveObject s = (SaveObject) restoredObject;
+		sequences = s.sequences;
+		colors = s.colors;
+		MaShine.ui.setSelectedSequence(sequences.get(0));
+	}
+
+	private void registerFilters(){
 		filters.put("dimmer", new Filter("dimmer", new Filter.Robot(){
 			public void setup(Filter filter){
 				filter.declare("value", Filter.RANGE);
@@ -541,39 +596,6 @@ public class Bank implements Serializable{
 				}
 				return frame;
 			}
-		}));
-	}
-
-
-	public void addSequence(Sequence seq){sequences.add(seq);}
-	public void deleteSequence(Sequence seq){sequences.remove(seq);}
-	public ArrayList<Sequence> getSequences(){return sequences;}
-	public Sequence getSequence(int index){return sequences.get(index);}
-	public int getSequencesSize(){return sequences.size();}
-
-	public ArrayList<FlatColor> getColors(){return colors;}
-
-	public Filter getFilter(String f){return filters.get(f);}
-	public HashMap<String, Filter> getFilters(){return filters;}
-
-	public static class SaveObject implements Serializable{
-		public ArrayList<Sequence> sequences;
-		public ArrayList<FlatColor> colors;
-
-		public SaveObject(ArrayList<Sequence> sequences, ArrayList<FlatColor> colors){
-			this.sequences = sequences;
-			this.colors = colors;
-		}
-	}
-
-	public Object save(){
-		return new SaveObject(sequences, colors);
-	}
-
-	public void restore(Object restoredObject){
-		SaveObject s = (SaveObject) restoredObject;
-		sequences = s.sequences;
-		colors = s.colors;
-		MaShine.ui.setSelectedSequence(sequences.get(0));
+		}));	
 	}
 }
