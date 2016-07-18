@@ -54,13 +54,13 @@ public class Track implements Serializable{
 		return frame;
 	}
 
-	public String addFilter(String type){
-		if(MaShine.bank.getFilter(type) != null){
+	public String addFilter(String scriptName){
+		if(MaShine.bank.getFilters().contains(scriptName)){
 			filterIndex ++;
 			String name = "track."+this.name+".filter."+hex(filterIndex);
-			Filter f = new Filter(name, MaShine.bank.getFilter(type));
+			Filter f = new Filter(name, scriptName);
 			filters.add(f);
-			return name+"."+type;
+			return name+"."+scriptName;
 		}
 		return null;
 	}

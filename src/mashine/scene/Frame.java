@@ -69,7 +69,7 @@ public class Frame implements Serializable{
 		}
 	}
 
-	public void addFeature(Device d, EditableFeature f){
+	public void addFeature(Device d, Feature f){
 		features.put(d.getIdentifier()+"."+f.getType(), (EditableFeature) Feature.cloneFeature(f));
 	}
 
