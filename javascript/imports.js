@@ -8,6 +8,10 @@ var Features = {
 	zoom:   Java.type("mashine.scene.features.Zoom"),
 }
 
+var Color = Java.type("mashine.ui.FlatColor");
+var Feature = Java.type("mashine.scene.features.EditableFeature");
+var Frame = Java.type("mashine.scene.Frame");
+
 function getInNodes(){
 	var HashMap = Java.type("java.util.HashMap");
 	var ins = new HashMap();
@@ -37,5 +41,6 @@ function get(nodeName){
 		print("no "+ nodeName +" in filter nodes");
 	}
 }
-function hasOnce(){return typeof once !== 'undefined';}
+function hasForEachFrame(){return typeof forEachFrame !== 'undefined';}
 function hasForEachFeature(){return typeof forEachFeature !== 'undefined';}
+function hasForEachDevice(){return typeof forEachFeatureInDevices !== 'undefined';}

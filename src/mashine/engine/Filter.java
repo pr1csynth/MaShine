@@ -43,6 +43,8 @@ public class Filter implements Serializable{
 	private String type;
 	private Boolean enabled;
 
+	private Boolean hasForEachFeature, hasForEachDevice, hasForEachFrame = false;
+
 	public Filter(String parent, String scriptName){
 		this.type = scriptName;
 		this.name = parent + "." + scriptName;
@@ -62,6 +64,10 @@ public class Filter implements Serializable{
 			for(String in : inNodes.keySet()){
 				declare(in, inNodes.get(in));
 			}
+
+			hasForEachFrame = (Boolean)((Invocable)nashorn).invokeFunction("hasForEachFrame");
+			hasForEachFeature = (Boolean)((Invocable)nashorn).invokeFunction("hasForEachFeature");
+			hasForEachDevice = (Boolean)((Invocable)nashorn).invokeFunction("hasForEachDevice");
 			
 		}catch(Exception e){e.printStackTrace();}
 
@@ -70,20 +76,29 @@ public class Filter implements Serializable{
 
 	public Frame filter(Frame frame){
 		try{
-			if((Boolean)((Invocable)nashorn).invokeFunction("hasOnce")){
-			 	frame = (Frame) ((Invocable)nashorn).invokeFunction("once", frame);
+			if(hasForEachFrame){
+			 	frame = (Frame) ((Invocable)nashorn).invokeFunction("forEachFrame", frame);
 			}
 
-			if((Boolean)((Invocable)nashorn).invokeFunction("hasForEachFeature")){
-				if(group != null){	
+			if(group != null){	
+				if(hasForEachDevice || hasForEachFeature){
 					Map<Device, Integer> weights = group.getDevices();
 					for(Device d : weights.keySet()){
 						int w = weights.get(d);
 						List<Feature> features = d.getFeatures();
 						for(Feature f : features){
-							Feature frameFeature = frame.getFeature(d, f);
-							if(frameFeature != null){
-								frame.addFeature(d, (Feature)((Invocable)nashorn).invokeFunction("forEachFeature", frameFeature, w));
+							if(hasForEachDevice){
+								if(f instanceof EditableFeature){
+									Feature newFeature = (Feature)((Invocable)nashorn).invokeFunction("forEachFeatureInDevices", f, w);
+									if(newFeature != null){
+										frame.addFeature(d, newFeature);
+									}
+								}
+							}else if (hasForEachFeature) {
+								Feature frameFeature = frame.getFeature(d, f);
+								if(frameFeature != null){
+									frame.addFeature(d, (Feature)((Invocable)nashorn).invokeFunction("forEachFeature", frameFeature, w));
+								}
 							}
 						}
 					}
