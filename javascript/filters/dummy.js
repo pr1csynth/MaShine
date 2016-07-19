@@ -7,9 +7,10 @@ var nodes = {
 	// get("state_in")
 	in : {
 		"range_in" : "range",
-		"state_in" : "state"},
+		"state_in" : "state"
+	},
 	out : {/*not implemented yet*/}
-}
+};
 
 // You can declare variables to store and use them.
 var lastFrame = new Frame();

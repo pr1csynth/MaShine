@@ -10,6 +10,7 @@ var Features = {
 
 var Color = Java.type("mashine.ui.FlatColor");
 var Feature = Java.type("mashine.scene.features.EditableFeature");
+var cloneFeature = Java.type("mashine.scene.features.Feature").cloneFeature;
 var Frame = Java.type("mashine.scene.Frame");
 
 function getInNodes(){
