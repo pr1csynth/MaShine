@@ -29,11 +29,11 @@ Require Java 8 and ant to build. Run `ant` in the root folder to build and run.
 - [x] FFT ranges
 - [x] More device features
 - [x] More filters
-- [ ] __A complete demo set__
+- [x] MIDI outputs (get rid of themidibus ?)
 - [ ] protobuf saves
 - [ ] grid ui (see [Blocks](https://github.com/procsynth/Blocks))
-- [x] MIDI outputs (get rid of themidibus ?)
 - [ ] integrated Artnet node, get rid of OLA ?
+- [ ] __A complete demo set__
 - [ ] User manual
 
 # WHICH LICENSE ?
