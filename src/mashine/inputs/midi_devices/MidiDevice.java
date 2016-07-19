@@ -14,6 +14,7 @@ public class MidiDevice{
 	protected Map<Integer,String> PAD;
 	protected Map<Integer,String> RANGE;
 	protected Map<Integer,String> ENCODER;
+	protected Map<Integer,String> OUTPUTS;
 
 	protected String deviceName;
 
@@ -22,10 +23,15 @@ public class MidiDevice{
 		PAD = new HashMap<Integer, String>();
 		RANGE = new HashMap<Integer, String>();
 		ENCODER = new HashMap<Integer, String>();
+		OUTPUTS = new HashMap<Integer, String>();
 	}
 
 	public String getDeviceName(){
 		return deviceName;
+	}
+
+	public Map<Integer, String> getOutputs(){
+		return OUTPUTS;
 	}
 
 	public String getInputName(int command, int keyNumber,int value){

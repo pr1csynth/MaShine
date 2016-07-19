@@ -32,7 +32,7 @@ Require Java 8 and ant to build. Run `ant` in the root folder to build and run.
 - [ ] __A complete demo set__
 - [ ] protobuf saves
 - [ ] grid ui (see [Blocks](https://github.com/procsynth/Blocks))
-- [ ] MIDI outputs, get rid of themidibus ?
+- [x] MIDI outputs (get rid of themidibus ?)
 - [ ] integrated Artnet node, get rid of OLA ?
 - [ ] User manual
 

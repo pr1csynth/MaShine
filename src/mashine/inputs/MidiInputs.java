@@ -8,6 +8,7 @@
 package mashine.inputs;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.sound.midi.MidiMessage;
 
@@ -19,6 +20,7 @@ import themidibus.MidiBus;
 public class MidiInputs extends InputSource implements Learnable{
 
 	private HashMap<String,MidiBus> buses;
+	private HashMap<MidiBus,MidiDevice> deviceByBuses;
 	private MidiDevice[] devicesTypes = {new KorgNanoKontrol2(), new BehringerDC1(), new GenericMidiDevice()};
 	
 	private String lastState;
@@ -28,6 +30,7 @@ public class MidiInputs extends InputSource implements Learnable{
 	public MidiInputs () {
 		super();
 		buses = new HashMap<String,MidiBus>();
+		deviceByBuses = new HashMap<MidiBus,MidiDevice>();
 		rescanDevices();
 	}
 
@@ -60,7 +63,17 @@ public class MidiInputs extends InputSource implements Learnable{
 	public void tick(){
 		if(!init){
 			init = true;
-			MaShine.inputs.registerAction("mashine.inputs.reload_midi", new Do(){public void x(){rescanDevices();}});
+			MaShine.inputs.registerAction("mashine.inputs.reload_midi", new Do(){public void x(){rescanDevices(); registerOutputs();}});
+			registerOutputs();
+		}
+
+		for(MidiBus bus : deviceByBuses.keySet()){
+			MidiDevice device = deviceByBuses.get(bus);
+			Map<Integer, String> outputs = device.getOutputs();
+			for(int keyNumber: outputs.keySet()){
+				String output = outputs.get(keyNumber);
+				bus.sendControllerChange(0, keyNumber, MaShine.inputs.getState("midi."+ bus.getBusName() +"."+ output) ? 127 : 0);
+			}
 		}
 	}
 
@@ -70,6 +83,15 @@ public class MidiInputs extends InputSource implements Learnable{
 		}
 		lastRange = null;
 		lastState = null;
+	}
+
+	private void registerOutputs(){
+		for(MidiBus bus : deviceByBuses.keySet()){
+			MidiDevice device = deviceByBuses.get(bus);
+			for(String output : device.getOutputs().values()){
+				MaShine.inputs.registerState("midi."+ bus.getBusName() +"."+ output);
+			}
+		}
 	}
 
 	private void rescanDevices(){
@@ -85,7 +107,14 @@ public class MidiInputs extends InputSource implements Learnable{
 				for(int o = 0; o < outputNames.length; o++){
 					if(outputNames[o].indexOf(hwAddress) != -1){
 						name = name.substring(0, name.indexOf(" "));
-						buses.put(name, new MidiBus(this, inputNames[i], outputNames[o], name));
+						MidiBus bus = new MidiBus(this, inputNames[i], outputNames[o], name);
+						buses.put(name, bus);
+						for(int t = 0; t < devicesTypes.length; t++){
+							if(name.contains(devicesTypes[t].getDeviceName())){
+								deviceByBuses.put(bus, devicesTypes[i]);
+								MaShine.println(name +" ol");
+							}
+						}
 					}
 				}
 			}

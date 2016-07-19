@@ -56,6 +56,8 @@ public class KorgNanoKontrol2 extends MidiDevice{
         pad.put(64+7, "track8.rec");
         PAD = Collections.unmodifiableMap(pad);
 
+        OUTPUTS = PAD;
+
         Map<Integer, String> range = new HashMap<Integer, String>();
       	range.put(16+0, "track1.knob");
       	range.put(0 +0, "track1.slider");
