@@ -26,13 +26,13 @@ public class MinimAnalysis extends InputSource{
 	private BeatDetect beatFE;
 	private AudioInput in;
 	private FFT fft;
+	private AutoCorrelationPitchDetector acpd;
 
 	private long lastBeat = 0;
 	private int lastBeatDistance = 0;
 	private int meanBeatDistance = 0;
 	private long lastInterpolatedBeat = 0;
 	private long lastInterpolatedMeanBeat = 0;
-	private ArrayList<Integer> beatDistances;
 	private boolean init = false;
 
 	public MinimAnalysis () {
@@ -41,13 +41,11 @@ public class MinimAnalysis extends InputSource{
 
 		minim = new Minim(MaShine.m);
 		initMinim();
-
-		beatDistances = new ArrayList<Integer>();
-		beatDistances.add(500); // hydrate with a single 120BPM time
 	}
 
 	private void initMinim(){
 
+		// FFT
 		in = minim.getLineIn();
 		fft = new FFT(in.bufferSize(), in.sampleRate());
 		fft.logAverages( 21, 3 );
@@ -58,6 +56,9 @@ public class MinimAnalysis extends InputSource{
 		beatFE.setSensitivity(MINIM_BD_SENSITIVITY);
 		beatSE.detectMode(BeatDetect.SOUND_ENERGY);
 		beatFE.detectMode(BeatDetect.FREQ_ENERGY);
+
+		// Auto Correlation Pitch Detect
+		acpd = new AutoCorrelationPitchDetector(in.sampleRate());
 
 	}
 
@@ -75,6 +76,7 @@ public class MinimAnalysis extends InputSource{
 		beatSE.detect(in.mix);	
 		beatFE.detect(in.mix);
 		fft.forward(in.mix);
+		acpd.forward(in.mix);
 
 		float maxBandValue = 0;
 		int maxBand = 0;
@@ -89,8 +91,15 @@ public class MinimAnalysis extends InputSource{
 				maxBandValue = bandValue;
 			}
 		}
+		double[] pitchs = acpd.getFrequencies();
+		for(int i = 0; i < pitchs.length; i++){
+			ranges.put("minim.acpd." +
+				String.format("%2s", i).replace(' ', '0'), 
+				pitchs[i]);
+		}
 
-		ranges.put("minim.fft.maxband"  , (double) maxBand);
+		ranges.put("minim.pitch", acpd.getFrequency());
+		ranges.put("minim.fft.maxband", (double) maxBand);
 
 		double rms = in.mix.level();
 		states.put("minim.onset" , beatSE.isOnset());
@@ -120,27 +129,10 @@ public class MinimAnalysis extends InputSource{
 		// last measured beat update
 		if(isBeat){
 			lastBeatDistance = (int) (now - lastBeat);
-			beatDistances.add(lastBeatDistance);
 			lastBeat = now;
 			lastInterpolatedBeat = now;
 			lastInterpolatedMeanBeat = now;
 			ranges.put("minim.bpm.last", ((double)MINUTE/lastBeatDistance));
-
-			if(beatDistances.size() > MEAN_BEAT_SAMPLE)
-				beatDistances.remove(0);
-
-			ranges.put("minim.bpm.samplesize", (double)beatDistances.size());
-
-			meanBeatDistance = 0;
-
-			for(long bd : beatDistances){
-				meanBeatDistance += bd;
-			}
-
-			meanBeatDistance /= beatDistances.size();
-
-
-			ranges.put("minim.bpm.mean", ((double)MINUTE/meanBeatDistance));
 		}
 
 		// interpolated beat
@@ -150,15 +142,6 @@ public class MinimAnalysis extends InputSource{
 		}else{
 			states.put("minim.beat.interpolated", false);
 		}
-
-		// interpolated mean beat
-		if(now == lastInterpolatedMeanBeat || MaShine.inputs.getState("minim.do_interpolate") && now > lastInterpolatedMeanBeat + meanBeatDistance){
-			lastInterpolatedMeanBeat = now;
-			states.put("minim.beat.mean", true);
-		}else{
-			states.put("minim.beat.mean", false);
-		}
-
 	}
 
 	public FFT getFFT(){
