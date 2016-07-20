@@ -13,17 +13,12 @@ function forEachFrame(frame){
 	var rate = get("rate");
 	rate = Math.max(0.002, rate*rate);
 
-
 	var targetFeatures = targetFrame.getFeatures();
 
-	print(targetFeatures.keySet());
 	for each(var targetFeatureId in targetFeatures.keySet()){
 
-		print(targetFeatureId);
 		var currentFeature = currentFrame.getFeature(targetFeatureId);
 		var targetFeature = cloneFeature(targetFeatures.get(targetFeatureId));
-
-		print(currentFeature);
 
 		if(currentFeature != null){
 			for each(var targetFieldId in targetFeature.getFields().keySet()){
