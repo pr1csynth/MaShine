@@ -50,7 +50,7 @@ public class MinimAnalysis extends InputSource{
 
 		in = minim.getLineIn();
 		fft = new FFT(in.bufferSize(), in.sampleRate());
-		fft.logAverages( 22, 3 );
+		fft.logAverages( 21, 3 );
 
 		beatSE = new BeatDetect();
 		beatFE = new BeatDetect();
