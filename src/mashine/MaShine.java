@@ -59,10 +59,13 @@ public class MaShine extends PApplet{
 		inputs.registerAction("mashine.open", new Do(){public void x(){restore();}});
 		inputs.registerAction("mashine.save", new Do(){public void x(){save(lastSavedTo);}});
 		inputs.registerAction("mashine.restore", new Do(){public void x(){restore(lastBackupFile);}});
+		inputs.registerAction("mashine.filters.import", new Do(){public void x(){selectFolder("import filters from", "importFilters");}});
 		inputs.link("mashine.save", "keyboard.97.press");
 		inputs.link("mashine.open", "keyboard.98.press");
 		inputs.link("mashine.restore", "keyboard.99.press");
 	}
+
+	public void importFilters(File folder){if(folder != null) bank.filters.importFolder(folder);}
 
 	public void draw() {
 		background(55, 71, 79);

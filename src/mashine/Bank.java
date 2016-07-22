@@ -58,6 +58,9 @@ public class Bank implements Serializable{
 			filters = new ScriptManager(filtersList, "/javascript/filters.js");
 		}catch(Exception e){e.printStackTrace();}
 
+		MaShine.inputs.registerAction("mashine.filters.reload", new Do(){public void x(){filters.reloadScripts();}});
+		
+
 	}
 
 
