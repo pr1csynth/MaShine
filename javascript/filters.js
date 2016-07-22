@@ -36,8 +36,8 @@ function getOutNodes(){
 
 function get(nodeName){
 	if(nodeName in nodes.in){
-		if(nodes.in[nodeName] == "range") return filter.getRange(nodeName);
-		if(nodes.in[nodeName] == "state") return filter.getState(nodeName);
+		if(nodes.in[nodeName] == "range") return parent.getRange(nodeName);
+		if(nodes.in[nodeName] == "state") return parent.getState(nodeName);
 	}else{
 		print("no "+ nodeName +" in filter nodes");
 	}

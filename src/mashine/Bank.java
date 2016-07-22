@@ -13,15 +13,9 @@ import java.util.Map;
 import java.util.Collection;
 import java.io.Serializable;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.Invocable;
-
-import java.io.InputStreamReader;
-import java.io.IOException;
 import java.util.Scanner;
 
-import mashine.engine.Filter;
+import mashine.engine.ScriptManager;
 import mashine.scene.Sequence;
 import mashine.scene.Frame;
 import mashine.scene.Device;
@@ -35,13 +29,11 @@ import processing.core.PConstants;
 public class Bank implements Serializable{
 
 	private ArrayList<Sequence> sequences;
-	private ArrayList<String> filters;
 	private ArrayList<FlatColor> colors;
-	private ScriptEngine nashorn;
+	public ScriptManager filters;
 
 	public Bank(){
 		sequences = new ArrayList<Sequence>();
-		filters = new ArrayList<String>();
 		colors = new ArrayList<FlatColor>();
 
 		sequences.add(new Sequence("unamed sequence"));
@@ -58,15 +50,12 @@ public class Bank implements Serializable{
 			colors.add(Colors.BLACK.withAlpha(0));
 		}
 
-		//registerFilters();
-
-		nashorn = new ScriptEngineManager().getEngineByName("nashorn");
+		filters = null;
 
 		try{
 			String[] filtersList = new Scanner(getClass().getResourceAsStream("/javascript/filters.list"), "utf-8").useDelimiter("\\A").next().split("\n");
-			for(int i = 0; i < filtersList.length; i ++){
-				filters.add(filtersList[i]);
-			}
+			for(int i = 0; i < filtersList.length; i++) filtersList[i] = "/javascript/filters/"+filtersList[i];
+			filters = new ScriptManager(filtersList, "/javascript/filters.js");
 		}catch(Exception e){e.printStackTrace();}
 
 	}
@@ -81,7 +70,7 @@ public class Bank implements Serializable{
 
 	public ArrayList<FlatColor> getColors(){return colors;}
 
-	public List<String> getFilters(){return filters;}
+	public List<String> getFilters(){return filters.getScripts();}
 
 	public static class SaveObject implements Serializable{
 		public ArrayList<Sequence> sequences;

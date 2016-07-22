@@ -14,13 +14,6 @@ import mashine.scene.DeviceGroup;
 import mashine.scene.Device;
 import mashine.scene.features.*;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.Invocable;
-
-import java.io.InputStreamReader;
-import java.io.IOException;
-
 import java.io.Serializable;
 import java.lang.Math;
 import java.util.ArrayList;
@@ -37,7 +30,7 @@ public class Filter implements Serializable{
 	private HashMap<String, Frame> frames;
 	private HashMap<String, Long>  longs;
 
-	private ScriptEngine nashorn;
+	private Script script;
 
 	private String name;
 	private String type;
@@ -53,21 +46,18 @@ public class Filter implements Serializable{
 		longs = new HashMap<String, Long>();
 		this.enabled = false;
 
-		nashorn = new ScriptEngineManager().getEngineByName("nashorn");
+		script = MaShine.bank.filters.getNewScript(scriptName, this);
 
 		try{
-			nashorn.put("filter", this);
-			nashorn.eval(new InputStreamReader(getClass().getResourceAsStream("/javascript/imports.js"), "utf-8"));
-			nashorn.eval(new InputStreamReader(getClass().getResourceAsStream("/javascript/filters/"+scriptName), "utf-8"));
-			HashMap<String,String> inNodes = (HashMap<String,String>)((Invocable) nashorn).invokeFunction("getInNodes");
+			HashMap<String,String> inNodes = (HashMap<String,String>) script.invocable().invokeFunction("getInNodes");
 			
 			for(String in : inNodes.keySet()){
 				declare(in, inNodes.get(in));
 			}
 
-			hasForEachFrame = (Boolean)((Invocable)nashorn).invokeFunction("hasForEachFrame");
-			hasForEachFeature = (Boolean)((Invocable)nashorn).invokeFunction("hasForEachFeature");
-			hasForEachDevice = (Boolean)((Invocable)nashorn).invokeFunction("hasForEachDevice");
+			hasForEachFrame = (Boolean) script.invocable().invokeFunction("hasForEachFrame");
+			hasForEachFeature = (Boolean) script.invocable().invokeFunction("hasForEachFeature");
+			hasForEachDevice = (Boolean) script.invocable().invokeFunction("hasForEachDevice");
 			
 		}catch(Exception e){e.printStackTrace();}
 
@@ -77,7 +67,7 @@ public class Filter implements Serializable{
 	public Frame filter(Frame frame){
 		try{
 			if(hasForEachFrame){
-			 	frame = (Frame) ((Invocable)nashorn).invokeFunction("forEachFrame", frame);
+			 	frame = (Frame)  script.invocable().invokeFunction("forEachFrame", frame);
 			}
 
 			if(group != null){	
@@ -89,7 +79,7 @@ public class Filter implements Serializable{
 						for(Feature f : features){
 							if(hasForEachDevice){
 								if(f instanceof EditableFeature){
-									Feature newFeature = (Feature)((Invocable)nashorn).invokeFunction("forEachFeatureInDevices", f, w);
+									Feature newFeature = (Feature) script.invocable().invokeFunction("forEachFeatureInDevices", f, w);
 									if(newFeature != null){
 										frame.addFeature(d, newFeature);
 									}
@@ -97,7 +87,7 @@ public class Filter implements Serializable{
 							}else if (hasForEachFeature) {
 								Feature frameFeature = frame.getFeature(d, f);
 								if(frameFeature != null){
-									frame.addFeature(d, (Feature)((Invocable)nashorn).invokeFunction("forEachFeature", frameFeature, w));
+									frame.addFeature(d, (Feature) script.invocable().invokeFunction("forEachFeature", frameFeature, w));
 								}
 							}
 						}
