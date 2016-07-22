@@ -21,6 +21,8 @@ import processing.event.MouseEvent;
 
 public class MaShine extends PApplet{
 
+	public static String VERSION = "0.1";
+
 	private static final String[] MAIN_WINDOW = new String[] { "mashine.MaShine" };
 	private String lastSavedTo = "";
 	private String lastBackupFile = "";
@@ -43,6 +45,8 @@ public class MaShine extends PApplet{
 	}
 
 	public void setup() {
+		println("MaShine "+ VERSION + " / procsynth");
+
 		m = this;
 		frameRate(50);
 		surface.setResizable(true);
