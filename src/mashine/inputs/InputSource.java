@@ -7,19 +7,16 @@
 
 package mashine.inputs;
 
-import mashine.*;
-import java.util.HashMap; 
+import java.util.HashMap;
 
 public class InputSource {
 
-	protected MaShine M;
 	protected HashMap<String,Boolean> states;
-	protected HashMap<String,Float> ranges;
+	protected HashMap<String,Double> ranges;
 
-	public InputSource (MaShine m) {
-		M = m;
+	public InputSource () {
 		states = new HashMap<String,Boolean>();
-		ranges = new HashMap<String,Float>();
+		ranges = new HashMap<String,Double>();
 	}
 
 	public void tick(){}
@@ -29,7 +26,7 @@ public class InputSource {
 		return states;
 	}
 
-	public HashMap<String,Float> pollRanges() {
+	public HashMap<String,Double> pollRanges() {
 		return ranges;
 	}
 

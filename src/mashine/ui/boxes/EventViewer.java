@@ -5,29 +5,36 @@
  *	@since  13-02-2016`
  */
 
-package mashine.ui;
+package mashine.ui.boxes;
 
-import mashine.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+
+import mashine.MaShine;
+import mashine.ui.Colors;
+import mashine.ui.FlatColor;
+import mashine.ui.UIBox;
+import processing.core.PConstants;
 
 public class EventViewer extends UIBox{
 
 	private HashMap<String,Integer> highlight;
 
-	public EventViewer (MaShine m) {
-		super(m, "EVENT VIEWER", 50, 50, 300, 600);
-		highlight = new HashMap();
+	public EventViewer () {
+		super("EVENT VIEWER", 50, 50, 200, 400);
+		highlight = new HashMap<String, Integer>();
 	}
 
 	public void drawUI(){
 		canvas.noStroke();
 		int offset = 30;
-		canvas.textAlign(canvas.LEFT, canvas.TOP);
-		ArrayList<String> stateInputsName = new ArrayList(M.inputs.getStateSet());
+		canvas.textAlign(PConstants.LEFT, PConstants.TOP);
+		ArrayList<String> stateInputsName = new ArrayList<String>(MaShine.inputs.getStateInputSet());
 		Collections.sort(stateInputsName);
 
 		for(String a : stateInputsName){
-			if(M.inputs.getState(a)){
+			if(MaShine.inputs.getState(a)){
 				highlight.put(a, 255);
 			}
 
@@ -43,14 +50,16 @@ public class EventViewer extends UIBox{
 			offset += 14;
 		}
 
+		setVirtualHeight(offset);
+
 		for(String h : highlight.keySet()){
 			Integer newVal;
 			if(h.contains("encod") || h.contains("beat") ){
-				newVal = highlight.get(h) - 35;
+				newVal = highlight.get(h) - 45;
 			}else{
 				newVal = highlight.get(h) - 10;
 			}
-			newVal = M.max(0, newVal);
+			newVal = Math.max(0, newVal);
 			highlight.put(h, newVal);
 		}
 

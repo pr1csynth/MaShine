@@ -9,8 +9,11 @@ package mashine.ui;
 
 import java.awt.Color;
 import processing.core.PGraphics;
+import java.io.Serializable;
 
-public class FlatColor {
+public class FlatColor implements Serializable{
+
+	private static final long serialVersionUID = 0xC0100001L;
 
 	protected int r;
 	protected int g;
@@ -98,6 +101,7 @@ public class FlatColor {
 
 	public void rotateHue(float angle) {
 		h += angle;
+		h = h % 1.0f;
 		updateRGB();
 	}
 
@@ -159,6 +163,22 @@ public class FlatColor {
 		return c;
 	}
 
+	public FlatColor withAlphaAsWhite(){
+		FlatColor c = new FlatColor(this);
+		c.setRed(getRed() + getAlpha()/2);
+		c.setGreen(getGreen() + getAlpha()/2);
+		c.setBlue(getBlue() + getAlpha()/2);
+		c.setAlpha(255);
+		return c;
+	}
+
+	public FlatColor dim(float multiplier){
+		FlatColor c = new FlatColor(this);
+		c.setBrightness(c.getBrightness() * multiplier);
+		c.setAlpha(Math.round(c.getAlpha() * multiplier));
+		return c;
+	}
+
 	public int getRed(){
 		return r;
 	}
@@ -179,6 +199,9 @@ public class FlatColor {
 	}
 	public float getBrightness(){
 		return v;
+	}
+	public int getGrayscale(){
+		return (int)Math.round(v*255.0);
 	}
 
 

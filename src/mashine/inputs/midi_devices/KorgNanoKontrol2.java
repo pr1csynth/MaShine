@@ -7,9 +7,9 @@
 
 package mashine.inputs.midi_devices;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class KorgNanoKontrol2 extends MidiDevice{
 
@@ -18,7 +18,7 @@ public class KorgNanoKontrol2 extends MidiDevice{
 
     	deviceName = "nanoKONTROL2";
 
-        Map<Integer, String> pad = new HashMap();
+        Map<Integer, String> pad = new HashMap<Integer, String>();
         pad.put(58, "track.previous");
         pad.put(59, "track.next");
         pad.put(46, "cycle");
@@ -56,7 +56,9 @@ public class KorgNanoKontrol2 extends MidiDevice{
         pad.put(64+7, "track8.rec");
         PAD = Collections.unmodifiableMap(pad);
 
-        Map<Integer, String> range = new HashMap();
+        OUTPUTS = PAD;
+
+        Map<Integer, String> range = new HashMap<Integer, String>();
       	range.put(16+0, "track1.knob");
       	range.put(0 +0, "track1.slider");
       	range.put(16+1, "track2.knob");

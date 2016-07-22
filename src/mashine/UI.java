@@ -7,23 +7,52 @@
 
 package mashine;
 
-import mashine.*;
-import mashine.ui.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+
 import mashine.scene.Device;
+import mashine.scene.DeviceGroup;
 import mashine.scene.Frame;
+import mashine.scene.Sequence;
+import mashine.ui.FlatColor;
+import mashine.ui.Focusable;
+import mashine.ui.Status;
+import mashine.ui.boxes.ColorPalette;
+import mashine.ui.boxes.DataViewer;
+import mashine.ui.boxes.DeviceEditor;
+import mashine.ui.boxes.DeviceSelector;
+import mashine.ui.boxes.EngineView;
+import mashine.ui.boxes.EventViewer;
+import mashine.ui.boxes.Linker;
+import mashine.ui.boxes.Menu;
+import mashine.ui.boxes.SceneView;
+import mashine.ui.boxes.SequenceEditor;
+import mashine.ui.boxes.SequenceSelector;
+import mashine.ui.boxes.FilterSelector;
+import mashine.ui.boxes.ControlSurface;
+
 import processing.core.PFont;
-import java.util.HashMap; 
-import java.util.LinkedList; 
-import java.util.Comparator; 
+
+import java.io.Serializable;
 
 public class UI{
 
-	private Status status;
 	private Menu menu;
-	private SceneVisualizer sceneVisualizer;
 	private HashMap<String,Focusable> uiElements;
 	private LinkedList<Focusable> openedUiElements;
-	private MaShine M;
+	private ArrayList<Focusable> toBeOpenedUiElements;
+	private Frame displayFrame;
+	public SceneView sceneView;
+	public EngineView engineView;
+	public SequenceSelector sequenceSelector;
+	public DeviceSelector deviceSelector;
+	public ColorPalette colorPalette;
+	public ControlSurface controlSurface;
+	public Linker linker;
+	public Status status;
 	public PFont TEXTFONT;
 	public PFont TITLEFONT;
 	public int TEXTSIZE;
@@ -33,9 +62,9 @@ public class UI{
 		public int compare(Focusable a, Focusable b) {
 			boolean mouseInA = a.mouseIn();
 			boolean mouseInB = b.mouseIn();
-			if(a.hasFocus() && a.M.mousePressed)
+			if(a.hasFocus() && MaShine.m.mousePressed)
 				return 1; // b get drawn first, a on top
-			else if (b.hasFocus() && a.M.mousePressed)
+			else if (b.hasFocus() && MaShine.m.mousePressed)
 				return -1; // b on top
 			else
 				if(mouseInA == mouseInB)
@@ -48,30 +77,45 @@ public class UI{
 		}
 	}
 
-	public UI(MaShine m){
-		M = m;
-		M.colorMode(MaShine.RGB);
+	public UI(){
+		MaShine.m.colorMode(MaShine.RGB);
 
-		TEXTFONT = M.loadFont("RobotoMono-Light-11.vlw");
+		TEXTFONT = MaShine.m.loadFont("data/RobotoMono-Light-11.vlw");
 		TEXTSIZE = 11;
 
-		M.textFont(TEXTFONT);
-		M.textSize(TEXTSIZE);
+		MaShine.m.textFont(TEXTFONT);
+		MaShine.m.textSize(TEXTSIZE);
 
-		status = new Status(M);
-		menu = new Menu(M);
-		sceneVisualizer = new SceneVisualizer(M);
+		status = new Status();
+		menu = new Menu();
+		sceneView = new SceneView();
+		engineView = new EngineView();
+		sequenceSelector = new SequenceSelector();
+		deviceSelector = new DeviceSelector();
+		colorPalette = new ColorPalette();
+		linker = new Linker();
+		controlSurface = new ControlSurface();
 
 		uiElements = new HashMap<String,Focusable>();
-		uiElements.put("EventViewer", new EventViewer(M));
-		uiElements.put("DataViewer", new DataViewer(M));
-		uiElements.put("DeviceEditor", new DeviceEditor(M));
+		uiElements.put("EventViewer", new EventViewer());
+		uiElements.put("DataViewer", new DataViewer());
+		uiElements.put("DeviceEditor", new DeviceEditor());
+		uiElements.put("DeviceSelector", deviceSelector);
+		uiElements.put("SequenceSelector", sequenceSelector);
+		uiElements.put("ColorPalette", colorPalette);
+		uiElements.put("SequenceEditor", new SequenceEditor());
+		uiElements.put("Linker", linker);
+		uiElements.put("FilterSelector", new FilterSelector());
+		uiElements.put("ControlSurface", controlSurface);
 		openedUiElements = new LinkedList<Focusable>();
-		open("EventViewer");open("DataViewer");open("DeviceEditor");
+		toBeOpenedUiElements = new ArrayList<Focusable>();
+
+		displayFrame = new Frame();
+
+		open("ControlSurface");
 	}
 
 	public void close(String uiElementName){
-		M.println("Close el from name");
 		if(uiElements.containsKey(uiElementName)){
 			Focusable el = uiElements.get(uiElementName);
 			openedUiElements.remove(el);
@@ -80,7 +124,6 @@ public class UI{
 	}
 
 	public void close(Focusable el){
-		M.println("Close el from object");
 		if(uiElements.containsValue(el)){
 			openedUiElements.remove(el);
 			el.defocus();
@@ -90,20 +133,30 @@ public class UI{
 	public void open(String uiElementName){
 		if(uiElements.containsKey(uiElementName)){
 			Focusable el = uiElements.get(uiElementName);
-			openedUiElements.add(el);
-			//el.focus();
+			if(!openedUiElements.contains(el)){
+				toBeOpenedUiElements.add(el);
+			}
 		}
 	}
 
 	public void draw(){
 		//M.strokeWeight((float)0.5);
 		//M.strokeJoin(M.MITER);
-		menu.draw();
-		//sceneVisualizer.setFrame(M.scene.getDefaultFrame());
-		//sceneVisualizer.setFrame(new Frame());
 
-		
-		sceneVisualizer.draw();
+		menu.draw();
+		if(null == displayFrame){
+			displayFrame = new Frame();
+		}
+		sceneView.setFrame(displayFrame);
+		displayFrame = null;
+		sceneView.draw();
+		engineView.draw();
+
+		for(Focusable f : toBeOpenedUiElements){
+			openedUiElements.add(f);
+		}
+
+		toBeOpenedUiElements.clear();
 
 		openedUiElements.sort(new SortByFocus());
 
@@ -113,17 +166,51 @@ public class UI{
 			el.defocus();
 		}
 
-		if(!openedUiElements.isEmpty())
-			if(openedUiElements.getLast().mouseIn())
+		sceneView.defocus();
+
+		if(!openedUiElements.isEmpty()){
+			if(openedUiElements.getLast().mouseIn()){
 				openedUiElements.getLast().focus();
-			else
-				sceneVisualizer.focus();
+			}else if(sceneView.mouseIn()){
+				sceneView.focus();
+			}
+		}else if(sceneView.mouseIn()){
+			sceneView.focus();
+		}
 		
 		status.draw();
 	}
 
-	public HashMap<String, Device> getSelectedDevices(){
-		return sceneVisualizer.getSelectedDevices();
+
+	public ArrayList<Device> getSelectedDevices(){return sceneView.getSelectedDevices();}
+	public void setSelectedDevices(ArrayList<Device> newSelection){sceneView.setSelectedDevices(newSelection);}
+	public void clearSelectedDevices(){sceneView.clearSelectedDevices();}
+	public void reloadElements(){sceneView.reloadElements();}
+	
+	public Sequence getSelectedSequence(){return sequenceSelector.getSelectedSequence();}
+	public void setSelectedSequence(Sequence s){sequenceSelector.setSelectedSequence(s);}
+
+	public FlatColor getSelectedColor(){return colorPalette.getSelectedColor();}
+	public void setSelectedColor(FlatColor c){colorPalette.setSelectedColor(c);}
+
+	public DeviceGroup getSelectedGroup(){return deviceSelector.getSelectedGroup();}
+	public void setSelectedGroup(DeviceGroup g){deviceSelector.setSelectedGroup(g);}
+
+	public void setDisplayedFrame(Frame frame){if(null == displayFrame)displayFrame = frame;}
+
+	public static class SaveObject implements Serializable{
+		public List<Float> sliderValues;
+
+		public SaveObject(List<Float> sliderValues){this.sliderValues = sliderValues;}
+	}
+
+	public Object save(){
+		return new SaveObject(controlSurface.getValues());
+	}
+
+	public void restore(Object restoredObject){
+		SaveObject s = (SaveObject) restoredObject;
+		controlSurface.setValues(s.sliderValues);
 	}
 }
 

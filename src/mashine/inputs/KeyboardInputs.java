@@ -7,28 +7,28 @@
 
 package mashine.inputs;
 
-import mashine.*;
-import processing.event.*;
-import java.util.HashMap;
+import mashine.MaShine;
+import processing.event.KeyEvent;
 
-public class KeyboardInputs extends InputSource{
+public class KeyboardInputs extends InputSource implements Learnable{
 
 	public String lastTyped;
+	private String lastState;
 
-
-	public KeyboardInputs (MaShine m) {
-		super(m);
+	public KeyboardInputs () {
+		super();
 	}
 
 	public void keyEvent(KeyEvent e){
 		if(e.getAction() == KeyEvent.PRESS){
 			states.put("keyboard."+e.getKeyCode()+".press" , true);
 			states.put("keyboard."+e.getKeyCode()+".hold" , true);
-			lastTyped = "" + M.key;
-			M.println(M.key + " -> " + e.getKeyCode());
+			lastTyped = "" + MaShine.m.key;
+			lastState = "keyboard."+e.getKeyCode()+".press";
 		}else{
 			states.put("keyboard."+e.getKeyCode()+".release" , true);
 			states.put("keyboard."+e.getKeyCode()+".hold" , false);
+			lastState = "keyboard."+e.getKeyCode()+".release";
 		}
 	}
 
@@ -39,6 +39,10 @@ public class KeyboardInputs extends InputSource{
 		}
 
 		lastTyped = "";
+		lastState = null;
 	}
+
+	public String getLastState(){return lastState;}
+	public String getLastRange(){return null;}
 
 }

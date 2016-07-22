@@ -7,15 +7,12 @@
 
 package mashine.ui;
 
-import mashine.*;
 
 public abstract class Focusable{
 
-	public MaShine M;
 	protected boolean focus = false;
 
-	public Focusable(MaShine m){
-		M = m;
+	public Focusable(){
 	}
 
 	public boolean mouseIn(){

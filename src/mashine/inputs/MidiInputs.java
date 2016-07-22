@@ -7,28 +7,37 @@
 
 package mashine.inputs;
 
-import mashine.*;
-import mashine.inputs.midi_devices.*;
-import java.util.HashMap; 
-import themidibus.*;
-import javax.sound.midi.MidiMessage; 
+import java.util.HashMap;
+import java.util.Map;
 
-public class MidiInputs extends InputSource{
+import javax.sound.midi.MidiMessage;
+
+import mashine.inputs.midi_devices.*;
+import mashine.MaShine;
+import mashine.Do;
+import themidibus.MidiBus;
+
+public class MidiInputs extends InputSource implements Learnable{
 
 	private HashMap<String,MidiBus> buses;
+	private HashMap<MidiBus,MidiDevice> deviceByBuses;
 	private MidiDevice[] devicesTypes = {new KorgNanoKontrol2(), new BehringerDC1(), new GenericMidiDevice()};
-	private MidiBus testBus;
+	
+	private String lastState;
+	private String lastRange;
+	private boolean init = false;
 
-	public MidiInputs (MaShine m) {
-		super(m);
+	public MidiInputs () {
+		super();
 		buses = new HashMap<String,MidiBus>();
+		deviceByBuses = new HashMap<MidiBus,MidiDevice>();
 		rescanDevices();
 	}
 
 	public void midiMessage(MidiMessage message, long timestamp, String busName){
 
 		int command =   (int)(message.getMessage()[0] & 0xF0);
-		int channel =   (int)(message.getMessage()[0] & 0x0F);
+		//int channel =   (int)(message.getMessage()[0] & 0x0F);
 		int keyNumber = (int)(message.getMessage()[1] & 0xFF);
 		int value =     (int)(message.getMessage()[2] & 0xFF);
 
@@ -36,25 +45,52 @@ public class MidiInputs extends InputSource{
 			if(busName.contains(devicesTypes[i].getDeviceName())){
 				String name = "midi."+ busName +"."+ devicesTypes[i].getInputName(command, keyNumber, value);
 				Boolean state = devicesTypes[i].getState(command, keyNumber, value);
-				Float range = devicesTypes[i].getRange(command, keyNumber, value);
+				Double range = devicesTypes[i].getRange(command, keyNumber, value);
 
-				if(state != null)
+				if(state != null){
 					states.put(name + (state ? ".on" : ".off"), true);
-				if(range != null)
-					ranges.put(name, range);
+					lastState = name + (state ? ".on" : ".off");
+				}
+				if(range != null){
+					ranges.put(name, range/127);
+					lastRange = name;
+				}
 				break;
 			}
 		}
 	}
 
 	public void tick(){
-		// rescan midi devices here
-		//M.inputs.setState("internal.midi.status", buses.size() != 0);
+		if(!init){
+			init = true;
+			MaShine.inputs.registerAction("mashine.inputs.reload_midi", new Do(){public void x(){rescanDevices(); registerOutputs();}});
+			registerOutputs();
+		}
+
+		for(MidiBus bus : deviceByBuses.keySet()){
+			MidiDevice device = deviceByBuses.get(bus);
+			Map<Integer, String> outputs = device.getOutputs();
+			for(int keyNumber: outputs.keySet()){
+				String output = outputs.get(keyNumber);
+				bus.sendControllerChange(0, keyNumber, MaShine.inputs.getState("midi."+ bus.getBusName() +"."+ output) ? 127 : 0);
+			}
+		}
 	}
 
 	public void clear(){
 		for(String s : states.keySet()){
 			states.put(s, false);
+		}
+		lastRange = null;
+		lastState = null;
+	}
+
+	private void registerOutputs(){
+		for(MidiBus bus : deviceByBuses.keySet()){
+			MidiDevice device = deviceByBuses.get(bus);
+			for(String output : device.getOutputs().values()){
+				MaShine.inputs.registerState("midi."+ bus.getBusName() +"."+ output);
+			}
 		}
 	}
 
@@ -71,12 +107,26 @@ public class MidiInputs extends InputSource{
 				for(int o = 0; o < outputNames.length; o++){
 					if(outputNames[o].indexOf(hwAddress) != -1){
 						name = name.substring(0, name.indexOf(" "));
-						M.println("inputs.midi.registeredDevice: "+ name);
-						buses.put(name, new MidiBus(this, inputNames[i], outputNames[o], name));
+						MidiBus bus = new MidiBus(this, inputNames[i], outputNames[o], name);
+						buses.put(name, bus);
+						for(int t = 0; t < devicesTypes.length; t++){
+							if(name.contains(devicesTypes[t].getDeviceName())){
+								deviceByBuses.put(bus, devicesTypes[i]);
+								MaShine.println(name +" ol");
+							}
+						}
 					}
 				}
 			}
 		}
+	}
+
+	public String getLastRange(){
+
+		return lastRange;
+	}
+	public String getLastState(){
+		return lastState;
 	}
 
 }

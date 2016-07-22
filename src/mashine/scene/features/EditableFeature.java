@@ -1,11 +1,9 @@
 package mashine.scene.features;
 
-import mashine.scene.*;
-import mashine.*;
-import java.util.LinkedHashMap;
-import java.util.ArrayList;
 
 public class EditableFeature extends Feature{
+
+	private static final long serialVersionUID = 0x3D3710001L;
 
 	public EditableFeature(String type, int footprint){
 		super(type, footprint);
@@ -17,10 +15,5 @@ public class EditableFeature extends Feature{
 
 	public EditableFeature(Feature f){
 		super(f);
-	}
-
-	public void setField(String fieldName, int value){
-		if(fields.containsKey(fieldName))
-			fields.put(fieldName, value);
 	}
 }

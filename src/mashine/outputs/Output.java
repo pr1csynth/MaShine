@@ -7,18 +7,20 @@
 
 package mashine.outputs;
 
-import mashine.*;
+import java.util.HashMap;
+
+import mashine.scene.Frame;
 
 public class Output{
 
-	protected MaShine M;
+	protected HashMap<Integer,String> ports;
 
-	public Output(MaShine m){
-
-		M = m;
-
+	public Output(){
 	}
 
-	public void push(){
+	public void push(Frame frame){}
+
+	public HashMap<Integer,String> getPorts(){
+		return ports;
 	}
 }

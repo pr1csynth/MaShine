@@ -7,7 +7,6 @@
 
 package mashine.inputs.midi_devices;
 
-import mashine.*;
 
 public class GenericMidiDevice extends MidiDevice{
 

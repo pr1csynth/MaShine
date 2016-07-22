@@ -14,9 +14,9 @@ public class CloseButton extends Button{
 
 	protected UIBox P;
 
-	public CloseButton (UIBox parent) {
+	public CloseButton (final UIBox parent) {
 		// UIREFORM
-		super(parent, parent.width-22, 0, 22, 22, new Do(){public void x(){parent.M.ui.close(parent);}});
+		super(parent, parent.width-22, 0, 22, 22, new Do(){public void x(){MaShine.ui.close(parent);}});
 		P = parent;
 	}
 

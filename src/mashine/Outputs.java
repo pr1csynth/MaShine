@@ -4,30 +4,40 @@
  *	@author procsynth - Antoine Pintout
  *	@since  13-02-2016`
  */
- 
- package mashine;
 
- import java.util.HashMap;
- import mashine.outputs.*;
+package mashine;
 
- public class Outputs{
+import java.util.HashMap;
 
- 	public MaShine M;
+import mashine.outputs.*;
+import mashine.scene.Frame;
 
- 	private HashMap<String,Output> outputs;
+public class Outputs{
 
- 	public Outputs(MaShine m){
- 		M = m;
+	private HashMap<String,Output> outputs;
+	private Frame frame;
+	public Ola ola;
 
- 		outputs = new HashMap<String,Output>();
+	public Outputs(){
+		outputs = new HashMap<String,Output>();
+		ola = new Ola();
+		outputs.put("OLA", ola);
+		//outputs.put("UDP", new UDP());
+	}
 
- 		outputs.put("OLA", new Ola(M));
- 	}
+	public void push(){
+		if(null != frame){
+			for(Output o : outputs.values()){
+				o.push(frame);
+			}
+			frame = null;
+		}
+	}
 
- 	public void push(){
- 		for(String o : outputs.keySet()){
- 			outputs.get(o).push();
- 		}
- 	}
+	public void setFrame(Frame frame){
+		if (null == this.frame) {
+			this.frame = frame;
+		}
+	}
 
- }
+}

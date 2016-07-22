@@ -7,18 +7,27 @@
 
 package mashine.ui.elements;
 
-import mashine.*;
-import mashine.ui.*;
-import mashine.scene.*;
-import mashine.scene.features.*;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import processing.core.PConstants;
+
+import mashine.scene.Device;
+import mashine.scene.features.ColorFeature;
+import mashine.scene.features.Coords;
+import mashine.scene.features.EditableFeature;
+import mashine.scene.features.Feature;
+import mashine.scene.features.FixedField;
+import mashine.scene.features.SingleField;
+import mashine.ui.Colors;
+import mashine.ui.Drawable;
+import mashine.ui.Element;
+import mashine.ui.FlatColor;
 
 public class DeviceElement extends Element{
 
 	private Device d;
-	private ArrayList<Feature> devFeatures;
 	private HashMap<String,EditableFeature> frameFeatures;
 	private boolean selected = false;
 
@@ -26,7 +35,6 @@ public class DeviceElement extends Element{
 		// TODO : generalize translate + push/popMatrix in elements/elements sublclass
 		super(parent, device.getX(), device.getY(), device.getWidth(), device.getHeight());
 		this.d = device;
-		this.devFeatures = device.getFeatures();
 	}
 
 	public void setFrameFeatures(HashMap<String,EditableFeature> frameFeatures){
@@ -38,10 +46,22 @@ public class DeviceElement extends Element{
 
 	public void drawContent(){
 
+		x = d.getX();
+		y = d.getY();
+		width = d.getWidth();
+		height = d.getHeight();
+
+		boolean drawcrossline = false;
+		boolean drawreticule = false;
+		int reticuleX = 0;
+		int reticuleY = 0;
+		ArrayList<Feature> devFeatures = d.getFeatures();
 		P.canvas.noStroke();
 
 			// LHM to display all the fields contained in devices
 		LinkedHashMap<String,Integer> devFields = new LinkedHashMap<String,Integer>();
+
+		FlatColor.fill(P.canvas, Colors.MATERIAL.BLUE_GREY._600);
 
 		for(Feature feature : devFeatures){
 
@@ -52,11 +72,22 @@ public class DeviceElement extends Element{
 			if(frameFeatures.containsKey(d.getIdentifier() +"."+ feature.getType())){
 
 				feature = frameFeatures.get(d.getIdentifier() +"."+ feature.getType());
+				featureFields = feature.getFields();
 
 					// special case color, coordinates, ...
+				if(feature instanceof Coords){
+					drawreticule = true;
+					reticuleX = (int) Math.round((double)feature.getField("x")/255.0 * d.getWidth());
+					reticuleY = (int) Math.round((double)feature.getField("y")/255.0 * d.getHeight());
+				}
+
 				if(feature instanceof ColorFeature){
 					FlatColor.fill(P.canvas, ((ColorFeature)feature).getColor());
 					P.canvas.noStroke();
+				}else if(feature instanceof SingleField){
+					for(String f : featureFields.keySet()){
+						devFields.put(f, featureFields.get(f));
+					}
 				}else{
 					for(String f : featureFields.keySet()){
 						devFields.put(feature.getType() +"."+ f, featureFields.get(f));
@@ -68,15 +99,18 @@ public class DeviceElement extends Element{
 					//  - draw default place holder
 					//  - display fields in consequences
 
-				if(feature instanceof ColorFeature){
 
-					FlatColor.stroke(P.canvas, Colors.MATERIAL.GREY._700);
+				if(feature instanceof ColorFeature){
 						// draw the background in grey
 					FlatColor.fill(P.canvas, Colors.MATERIAL.GREY._800);
-
+					drawcrossline = true;
 				}else if(feature instanceof FixedField){
 					for(String f : featureFields.keySet()){
 						devFields.put("(f) "+ f, featureFields.get(f));
+					}				
+				}else if(feature instanceof SingleField){
+					for(String f : featureFields.keySet()){
+						devFields.put(f, featureFields.get(f));
 					}
 				}else{
 					for(String f : featureFields.keySet()){
@@ -87,14 +121,32 @@ public class DeviceElement extends Element{
 		}
 
 			// actually draws the device in the canvas
+
+		//FlatColor.stroke(P.canvas, Colors.MATERIAL.GREY._900);
+		FlatColor.stroke(P.canvas, Colors.MATERIAL.GREY._700);
 		P.canvas.rect(d.getX(), d.getY(), d.getWidth(), d.getHeight());
-		P.canvas.line(d.getX(), d.getHeight() + d.getY(), d.getWidth() +d.getX(), d.getY());
+
+		if(drawcrossline)
+			P.canvas.line(d.getX(), d.getHeight() + d.getY(), d.getWidth() +d.getX(), d.getY());
+
+		if(drawreticule){
+			FlatColor.stroke(P.canvas, Colors.MATERIAL.CYAN.A700);
+			P.canvas.noFill();
+			P.canvas.line(d.getX() + reticuleX, d.getY() + 1, d.getX() + reticuleX, d.getY() + d.getHeight() - 1);
+			P.canvas.line(d.getX() + 1, d.getY() + reticuleY, d.getX() + d.getWidth() - 1, d.getY() + reticuleY);
+			P.canvas.rectMode(PConstants.CENTER);
+			FlatColor.stroke(P.canvas, Colors.MATERIAL.RED.A700);
+			P.canvas.rect(d.getX() + reticuleX, d.getY() + reticuleY, 6, 6);
+			P.canvas.rectMode(PConstants.CORNER);
+		}
+
 
 			// identifier 
 		FlatColor.fill(P.canvas, Colors.MATERIAL.GREEN.A700);
-		P.canvas.textAlign(P.canvas.LEFT, P.canvas.TOP);
-		P.canvas.text(d.getIdentifier(), d.getX() + 5, d.getY() + 5);
+		P.canvas.textAlign(PConstants.LEFT, PConstants.TOP);
+		P.canvas.text(d.getName(), d.getX() + 5, d.getY() + 4);
 
+		P.canvas.noStroke();
 
 			// all the fields
 		FlatColor.fill(P.canvas, Colors.MATERIAL.GREEN._400);
@@ -103,7 +155,7 @@ public class DeviceElement extends Element{
 		for(String f : devFields.keySet()){
 			if(offset > (d.getHeight() - 5)){
 
-				P.canvas.textAlign(P.canvas.LEFT, P.canvas.BOTTOM);
+				P.canvas.textAlign(PConstants.LEFT, PConstants.BOTTOM);
 				P.canvas.text("...", d.getX() + 5, d.getY() + d.getHeight());
 				break;
 			}
@@ -118,9 +170,9 @@ public class DeviceElement extends Element{
 
 
 		// patch infos
-		P.canvas.textAlign(P.canvas.RIGHT, P.canvas.BOTTOM);
+		P.canvas.textAlign(PConstants.RIGHT, PConstants.BOTTOM);
 		FlatColor.fill(P.canvas, Colors.MATERIAL.GREEN.A700);
-		P.canvas.text(d.getUniverse() +":"+ d.getStartAddress(), d.getX() + d.getWidth() - 5, d.getY() + d.getHeight() - 5);
+		P.canvas.text(d.getUniverse() +":"+ d.getStartAddress(), d.getX() + d.getWidth() - 5, d.getY() + d.getHeight() - 1);
 		
 		if(selected){
 			FlatColor.fill(P.canvas, Colors.MATERIAL.CYAN.A700);

@@ -13,6 +13,7 @@ public final class Colors {
 
 	public static final FlatColor WHITE = new FlatColor(0xFF);
 	public static final FlatColor BLACK = new FlatColor(0x00);
+	public static final FlatColor RED = new FlatColor(0xFF,0xFF,0xFF);
 
 	public static final class MATERIAL{
 		private MATERIAL () {}

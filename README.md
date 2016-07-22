@@ -1,31 +1,42 @@
 # WHAT ?
 
-MaShine is a software to do live light show  using live audio analysis, prerecorded animations (sequences of frames), filters (function, algorithm written (inside or outside the software, using javascript maybe, I hope.)), midi input, Open Lighting Architecture for DMX/ArtNet output.
+MaShine is a software to do live light show  using live audio analysis, prerecorded animations (sequences of frames), filters (function, algorithms, effects, ...), MIDI/DMX input, Open Lighting Architecture for DMX/ArtNet output.
 
-You can check the draft version here : https://github.com/procsynth/ShineProcessing
+![mashine](https://cloud.githubusercontent.com/assets/321345/14266488/eed3cbbc-fac8-11e5-8db3-842b1792f12e.png)
 
-# HOW
+# HOW TO USE 
+Download the [latest build](https://github.com/procsynth/MaShine/blob/devel/dist/mashine.jar?raw=true). You may want to install [OLA](https://www.openlighting.org/ola/) to output real DMX, but you can still use MaShine without it.
 
-Require Processing 3, Java 8 and ant to build. Run `ant` in the root folder to build and run, or `java -jar dist/mashine.jar` to run.
-Midi device only tested on Linux. Otherwise it should be crossplateform.
+Midi devices only tested on Linux. Otherwise it should be crossplateform (OLA is only available on Linux and OSX).
 
-## What the hell are you doing ?
+TODO : user manual.
 
- - 10:25 10 fev 2016 : implementing focusable 
- - 15:12 10 fev 2016 : implemented focusable, nice mouse related elements methods
- - 15:13 10 fev 2016 : what could I do now ?
- - 20:00 10 fev 2016 : little pack script.
- - 02:00 11 fev 2016 : added all the colors \o/
- - 08:30 11 fev 2016 : TODO : ola, port, devices, universes, addresses, -images- frames, device features (color, range, fixed)
- - 00:34 13 fev 2016 : DONE : midi inputs (generic (?) but particularly Behringer CMD DC-1 and Korg NanoKontrol2) (LOT of inputs !)
- - 00:35 13 fev 2016 : TODO : scrollable content (LOT of inputs !)
- - 16:47 14 fev 2016 : better mouse event/element focus behavior, began frame and sequence stuff (devices, features, frame, sequence, visualizer) a lot to do
- - 16:49 14 fev 2016 : TODO : UI for creating scene/frames, UI for typing
- - 23:21 14 fev 2016 : better device drawing, added menu bar, worked out how frame can work, better focus, commencing UI device editor (2 buttons yeah!)
- - 16:37 18 fev 2016 : basic user text input, should add regEx validation, maxlength check.
- - 16:43 22 fev 2016 : git versionning ! Main UI elements are drawn on separate PGraphics canvas, and it works (soon : scrollable) 
+# HOW TO BUILD
 
- # WHICH LICENSE ?
+Require Java 8 and ant to build. Run `ant` in the root folder to build and run.
+
+# TODO
+
+- [x] Inputs basics
+- [x] Outputs basics
+- [x] Patch
+- [x] Animation
+- [x] Saves
+- [x] Input binding
+- [x] Filters mechanism
+- [x] Device groups in filters
+- [x] DMX input
+- [x] FFT ranges
+- [x] More device features
+- [x] More filters
+- [x] MIDI outputs (get rid of themidibus ?)
+- [ ] protobuf saves
+- [ ] grid ui (see [Blocks](https://github.com/procsynth/Blocks))
+- [ ] integrated Artnet node, get rid of OLA ?
+- [ ] __A complete demo set__
+- [ ] User manual
+
+# WHICH LICENSE ?
 
 This software is licensed under the GNU/LGPL v3 license, a copy is provided in the [LICENSES][licenses] file.
 

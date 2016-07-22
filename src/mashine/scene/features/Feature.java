@@ -7,12 +7,14 @@
 
 package mashine.scene.features;
 
-import mashine.scene.*;
-import mashine.*;
-import java.util.LinkedHashMap;
-import java.util.ArrayList;
+import mashine.MaShine;
 
-public abstract class Feature {
+import java.io.Serializable;
+import java.util.LinkedHashMap;
+
+public abstract class Feature implements Serializable {
+
+	private static final long serialVersionUID = 0xFEA70001L;
 
 	protected int footprint;
 	protected LinkedHashMap<String,Integer> fields;
@@ -38,12 +40,24 @@ public abstract class Feature {
 
 		Feature n = null;
 
-		if(f instanceof RGB){
+		if(f instanceof Tradi){
+			n = new Tradi(f);
+		}else if(f instanceof RGB){
 			n = new RGB(f);
 		}else if(f instanceof RGBW){
 			n = new RGBW(f);
+		}else if(f instanceof Coords){
+			n = new Coords(f);
+		}else if(f instanceof Zoom){
+			n = new Zoom(f);
 		}else if(f instanceof FixedField){
 			n = new FixedField(f);
+		}else if(f instanceof SingleField){
+			n = new SingleField(f);
+		}else if(f instanceof EditableFeature){
+			n = new EditableFeature(f);
+		}else{
+			MaShine.println("NULL FEATURE WILL BE RETURNED, exceptions will rain.");// TODO: throw exception if unknow feature
 		}
 
 		return n;
@@ -59,9 +73,18 @@ public abstract class Feature {
 		return new LinkedHashMap<String,Integer>(fields);
 	}
 
+	public Integer getField(String fieldName){
+		if(fields.containsKey(fieldName)){
+			return fields.get(fieldName);
+		}else{
+			return null;
+		}
+	}
+
 	public void setField(String fieldName, int value){
-		if(fields.containsKey(fieldName))
-			fields.put(fieldName, value);
+		if(fields.containsKey(fieldName)){
+			fields.put(fieldName, Math.min(255, Math.max(0,value)));
+		}
 	}
 
 	public String toString(){
@@ -72,10 +95,12 @@ public abstract class Feature {
 		return type +":"+ footprint + stringFields;
 	}
 
-	public ArrayList<Integer> to255(){
-		ArrayList<Integer> r = new ArrayList<Integer>();
-		for(String f : fields.keySet()){
-			r.add(fields.get(f));
+	public short[] toArray(){
+		short[] r = new short[footprint];
+		int i = 0;
+		for(int v : fields.values()){
+			r[i] = (short) v;
+			i++;
 		}
 		return r;
 	}

@@ -28,7 +28,7 @@ public class Grabber extends Element {
 
 		if(isDragged()){
 			// TODO, no induced move
-			P.moveBox(M.mouseX - P.width/2, M.mouseY - 11 );
+			P.moveBox(MaShine.m.mouseX - P.width/2, MaShine.m.mouseY - 11 );
 		}
 	}
 }

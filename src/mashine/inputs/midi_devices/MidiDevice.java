@@ -7,26 +7,31 @@
 
 package mashine.inputs.midi_devices;
 
-import java.util.Map;
 import java.util.HashMap;
-import java.util.Collections;
+import java.util.Map;
 
 public class MidiDevice{
 	protected Map<Integer,String> PAD;
 	protected Map<Integer,String> RANGE;
 	protected Map<Integer,String> ENCODER;
+	protected Map<Integer,String> OUTPUTS;
 
 	protected String deviceName;
 
 	public MidiDevice(){
 		deviceName = "";
-		PAD = new HashMap();
-		RANGE = new HashMap();
-		ENCODER = new HashMap();
+		PAD = new HashMap<Integer, String>();
+		RANGE = new HashMap<Integer, String>();
+		ENCODER = new HashMap<Integer, String>();
+		OUTPUTS = new HashMap<Integer, String>();
 	}
 
 	public String getDeviceName(){
 		return deviceName;
+	}
+
+	public Map<Integer, String> getOutputs(){
+		return OUTPUTS;
 	}
 
 	public String getInputName(int command, int keyNumber,int value){
@@ -58,11 +63,11 @@ public class MidiDevice{
 	}
 
 	// returns an int between 0 and 127, null if unchanged/unapplicable
-	public Float getRange(int command, int keyNumber, int value){
+	public Double getRange(int command, int keyNumber, int value){
 		if(PAD.containsKey(keyNumber) || ENCODER.containsKey(keyNumber))
 			return null;
 		else if(command == 0xB0)
-			return (float) value;
+			return (double) value;
 		else
 			return null;
 	}
