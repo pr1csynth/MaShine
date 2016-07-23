@@ -160,20 +160,5 @@ public class Inputs{
 	public String getLastState(){	return lastState;}
 	public String getLastRange(){	return lastRange;}
 
-	public Object save(){
-		HashMap<String,Object> saveObject = new HashMap<String,Object>();
-		saveObject.put("actions", actionLinks);
-		saveObject.put("states", stateLinks);
-		saveObject.put("ranges", rangeLinks);
-		return saveObject;
-	}
-
-	public void restore(Object restoredObject){
-		HashMap<String, Object> r = (HashMap<String, Object>) restoredObject;
-		actionLinks = (HashMap<String, String>) r.get("actions");
-		stateLinks = (HashMap<String, String>) r.get("states");
-		rangeLinks = (HashMap<String, String>) r.get("ranges");
-	}
-
 }
 

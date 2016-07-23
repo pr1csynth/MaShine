@@ -76,28 +76,4 @@ public class Engine{
 	public static String hex(int n) {
 		return String.format("%2s", Integer.toHexString(n)).replace(' ', '0');
 	}
-
-	public Object save(){
-		HashMap<String,Object> saveObject = new HashMap<String,Object>();
-		saveObject.put("tracks", tracks);
-		saveObject.put("filters", filters);
-		return saveObject;
-	}
-
-	public void restore(Object restoredObject){
-		HashMap<String, Object> r = (HashMap<String, Object>) restoredObject;
-		filters = (ArrayList<Filter>) r.get("filters");
-		tracks = (ArrayList<Track>) r.get("tracks");
-		for(Track t : tracks){
-			t.registerActions();
-			for(Filter f : t.getFilters()){
-				f.redeclare();
-				f.registerActions();
-			}
-		}
-		for(Filter f : filters){
-			f.redeclare();
-			f.registerActions();
-		}
-	}
 }

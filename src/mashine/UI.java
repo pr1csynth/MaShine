@@ -198,19 +198,5 @@ public class UI{
 
 	public void setDisplayedFrame(Frame frame){if(null == displayFrame)displayFrame = frame;}
 
-	public static class SaveObject implements Serializable{
-		public List<Float> sliderValues;
-
-		public SaveObject(List<Float> sliderValues){this.sliderValues = sliderValues;}
-	}
-
-	public Object save(){
-		return new SaveObject(controlSurface.getValues());
-	}
-
-	public void restore(Object restoredObject){
-		SaveObject s = (SaveObject) restoredObject;
-		controlSurface.setValues(s.sliderValues);
-	}
 }
 

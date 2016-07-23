@@ -556,24 +556,4 @@ public class Bank implements Serializable{
 	public Filter getFilter(String f){return filters.get(f);}
 	public HashMap<String, Filter> getFilters(){return filters;}
 
-	public static class SaveObject implements Serializable{
-		public ArrayList<Sequence> sequences;
-		public ArrayList<FlatColor> colors;
-
-		public SaveObject(ArrayList<Sequence> sequences, ArrayList<FlatColor> colors){
-			this.sequences = sequences;
-			this.colors = colors;
-		}
-	}
-
-	public Object save(){
-		return new SaveObject(sequences, colors);
-	}
-
-	public void restore(Object restoredObject){
-		SaveObject s = (SaveObject) restoredObject;
-		sequences = s.sequences;
-		colors = s.colors;
-		MaShine.ui.setSelectedSequence(sequences.get(0));
-	}
 }

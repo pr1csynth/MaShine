@@ -76,28 +76,4 @@ public class Scene{
 	public ArrayList<DeviceGroup> getGroups(){return new ArrayList<DeviceGroup>(groups);}
 	public DeviceGroup getGroup(int index){return groups.get(index);}
 	public int getGroupsSize(){return groups.size();}
-	
-	public static class SaveObject implements Serializable{
-		public ArrayList<Device> devices;
-		public ArrayList<DeviceGroup> groups;
-
-		public SaveObject(
-			ArrayList<Device> devices,
-			ArrayList<DeviceGroup> groups
-		){
-			this.devices = devices;
-			this.groups = groups;
-		}
-	}
-
-	public Object save(){
-		return new SaveObject(devices, groups);
-	}
-
-	public void restore(Object restoredObject){
-		SaveObject s = (SaveObject) restoredObject;
-		devices = s.devices;
-		groups = s.groups;
-		MaShine.ui.reloadElements();
-	}
 }
