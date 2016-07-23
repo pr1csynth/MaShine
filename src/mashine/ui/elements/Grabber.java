@@ -10,6 +10,7 @@ package mashine.ui.elements;
 import mashine.*;
 import mashine.ui.*;
 import mashine.utils.*;
+import mashine.ui.boxes.UIBox;
 
 public class Grabber extends Element {
 

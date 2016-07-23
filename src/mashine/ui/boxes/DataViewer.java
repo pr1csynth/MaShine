@@ -13,7 +13,6 @@ import java.util.Collections;
 import mashine.MaShine;
 import mashine.ui.Colors;
 import mashine.utils.FlatColor;
-import mashine.ui.UIBox;
 
 public class DataViewer extends UIBox{
 

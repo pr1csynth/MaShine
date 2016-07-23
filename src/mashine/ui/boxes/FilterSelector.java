@@ -19,7 +19,6 @@ import mashine.engine.Track;
 import mashine.engine.Filter;
 import mashine.scene.DeviceGroup;
 import mashine.ui.Colors;
-import mashine.ui.UIBox;
 import mashine.ui.elements.TextButton;
 import processing.core.PConstants;
 

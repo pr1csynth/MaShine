@@ -17,7 +17,6 @@ import processing.core.PConstants;
 import mashine.MaShine;
 import mashine.utils.*;
 import mashine.ui.Colors;
-import mashine.ui.UIBox;
 import mashine.ui.elements.TextButton;
 import mashine.ui.elements.TextInput;
 

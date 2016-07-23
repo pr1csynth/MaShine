@@ -5,15 +5,17 @@
  *	@since  13-02-2016`
  */
 
-package mashine.ui;
+package mashine.ui.boxes;
 
 import java.util.LinkedList;
 
 import processing.core.PConstants;
 
 import mashine.MaShine;
+import mashine.ui.*;
 import mashine.ui.elements.CloseButton;
 import mashine.ui.elements.Grabber;
+import mashine.ui.elements.Element;
 
 import mashine.utils.*;
 

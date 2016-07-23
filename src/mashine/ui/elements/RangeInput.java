@@ -5,7 +5,6 @@ import mashine.MaShine;
 import mashine.utils.*;
 import mashine.ui.Colors;
 import mashine.ui.Drawable;
-import mashine.ui.Element;
 
 public class RangeInput extends Element{
 

@@ -12,7 +12,6 @@ import java.util.List;
 import java.lang.Math;
 
 import mashine.MaShine;
-import mashine.ui.UIBox;
 import mashine.utils.FlatColor;
 import mashine.ui.Colors;
 import mashine.ui.elements.VerticalRangeInput;

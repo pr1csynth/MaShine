@@ -23,7 +23,7 @@ import mashine.scene.features.FixedField;
 import mashine.scene.features.SingleField;
 import mashine.ui.Colors;
 import mashine.ui.Drawable;
-import mashine.ui.Element;
+import mashine.ui.elements.Element;
 
 public class DeviceElement extends Element{
 

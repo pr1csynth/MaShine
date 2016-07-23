@@ -14,7 +14,6 @@ import java.lang.Math;
 import mashine.MaShine;
 import mashine.ui.Colors;
 import mashine.utils.FlatColor;
-import mashine.ui.UIBox;
 import mashine.ui.elements.TextButton;
 import mashine.ui.elements.RangeInput;
 import mashine.ui.elements.TextInput;

@@ -21,11 +21,10 @@ import mashine.scene.features.FixedField;
 import mashine.scene.features.SingleField;
 import mashine.ui.UI;
 import mashine.ui.Colors;
-import mashine.ui.Element;
-import mashine.ui.UIBox;
 import mashine.ui.elements.RangeInput;
 import mashine.ui.elements.TextButton;
 import mashine.ui.elements.TextInput;
+import mashine.ui.elements.Element;
 import processing.core.PConstants;
 
 // UIREFORM

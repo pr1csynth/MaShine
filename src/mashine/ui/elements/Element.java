@@ -5,9 +5,10 @@
  *	@since  13-02-2016`
  */
 
-package mashine.ui;
+package mashine.ui.elements;
 
 import mashine.*;
+import mashine.ui.*;
 
 public class Element extends Focusable{
 

@@ -77,31 +77,31 @@ public class UI{
 
 		status = new Status();
 		menu = new Menu();
-		sceneView = new SceneView();
-		engineView = new EngineView();
+		// sceneView = new SceneView();
+		// engineView = new EngineView();
 		sequenceSelector = new SequenceSelector();
 		deviceSelector = new DeviceSelector();
 		colorPalette = new ColorPalette();
-		linker = new Linker();
-		controlSurface = new ControlSurface();
+		// linker = new Linker();
+		// controlSurface = new ControlSurface();
 
 		uiElements = new HashMap<String,Focusable>();
-		uiElements.put("EventViewer", new EventViewer());
-		uiElements.put("DataViewer", new DataViewer());
+		// uiElements.put("EventViewer", new EventViewer());
+		// uiElements.put("DataViewer", new DataViewer());
 		uiElements.put("DeviceEditor", new DeviceEditor());
 		uiElements.put("DeviceSelector", deviceSelector);
 		uiElements.put("SequenceSelector", sequenceSelector);
 		uiElements.put("ColorPalette", colorPalette);
 		uiElements.put("SequenceEditor", new SequenceEditor());
-		uiElements.put("Linker", linker);
-		uiElements.put("FilterSelector", new FilterSelector());
-		uiElements.put("ControlSurface", controlSurface);
+		//uiElements.put("Linker", linker);
+		//uiElements.put("FilterSelector", new FilterSelector());
+		//uiElements.put("ControlSurface", controlSurface);
 		openedUiElements = new LinkedList<Focusable>();
 		toBeOpenedUiElements = new ArrayList<Focusable>();
 
 		displayFrame = new Frame();
 
-		open("ControlSurface");
+		//open("ControlSurface");
 	}
 
 	public void close(String uiElementName){
@@ -136,10 +136,10 @@ public class UI{
 		if(null == displayFrame){
 			displayFrame = new Frame();
 		}
-		sceneView.setFrame(displayFrame);
-		displayFrame = null;
-		sceneView.draw();
-		engineView.draw();
+		// sceneView.setFrame(displayFrame);
+		// displayFrame = null;
+		// sceneView.draw();
+		// engineView.draw();
 
 		for(Focusable f : toBeOpenedUiElements){
 			openedUiElements.add(f);
@@ -155,26 +155,30 @@ public class UI{
 			el.defocus();
 		}
 
-		sceneView.defocus();
+		//sceneView.defocus();
 
 		if(!openedUiElements.isEmpty()){
 			if(openedUiElements.getLast().mouseIn()){
 				openedUiElements.getLast().focus();
-			}else if(sceneView.mouseIn()){
-				sceneView.focus();
-			}
-		}else if(sceneView.mouseIn()){
-			sceneView.focus();
-		}
+			} // else if(sceneView.mouseIn()){
+			// 	sceneView.focus();
+			// }
+		} // else if(sceneView.mouseIn()){
+		// 	sceneView.focus();
+		// }
 		
 		status.draw();
 	}
 
 
-	public ArrayList<Device> getSelectedDevices(){return sceneView.getSelectedDevices();}
-	public void setSelectedDevices(ArrayList<Device> newSelection){sceneView.setSelectedDevices(newSelection);}
-	public void clearSelectedDevices(){sceneView.clearSelectedDevices();}
-	public void reloadElements(){sceneView.reloadElements();}
+	// public ArrayList<Device> getSelectedDevices(){return sceneView.getSelectedDevices();}
+	public ArrayList<Device> getSelectedDevices(){return new ArrayList<Device>();}
+	// public void setSelectedDevices(ArrayList<Device> newSelection){sceneView.setSelectedDevices(newSelection);}
+	public void setSelectedDevices(ArrayList<Device> newSelection){}
+	// public void clearSelectedDevices(){sceneView.clearSelectedDevices();}
+	public void clearSelectedDevices(){}
+	// public void reloadElements(){sceneView.reloadElements();}
+	// public void reloadElements(){}
 	
 	public Sequence getSelectedSequence(){return sequenceSelector.getSelectedSequence();}
 	public void setSelectedSequence(Sequence s){sequenceSelector.setSelectedSequence(s);}
