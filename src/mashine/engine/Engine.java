@@ -5,13 +5,12 @@
  *	@since  13-02-2016`
  */
 
-package mashine;
+package mashine.engine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import mashine.engine.Track;
-import mashine.engine.Filter;
+import mashine.MaShine;
 import mashine.scene.Frame;
 
 public class Engine{

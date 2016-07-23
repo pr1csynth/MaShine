@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 import mashine.MaShine;
 import mashine.ui.Colors;
-import mashine.ui.FlatColor;
+import mashine.utils.FlatColor;
 import mashine.ui.UIBox;
 import processing.core.PConstants;
 

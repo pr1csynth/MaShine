@@ -2,10 +2,10 @@ package mashine.ui.elements;
 
 import processing.core.PConstants;
 import mashine.MaShine;
+import mashine.utils.*;
 import mashine.ui.Colors;
 import mashine.ui.Drawable;
 import mashine.ui.Element;
-import mashine.ui.FlatColor;
 
 public class RangeInput extends Element{
 

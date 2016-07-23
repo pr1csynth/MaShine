@@ -12,9 +12,10 @@ import java.util.LinkedList;
 import processing.core.PConstants;
 
 import mashine.MaShine;
-import mashine.UI;
 import mashine.ui.elements.CloseButton;
 import mashine.ui.elements.Grabber;
+
+import mashine.utils.*;
 
 public class UIBox extends Drawable{
 

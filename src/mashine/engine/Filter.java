@@ -8,7 +8,7 @@
 package mashine.engine;
 
 import mashine.MaShine;
-import mashine.Do;
+import mashine.utils.Do;
 import mashine.scene.Frame;
 import mashine.scene.DeviceGroup;
 import mashine.scene.Device;

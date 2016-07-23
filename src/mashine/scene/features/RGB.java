@@ -2,7 +2,7 @@ package mashine.scene.features;
 
 import java.util.LinkedHashMap;
 
-import mashine.ui.FlatColor;
+import mashine.utils.FlatColor;
 
 public final class RGB extends ColorFeature {
 

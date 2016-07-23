@@ -14,10 +14,9 @@ import java.util.Map;
 
 import processing.core.PConstants;
 
-import mashine.Do;
 import mashine.MaShine;
+import mashine.utils.*;
 import mashine.ui.Colors;
-import mashine.ui.FlatColor;
 import mashine.ui.UIBox;
 import mashine.ui.elements.TextButton;
 import mashine.ui.elements.TextInput;

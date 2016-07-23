@@ -5,7 +5,7 @@
  *	@since  13-02-2016`
  */
 
-package mashine.ui;
+package mashine.utils;
 
 import java.awt.Color;
 import processing.core.PGraphics;

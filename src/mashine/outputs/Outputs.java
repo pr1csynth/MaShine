@@ -5,11 +5,10 @@
  *	@since  13-02-2016`
  */
 
-package mashine;
+package mashine.outputs;
 
 import java.util.HashMap;
 
-import mashine.outputs.*;
 import mashine.scene.Frame;
 
 public class Outputs{

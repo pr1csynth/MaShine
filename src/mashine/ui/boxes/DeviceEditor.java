@@ -10,18 +10,18 @@ package mashine.ui.boxes;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import mashine.Do;
 import mashine.MaShine;
-import mashine.Scene;
-import mashine.UI;
+import mashine.utils.*;
+
+import mashine.scene.Scene;
 import mashine.scene.Device;
 import mashine.scene.features.EditableFeature;
 import mashine.scene.features.Feature;
 import mashine.scene.features.FixedField;
 import mashine.scene.features.SingleField;
+import mashine.ui.UI;
 import mashine.ui.Colors;
 import mashine.ui.Element;
-import mashine.ui.FlatColor;
 import mashine.ui.UIBox;
 import mashine.ui.elements.RangeInput;
 import mashine.ui.elements.TextButton;

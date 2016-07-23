@@ -8,7 +8,7 @@ import mashine.MaShine;
 import mashine.ui.Colors;
 import mashine.ui.Drawable;
 import mashine.ui.Element;
-import mashine.ui.FlatColor;
+import mashine.utils.FlatColor;
 
 public class TextInput extends Element{
 

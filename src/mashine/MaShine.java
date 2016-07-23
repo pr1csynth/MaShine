@@ -7,6 +7,12 @@
 
 package mashine;
 
+import mashine.inputs.Inputs;
+import mashine.outputs.Outputs;
+import mashine.engine.Engine;
+import mashine.scene.Scene;
+import mashine.ui.UI;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

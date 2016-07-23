@@ -5,7 +5,7 @@
  *	@since  13-02-2016`
  */
 
-package mashine;
+package mashine.utils;
 
 public interface Do{
 	void x();

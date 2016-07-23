@@ -5,15 +5,12 @@
  *	@since  13-02-2016`
  */
 
-package mashine;
+package mashine.scene;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.Serializable;
 
-import mashine.scene.Device;
-import mashine.scene.DeviceGroup;
-import mashine.scene.Frame;
 import mashine.scene.features.*;
 
 public class Scene{

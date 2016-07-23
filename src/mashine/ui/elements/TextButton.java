@@ -7,10 +7,9 @@
 
 package mashine.ui.elements;
 
-import mashine.Do;
+import mashine.utils.*;
 import mashine.ui.Colors;
 import mashine.ui.Drawable;
-import mashine.ui.FlatColor;
 import processing.core.PConstants;
 
 public class TextButton extends Button{

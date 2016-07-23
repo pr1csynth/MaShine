@@ -1,7 +1,7 @@
 package mashine.scene.features;
 
 import java.util.LinkedHashMap;
-import mashine.ui.FlatColor;
+import mashine.utils.FlatColor;
 
 public final class Tradi extends ColorFeature {
 

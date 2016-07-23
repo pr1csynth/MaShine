@@ -10,14 +10,15 @@ package mashine.ui.boxes;
 import java.util.Collections;
 import java.util.List;
 
-import mashine.Do;
 import mashine.MaShine;
 import mashine.scene.Sequence;
 import mashine.engine.Track;
 import mashine.ui.Colors;
-import mashine.ui.FlatColor;
+import mashine.utils.FlatColor;
 import mashine.ui.UIBox;
 import mashine.ui.elements.TextButton;
+import mashine.utils.*;
+
 import processing.core.PConstants;
 
 public class SequenceSelector extends UIBox{

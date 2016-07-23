@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import mashine.MaShine;
-import mashine.Do;
+import mashine.utils.Do;
 import mashine.scene.Device;
 import mashine.scene.Frame;
 import mashine.scene.features.EditableFeature;

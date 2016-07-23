@@ -7,6 +7,8 @@
 
 package mashine.ui;
 
+import mashine.utils.FlatColor;
+
 public final class Colors {
 
 	private Colors () {}

@@ -9,6 +9,7 @@ package mashine.ui.elements;
 
 import mashine.*;
 import mashine.ui.*;
+import mashine.utils.*;
 
 public class CloseButton extends Button{
 

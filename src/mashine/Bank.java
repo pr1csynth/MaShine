@@ -15,6 +15,7 @@ import java.io.Serializable;
 
 import java.util.Scanner;
 
+import mashine.utils.*;
 import mashine.engine.ScriptManager;
 import mashine.scene.Sequence;
 import mashine.scene.Frame;
@@ -22,7 +23,6 @@ import mashine.scene.Device;
 import mashine.scene.DeviceGroup;
 import mashine.scene.features.*;
 import mashine.ui.Colors;
-import mashine.ui.FlatColor;
 
 import processing.core.PConstants;
 

@@ -5,15 +5,17 @@
  *	@since  13-02-2016`
  */
 
-package mashine;
+package mashine.inputs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import mashine.inputs.*;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
+
+import mashine.utils.Do;
+
 
 public class Inputs{
 

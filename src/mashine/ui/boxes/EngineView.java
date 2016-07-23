@@ -16,7 +16,7 @@ import mashine.engine.Track;
 import mashine.engine.Filter;
 import mashine.ui.Colors;
 import mashine.ui.Drawable;
-import mashine.ui.FlatColor;
+import mashine.utils.FlatColor;
 
 public class EngineView extends Drawable {
 

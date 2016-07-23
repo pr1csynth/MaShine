@@ -9,12 +9,11 @@ package mashine.ui.boxes;
 
 import java.util.ArrayList;
 
-import mashine.Do;
 import mashine.MaShine;
+import mashine.utils.*;
 import mashine.ui.Colors;
 import mashine.ui.Drawable;
 import mashine.ui.Element;
-import mashine.ui.FlatColor;
 import mashine.ui.elements.TextButton;
 import processing.core.PImage;
 

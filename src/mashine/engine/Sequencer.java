@@ -9,7 +9,7 @@ package mashine.engine;
 
 import java.io.Serializable;
 
-import mashine.Do;
+import mashine.utils.Do;
 import mashine.MaShine;
 import mashine.scene.Frame;
 import mashine.scene.Sequence;

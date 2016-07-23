@@ -14,7 +14,7 @@ import javax.sound.midi.MidiMessage;
 
 import mashine.inputs.midi_devices.*;
 import mashine.MaShine;
-import mashine.Do;
+import mashine.utils.Do;
 import themidibus.MidiBus;
 
 public class MidiInputs extends InputSource implements Learnable{

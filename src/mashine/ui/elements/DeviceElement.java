@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 
 import processing.core.PConstants;
 
+import mashine.utils.*;
 import mashine.scene.Device;
 import mashine.scene.features.ColorFeature;
 import mashine.scene.features.Coords;
@@ -23,7 +24,6 @@ import mashine.scene.features.SingleField;
 import mashine.ui.Colors;
 import mashine.ui.Drawable;
 import mashine.ui.Element;
-import mashine.ui.FlatColor;
 
 public class DeviceElement extends Element{
 

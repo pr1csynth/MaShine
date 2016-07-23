@@ -9,6 +9,7 @@ package mashine.ui.boxes;
 
 import mashine.*;
 import mashine.ui.*;
+import mashine.utils.*;
 import mashine.ui.elements.*;
 import mashine.scene.*;
 import mashine.scene.features.*;
