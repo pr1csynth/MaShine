@@ -26,7 +26,7 @@ import processing.core.PConstants;
 public class FilterSelector extends UIBox{
 
 	private Filter selectedFilter;
-	private Filter selectedModel;
+	private String selectedModel;
 
 	private DeviceGroup selectedGroup;
 
@@ -111,14 +111,11 @@ public class FilterSelector extends UIBox{
 			offset += 34;
 
 			canvas.textAlign(PConstants.RIGHT, PConstants.TOP);
-			Map<String,Short> params = selectedFilter.getParameters();
+			Map<String,String> params = selectedFilter.getParameters();
 			for(String p : params.keySet()){
-				String t = "";
-				short ti = params.get(p);
-				if(ti != Filter.FRAME && ti != Filter.LONG){
-					if(ti == Filter.RANGE) t = "RANGE";
-					if(ti == Filter.STATE) t = "STATE";
-					canvas.text(p+" :  "+ t, width - 5, offset);
+				String ti = params.get(p);
+				if(ti.equals("range") || ti.equals("state")){
+					canvas.text(p+" :  "+ ti, width - 5, offset);
 					offset += 14;
 				}
 			}
@@ -132,18 +129,16 @@ public class FilterSelector extends UIBox{
 		int offset = 30;
 		canvas.textAlign(PConstants.LEFT, PConstants.TOP);
 
-		List<Filter> filterModels = new ArrayList(MaShine.bank.getFilters().values());
-		setSelectedModel(drawFilterList(filterModels, selectedModel, 0, offset, 148));
+		List<String> filterModels = new ArrayList(MaShine.bank.getFilters());
+		setSelectedModel(drawScriptList(filterModels, selectedModel, 0, offset, 148));
 
 		List<Filter> filterList = getFilterList();
 		setSelectedFilter(drawFilterList(filterList, selectedFilter, 149, offset, 200));
 		setVirtualHeight(45 + Math.max(filterModels.size(), filterList.size()) * 14);
 	}
 
-	public void setSelectedModel(Filter model){selectedModel = model;}
-	public void setSelectedFilter(Filter filter){
-		selectedFilter = filter;
-	}
+	public void setSelectedModel(String model){selectedModel = model;}
+	public void setSelectedFilter(Filter filter){selectedFilter = filter;}
 
 	private boolean isClicked(int offsetX, int offsetY, int width){
 		return 
@@ -193,16 +188,46 @@ public class FilterSelector extends UIBox{
 		return newSelected;
 	}
 
+	private String drawScriptList(List<String> scripts, String selected, int offsetX, int offsetY, int width){
+		int index = 0;
+		String newSelected = selected;
+		Collections.reverse(scripts);
+		for(String m : scripts){
+			if(m.equals(selected)){
+				FlatColor.fill(canvas,Colors.MATERIAL.ORANGE.A400);
+			}else{
+				if(index % 2 == 0){
+					FlatColor.fill(canvas,Colors.MATERIAL.BLUE_GREY._600);
+				}else{
+					FlatColor.fill(canvas,Colors.MATERIAL.BLUE_GREY._500);
+				}
+			}
+			canvas.rect(offsetX+1, offsetY - 3, width, 14);
+
+			if(isClicked(offsetX, offsetY, width)){
+				newSelected = m;
+			}
+
+			FlatColor.fill(canvas,Colors.WHITE);
+			canvas.text(m, offsetX+5, offsetY);
+			offsetY += 14;
+			index ++;
+		}
+
+		Collections.reverse(scripts);
+		return newSelected;
+	}
+
 	private void addFilter(){
 		if(selectedModel != null){	
 			ArrayList<Track> tracks = MaShine.engine.getTracks();
 			for(Track t : tracks){
 				if(t.isTweaked()){
-					t.addFilter(selectedModel.getType());
+					t.addFilter(selectedModel);
 					return;
 				}
 			}
-			MaShine.engine.addFilter(selectedModel.getType());
+			MaShine.engine.addFilter(selectedModel);
 		}
 		return;
 	}

@@ -62,13 +62,13 @@ public class Engine{
 	public ArrayList<Track> getTracks(){return tracks;}
 	public ArrayList<Filter> getFilters(){return filters;}
 
-	public String addFilter(String type){
-		if(MaShine.bank.getFilter(type) != null){
+	public String addFilter(String scriptName){
+		if(MaShine.bank.getFilters().contains(scriptName)){
 			filterIndex ++;
 			String name = "mixer.filter."+hex(filterIndex);
-			Filter f = new Filter(name, MaShine.bank.getFilter(type));
+			Filter f = new Filter(name, scriptName);
 			filters.add(f);
-			return name+"."+type;
+			return name+"."+scriptName;
 		}
 		return null;
 	}

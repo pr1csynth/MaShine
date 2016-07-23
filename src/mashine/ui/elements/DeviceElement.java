@@ -84,7 +84,9 @@ public class DeviceElement extends Element{
 				if(feature instanceof ColorFeature){
 					FlatColor.fill(P.canvas, ((ColorFeature)feature).getColor());
 					P.canvas.noStroke();
-				}else if(feature instanceof SingleField){
+				}
+				
+				if(feature instanceof SingleField){
 					for(String f : featureFields.keySet()){
 						devFields.put(f, featureFields.get(f));
 					}

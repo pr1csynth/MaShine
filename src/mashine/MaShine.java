@@ -57,8 +57,9 @@ public class MaShine extends PApplet{
 		scene = new Scene();
 		engine = new Engine();
 		ui = new UI();
-
 	}
+
+	public void importFilters(File folder){if(folder != null) bank.filters.importFolder(folder);}
 
 	public void draw() {
 		background(55, 71, 79);
