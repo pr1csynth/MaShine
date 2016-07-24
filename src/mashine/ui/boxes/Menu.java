@@ -32,47 +32,22 @@ public class Menu extends Drawable{
 		Do switchToScene = new Do(){public void x(){MaShine.ui.open("DeviceEditor");MaShine.ui.open("DeviceSelector");}};
 		Do switchToAnimate = new Do(){public void x(){MaShine.ui.open("DeviceSelector");MaShine.ui.open("SequenceEditor");MaShine.ui.open("SequenceSelector");MaShine.ui.open("ColorPalette");}};
 		Do switchToLive = new Do(){public void x(){MaShine.ui.open("FilterSelector");}};
-		Do openDataViewer = new Do(){public void x(){MaShine.ui.open("DataViewer");}};
-		Do openEventViewer = new Do(){public void x(){MaShine.ui.open("EventViewer");}};
-		Do openLinker = new Do(){public void x(){MaShine.ui.open("Linker");}};
-		Do openControlSurface = new Do(){public void x(){MaShine.ui.open("ControlSurface");}};
-
 
 		bigButtons.add(new TextButton(this, 115, 0, 120, 32, "PATCH", 
-			Colors.WHITE, 60,
-			Colors.MATERIAL.CYAN._600,
-			Colors.MATERIAL.CYAN._700,
+			Colors.MATERIAL.BLUE_GREY._900, 60,
+			Colors.MATERIAL.TEAL.A200,
+			Colors.MATERIAL.TEAL.A700,
 			switchToScene));
 		bigButtons.add(new TextButton(this, 240, 0, 120, 32, "ANIMATE", 
-			Colors.WHITE, 60,
-			Colors.MATERIAL.DEEP_PURPLE._600,
-			Colors.MATERIAL.DEEP_PURPLE._700,
+			Colors.MATERIAL.BLUE_GREY._900, 60,
+			Colors.MATERIAL.TEAL.A200,
+			Colors.MATERIAL.TEAL.A700,
 			switchToAnimate));
 		bigButtons.add(new TextButton(this, 365, 0, 120, 32, "LIVE", 
-			Colors.WHITE, 60,
-			Colors.MATERIAL.RED._600,
-			Colors.MATERIAL.RED._700,
+			Colors.MATERIAL.BLUE_GREY._900, 60,
+			Colors.MATERIAL.YELLOW.A400,
+			Colors.MATERIAL.YELLOW.A700,
 			switchToLive));
-		bigButtons.add(new TextButton(this, 502,  0, 70, 15, "event in", 
-			Colors.WHITE, 10,
-			Colors.MATERIAL.TEAL._600,
-			Colors.MATERIAL.TEAL._800,
-			openEventViewer));
-		bigButtons.add(new TextButton(this, 502, 17, 70, 15, "data  in", 
-			Colors.WHITE, 10,
-			Colors.MATERIAL.TEAL._600,
-			Colors.MATERIAL.TEAL._800,
-			openDataViewer));
-		bigButtons.add(new TextButton(this, 575, 0, 70, 15, "links", 
-			Colors.WHITE, 10,
-			Colors.MATERIAL.TEAL._600,
-			Colors.MATERIAL.TEAL._800,
-			openLinker));
-		bigButtons.add(new TextButton(this, 648, 0, 70, 15, "console", 
-			Colors.WHITE, 10,
-			Colors.MATERIAL.ORANGE._600,
-			Colors.MATERIAL.ORANGE._800,
-			openControlSurface));
 
 			mashineImage = MaShine.m.loadImage("data/mashine.png");
 	}
