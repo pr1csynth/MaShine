@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.Scanner;
 
 import mashine.utils.*;
-import mashine.engine.ScriptManager;
+import mashine.engine.*;
 import mashine.scene.Sequence;
 import mashine.scene.Frame;
 import mashine.scene.Device;
@@ -36,7 +36,7 @@ public class Bank implements Serializable{
 		sequences = new ArrayList<Sequence>();
 		colors = new ArrayList<FlatColor>();
 
-		sequences.add(new Sequence("unamed sequence"));
+		sequences.add(new Sequence());
 
 		for(int i = 0; i < 154; i++){
 			colors.add(new FlatColor(0xFF, 0x00, 0x00)
@@ -57,9 +57,6 @@ public class Bank implements Serializable{
 			for(int i = 0; i < filtersList.length; i++) filtersList[i] = "/javascript/filters/"+filtersList[i];
 			filters = new ScriptManager(filtersList, "/javascript/filters.js");
 		}catch(Exception e){e.printStackTrace();}
-
-		MaShine.inputs.registerAction("mashine.filters.reload", new Do(){public void x(){filters.reloadScripts();}});
-		
 
 	}
 

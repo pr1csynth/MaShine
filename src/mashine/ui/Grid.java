@@ -8,14 +8,14 @@ import java.util.HashMap;
 import processing.core.*;
 
 import mashine.engine.*;
+import mashine.MaShine;
 
 public class Grid{
 
 	PApplet p;
 
+	private List<Path> paths;
 	private List<Block> blocks;
-	// private List<Path> paths;
-	private List<List<PVector>> paths;
 
 	private int gridSize = 50;
 	private PVector pxOffset = new PVector(0,0);
@@ -25,25 +25,24 @@ public class Grid{
 
 	private boolean click = false;
 
-	public Grid(PApplet p){
-		this.p = p;
+	public Grid(){
+		this.p = MaShine.m;
+		paths = new ArrayList<Path>();
 		blocks = new ArrayList<Block>();
-		paths = new ArrayList<List<PVector>>();
-	}
-
-	public void addBlock(Block b){
-		blocks.add(b);
 	}
 
 	public void draw(){
 
+		blocks = MaShine.engine.getBlocks();
+
+		p.pushMatrix();
 		p.translate(pxOffset.x, pxOffset.y);
 
 		int gmousex = (int) Math.round((p.mouseX-pxOffset.x)/gridSize);
 		int gmousey = (int) Math.round((p.mouseY-pxOffset.y)/gridSize);
 
-		for(List<PVector> path : paths){
-			drawPath(path, 105,240,174, 25);
+		for(Path path : paths){		
+			drawPath(path.get(), 105,240,174, 25);
 		}
 
 		if(start != null){
@@ -58,7 +57,7 @@ public class Grid{
 			p.rect(b.x()*gridSize, b.y()*gridSize, b.w()*gridSize+1, b.h()*gridSize+1);
 
 			p.stroke(38,50,56); // #263238
-			p.strokeWeight(3);
+			p.strokeWeight(4);
 
 			p.fill(100,255,218); // #64FFDA
 			int i = 1;
@@ -89,8 +88,14 @@ public class Grid{
 			}
 		}
 
-
 		click = false;
+		p.strokeWeight(1);
+		p.noFill();
+		p.stroke(255,0,255);
+		p.line(gmousex*gridSize-20, gmousey*gridSize, gmousex*gridSize+20, gmousey*gridSize);
+		p.line(gmousex*gridSize, gmousey*gridSize-20, gmousex*gridSize, gmousey*gridSize+20);
+
+		p.popMatrix();
 	}
 
 	private void checkClickedNode(int x, int y, int gx, int gy, int t){
@@ -101,7 +106,7 @@ public class Grid{
 				end = new PVector(x,y);
 			}
 			if(start != null && end != null){
-				paths.add(AStar((int)Math.floor(start.x), (int)Math.floor(start.y), (int)Math.floor(end.x), (int)Math.floor(end.y)));
+				//paths.add(AStar((int)Math.floor(start.x), (int)Math.floor(start.y), (int)Math.floor(end.x), (int)Math.floor(end.y)));
 				start = end = null;
 			}
 		}
@@ -137,6 +142,7 @@ public class Grid{
 	// private Path getPath(int x, int y, OutNode out){}
 	// private Path getPath(InNode in, int x, int y){}
 
+
 	private List<PVector> AStar(int x1, int y1, int x2, int y2){
 
 		// Helper class remembering scores, parents, coords.
@@ -150,8 +156,9 @@ public class Grid{
 
 		// A* constants (tweaked to avoid zigzaging) (also, no diagonal paths)
 		int G = 10;
-		int Hxf = 10;
-		int Hyf = 7;
+		boolean under = x1 == x2 ? false : Math.abs(y2-y1)/Math.abs(x2-x1) < 1;
+		int Hxf = under ? 10 : 7;
+		int Hyf = under ? 7 : 10;
 
 		// open/closed lists
 		Map<String,Square> open = new HashMap<String,Square>();
@@ -203,7 +210,7 @@ public class Grid{
 					closed.containsKey(x+":"+y)
 				){  // unreachable/treated block, end laps
 					// invalid (1:blocked,      middle segment a not on free space         middle segment on a starting point   )
-					}else if(map[x][y] == 1 || (x != x2 || y!= y2) && map[x][y] != 0 ||  (x != x1 || y!= y1) && map[x][y] == 2){
+					}else if(map[x][y] == 1 || (x != x2 || y != y2) && map[x][y] != 0 ||  (x == x2 && y == y2) && map[x][y] == map[x1][y1]){
 					}else{
 						// heuristic score
 						int h = Math.abs(x2-x)*Hxf+Math.abs(y2-y)*Hyf;

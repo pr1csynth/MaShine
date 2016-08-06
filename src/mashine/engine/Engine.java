@@ -8,69 +8,70 @@
 package mashine.engine;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
+import mashine.engine.blocks.*;
 import mashine.MaShine;
-import mashine.scene.Frame;
 
-public class Engine{
+public class Engine extends Thread{
 
-	private ArrayList<Track> tracks;
-	private ArrayList<Filter> filters;
+	private List<Block> blocks;
+	private float tickRate = 10f;
+	private long  tickRatePeriod = 1000000000L / 42L; // target is 42 tps
 
-	private int filterIndex;
 
 	public Engine(){
-		tracks = new ArrayList<Track>();
-		filters = new ArrayList<Filter>();
+		blocks = new ArrayList<Block>();
 
-		tracks.add(new Track("A"));
-		tracks.add(new Track("B"));
-		tracks.add(new Track("C"));
-		tracks.add(new Track("D"));
-		tracks.add(new Track("E"));
-		tracks.add(new Track("F"));
+		blocks.add(new Ola());
 
-		String dimmerName = addFilter("dimmer");
-		if(dimmerName != null){
-			MaShine.inputs.state(dimmerName+".enabled", "_true");
-			MaShine.inputs.range(dimmerName+".value", "_100");
+		this.start();
+	}
+
+	public void run(){
+
+		long tickRateLastNanos = 0L;
+      	long overSleepTime = 0L;
+
+		while(true){
+			long now = System.nanoTime();
+			double rate = 1000000.0 / ((now - tickRateLastNanos) / 1000000.0);
+			float instantaneousRate = (float) (rate / 1000.0);
+			tickRate = (tickRate * 0.9f) + (instantaneousRate * 0.1f);
+			tickRateLastNanos = now;
+			tick();
+
+			long afterTime = System.nanoTime();
+			long timeDiff = afterTime - now;
+			long sleepTime = (tickRatePeriod - timeDiff) - overSleepTime;
+
+			if (sleepTime > 0){  // some time left in this cycle
+				try{
+					Thread.sleep(sleepTime / 1000000L, (int) (sleepTime % 1000000L));
+				} catch (InterruptedException ex){}
+
+				overSleepTime = (System.nanoTime() - afterTime) - sleepTime;
+			}else{
+				overSleepTime = 0;
+			}
 		}
-		addFilter("blackout");
-		addFilter("whiteout");
-
 	}
 
 	public void tick(){
-		Frame frame = new Frame();
-
-		for(int i = 0; i < tracks.size(); i ++){
-			frame = Frame.mix(frame, tracks.get(i).getFrame()); 
+		for(Block block : blocks){
+			block.tick();
 		}
-
-		for(Filter f : filters){
-			if(f.isEnabled()){
-				frame = f.filter(frame);
-			}
-		}
-
-		MaShine.ui.setDisplayedFrame(frame);
-		MaShine.outputs.setFrame(frame);
 	}
 
-	public ArrayList<Track> getTracks(){return tracks;}
-	public ArrayList<Filter> getFilters(){return filters;}
-
-	public String addFilter(String scriptName){
-		if(MaShine.bank.getFilters().contains(scriptName)){
-			filterIndex ++;
-			String name = "mixer.filter."+hex(filterIndex);
-			Filter f = new Filter(name, scriptName);
-			filters.add(f);
-			return name+"."+scriptName;
-		}
-		return null;
+	public float tickRate(){
+		return tickRate;
 	}
+
+	public void tickRate(float tps) {
+		tickRatePeriod = (long) (1000000000.0 / tps);
+	}
+
+	public List<Block> getBlocks(){return blocks;}
 
 	public static String hex(int n) {
 		return String.format("%2s", Integer.toHexString(n)).replace(' ', '0');

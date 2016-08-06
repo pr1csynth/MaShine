@@ -17,26 +17,19 @@ import java.lang.Comparable;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-public class DeviceGroup implements Serializable{
-
-	private static final long serialVersionUID = 0xDED00001L;
+public class DeviceGroup{
 
 	private LinkedHashMap<Device,Integer> devices;
-	private String name;
 
-	public DeviceGroup(String name){
-		this.name = name;
+	public DeviceGroup(){
 		devices = new LinkedHashMap<Device, Integer>();
 	}
 
-	public DeviceGroup(String name, DeviceGroup grp){
-		this.name = name;
+	public DeviceGroup(DeviceGroup grp){
 		this.devices = new LinkedHashMap<Device, Integer>(grp.getDevices());
 	}
 
-	public DeviceGroup(String name, List<Device> devices){
-		this(name);
-
+	public DeviceGroup( List<Device> devices){
 		for(Device d : devices){
 			this.devices.put(d, d.getStartAddress());
 		}
@@ -44,14 +37,6 @@ public class DeviceGroup implements Serializable{
 
 	public LinkedHashMap<Device,Integer> getDevices() {
 		return devices;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public void putDevice(Device d){

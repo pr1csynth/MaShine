@@ -9,27 +9,18 @@ package mashine.scene;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.UUID;
 
-public class Sequence implements Serializable{
-
-	private static final long serialVersionUID = 0x5E0E0001L;
-
+public class Sequence {
+	
 	private ArrayList<Frame> frames;
-	private String name;
-	private String id;
 
-	public Sequence(String name){
+	public Sequence(){
 		frames = new ArrayList<Frame>();
 		frames.add(new Frame());
-		this.name = name;
-		this.id = UUID.randomUUID().toString();
 	}
-	public Sequence(String name, Frame f){
+	public Sequence(Frame f){
 		frames = new ArrayList<Frame>();
 		frames.add(f);
-		this.name = name;
-		this.id = UUID.randomUUID().toString();
 	}
 
 	public Frame getFrame(int index){
@@ -57,16 +48,5 @@ public class Sequence implements Serializable{
 
 	public void setFrame(int i, Frame f){
 		frames.set(i, f);
-	}
-
-	public String getName(){
-		return name;
-	}
-	public void setName(String name){
-		this.name = name;
-	}
-
-	public String getIdentifier(){
-		return id;
 	}
 }

@@ -8,9 +8,11 @@
 package mashine.inputs;
 
 import java.util.ArrayList;
-import mashine.MaShine;
 
-public class Clock extends InputSource {
+import mashine.MaShine;
+import mashine.engine.*;
+
+public class Clock extends Block {
 
 	private ArrayList<Long> rates;
 	private ArrayList<String> str;
@@ -19,7 +21,6 @@ public class Clock extends InputSource {
 	private static final long MINUTE = 60000L;
 	private static final long SECOND = 1000L;
 
-	private boolean init = false;
 
 	public Clock () {
 		super();
@@ -40,32 +41,47 @@ public class Clock extends InputSource {
 
 		str.add("variable");
 		next.add(0L);
+
+		nodes();
 		
 	}
 
+	private void nodes(){
+		/* controls in 	//	controls out
+		- sync				- [fixed_rates]
+		- adjust 			- variable_rate
+
+		/* content in 	//	content out
+		
+		*/
+
+		controlIn.put("adjust", new InNode(1.0));
+		controlIn.put("sync", new InNode(false));
+
+		for(String s : str){
+			controlOut.put(s, new OutNode(this, false));
+		}
+	}
+
 	public void tick(){
-		if(!init){ init = true; MaShine.inputs.registerRange("clock.variable.adjust"); }
 		long now = MaShine.m.millis();
 		int i = 0;
 		for(Long n : next){
 			if(n <= now){
 				long rate;
 				if(str.get(i).equals("variable")){
-					rate = Math.round(SECOND * MaShine.inputs.getRange("clock.variable.adjust"));
+					rate = Math.round(SECOND * (Double)get("adjust"));
 					//MaShine.println(rate);
 				}else{
 					rate = rates.get(i);
 				}
-				states.put("clock."+str.get(i), true);
+				set(str.get(i), true);
 				next.set(i, now+rate);
+			}else{
+				set(str.get(i), false);
 			}
-			i++;
-		}
-	}
 
-	public void clear(){
-		for(String key : states.keySet()){
-			states.put(key, false);
+			i++;
 		}
 	}
 }

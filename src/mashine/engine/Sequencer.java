@@ -14,124 +14,73 @@ import mashine.MaShine;
 import mashine.scene.Frame;
 import mashine.scene.Sequence;
 
-public class Sequencer implements Serializable{
+public class Sequencer extends Block{
 
-	private static final long serialVersionUID = 0x53050001L;
-
-	private String name;
-	private Sequence sequence;
-	private boolean tweaking = false;
-	private boolean manual = false;
-	private boolean loop = true;
-	private int clip;
-	private int offset;
 	private int index;
+	private Sequence sequence;
 
-	public Sequencer(String name, Sequence sequence){
-		this.name = name;
-		this.sequence = sequence;
-		this.clip = 0;
-		this.offset = 0;
-		this.index = 0;
-
-		MaShine.inputs.link("sequencer."+name+".forward.auto", "minim.beat.interpolated");
-		registerActions();
+	public Sequencer(){
+		this(0, 0);
 	}
 
-	public void registerActions(){
-		MaShine.inputs.registerAction("sequencer."+name+".manual.start", new Do(){public void x(){manual = true;}});
-		MaShine.inputs.registerAction("sequencer."+name+".manual.end", new Do(){public void x(){manual = false;}});
+	public Sequencer(int x, int y){
+		super(x, y);
+		this.index = 0;	
 
-		MaShine.inputs.registerAction("sequencer."+name+".reset", new Do(){public void x(){setIndex(clip);}});
-		MaShine.inputs.registerAction("sequencer."+name+".loop.toggle", new Do(){public void x(){loop = !loop;}});
-		MaShine.inputs.registerAction("sequencer."+name+".loop.on", new Do(){public void x(){loop = true;}});
-		MaShine.inputs.registerAction("sequencer."+name+".loop.off", new Do(){public void x(){loop = false;}});
-
-		MaShine.inputs.registerAction("sequencer."+name+".clip.less.tweak", new Do(){public void x(){if(tweaking)setClip(clip +1);}});
-		MaShine.inputs.registerAction("sequencer."+name+".clip.more.tweak", new Do(){public void x(){if(tweaking)setClip(clip -1);}});
-		MaShine.inputs.registerAction("sequencer."+name+".offset.less.tweak", new Do(){public void x(){if(tweaking)setOffset(offset +1);}});
-		MaShine.inputs.registerAction("sequencer."+name+".offset.more.tweak", new Do(){public void x(){if(tweaking)setOffset(offset -1);}});
-
-		MaShine.inputs.registerAction("sequencer."+name+".forward.manual", new Do(){public void x(){if(manual)setIndex(index +1);}});
-		MaShine.inputs.registerAction("sequencer."+name+".backward.manual", new Do(){public void x(){if(manual)setIndex(index -1);}});
-
-		MaShine.inputs.registerAction("sequencer."+name+".forward.auto", new Do(){public void x(){if(!manual)setIndex(index +1);}});
-		MaShine.inputs.registerAction("sequencer."+name+".backward.auto", new Do(){public void x(){if(!manual)setIndex(index -1);}});
+		nodes();
 	}
 
-	public void setClip(int v){
-		if(v == 0){
-			clip = 0;
-		}else{
-			clip = Math.max(1, Math.min(v, sequence.getSize() - offset));
-		}
-	};
-	public void setOffset(int v){
-		offset = Math.max(0, Math.min(v, sequence.getSize() - 2));
-		setClip(clip);
-	};
-	public void setIndex(int v){
-		setOffset(offset);
-		if(clip == 0){
-			if(v < offset){
+	private void nodes(){
+		/* controls in 	//	controls out
+		- forward			- changed
+		- backward 			- seq_size
+		- reset 			- index
+		- loop 				- at_end
+
+		/* content in 	//	content out
+		- sequence 			- frame
+		
+		*/
+
+		controlIn.put("forward", 	new InNode(false));
+		controlIn.put("backward", 	new InNode(false));
+		controlIn.put("reset",	 	new InNode(false));
+		controlIn.put("loop",	 	new InNode(true));
+
+		contentIn.put("sequence", 	new InNode(new Sequence()));
+
+		controlOut.put("changed",	new OutNode(this, false));
+		controlOut.put("at_end",	new OutNode(this, false));
+		controlOut.put("seq_size",	new OutNode(this, 0));
+		controlOut.put("index",		new OutNode(this, 0));
+
+		contentOut.put("frame", 	new OutNode(this, new Frame()));
+	}
+
+	public void tick(){
+		int lastIndex = index;
+		sequence = (Sequence) get("sequence");
+		setIndex(index);
+		if((Boolean)get("forward")) setIndex(index+1);
+		if((Boolean)get("backward")) setIndex(index-1);
+		if((Boolean)get("reset")) setIndex(0);
+
+		set("changed", lastIndex != index);
+		set("index", index);
+		set("seq_size", sequence.getSize());
+		set("at_end", index == sequence.getSize()-1);
+		set("frame", sequence.getFrame(index));
+	}
+
+	private void setIndex(int v){
+		if(v < 0){
+			v = sequence.getSize() - 1;
+		}else if(v >= sequence.getSize()){
+			if((Boolean)get("loop"))
+				v = 0;
+			else
 				v = sequence.getSize() - 1;
-			}
-			if(v >= sequence.getSize()){
-				if(loop)
-					v = offset;
-				else
-					v = sequence.getSize() - 1;
-			}
-		}else{
-			if(v < offset){
-				v = offset + clip - 1;
-			}
-
-			if(v >= offset + clip ){
-				if(loop)
-					v = offset;
-				else
-					v = (offset + clip) - 1;
-			}
 		}
 		index = v;
-	};
-
-	public Frame getFrame(){
-		return sequence.getFrame(index);
 	}
-
-	public Sequence getSequence(){
-		return sequence;
-	}
-	public void setSequence(Sequence sequence){
-		this.sequence = sequence;
-		setIndex(0);
-	}
-
-	public String getName(){
-		return name;
-	}
-
-	public int getClip(){return clip;}
-	public int getOffset(){return offset;}
-	public int getIndex(){return index;}
-
-	public void startTweak(){
-		MaShine.ui.open("SequenceSelector");
-		tweaking = true;
-	}
-	public void endTweak(){
-		MaShine.ui.close("SequenceSelector");
-		tweaking = false;
-	}
-
-	public boolean isTweaked(){
-		return tweaking;
-	}
-
-	public boolean isManual(){
-		return manual;
-	}
-
 }

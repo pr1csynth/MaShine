@@ -1,0 +1,8 @@
+
+# What to do to get block ui ?
+
+- make all relevant classes inherits from Block
+- write Grid to render Blocks and expose to the user the mechanics of linking
+- write Grid to render/recalc Paths when needed (path.isInRegion(x, y, w, h))
+- write Engine to make blocks work together (tick ?)
+- write a new class Panel to render existing UiBoxes as side bar

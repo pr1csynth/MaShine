@@ -15,6 +15,10 @@ public class Path{
 	private List<PVector> path;
 	
 	public Path(InNode inNode, OutNode outNode){
-		
+		path = new ArrayList<PVector>();
+	}
+
+	public List<PVector> get(){
+		return path;
 	}
 }
