@@ -51,25 +51,25 @@ public class Filter extends Block{
 
 	private void declareNodeIn(String name, String type){
 		if(type.equals("range")){
-			controlIn.put(name, new InNode(0));
+			controlIn.put(name, new InNode<Double>(0.0));
 		}else if(type.equals("state")){
-			controlIn.put(name, new InNode(false));
+			controlIn.put(name, new InNode<Boolean>(false));
 		}else if(type.equals("frame")){
-			controlIn.put(name, new InNode(new Frame()));
+			controlIn.put(name, new InNode<Frame>(new Frame()));
 		}else if(type.equals("group")){
-			controlIn.put(name, new InNode(new DeviceGroup()));
+			controlIn.put(name, new InNode<DeviceGroup>(new DeviceGroup()));
 		}
 	}
 
 	private void declareNodeOut(String name, String type){
 		if(type.equals("range")){
-			controlOut.put(name, new OutNode(this, 0));
+			controlOut.put(name, new OutNode<Double>(this, 0.0));
 		}else if(type.equals("state")){
-			controlOut.put(name, new OutNode(this, false));
+			controlOut.put(name, new OutNode<Boolean>(this, false));
 		}else if(type.equals("frame")){
-			controlOut.put(name, new OutNode(this, new Frame()));
+			controlOut.put(name, new OutNode<Frame>(this, new Frame()));
 		}else if(type.equals("group")){
-			controlOut.put(name, new OutNode(this, new DeviceGroup()));
+			controlOut.put(name, new OutNode<DeviceGroup>(this, new DeviceGroup()));
 		}
 	}
 
@@ -82,12 +82,12 @@ public class Filter extends Block{
 		- group
 
 		*/
-		controlIn.put("enabled",	new InNode(true));
+		controlIn.put("enabled",	new InNode<Boolean>(true));
 
-		contentIn.put("frame", 		new InNode(new Frame()));
-		contentIn.put("group", 		new InNode(new DeviceGroup()));
+		contentIn.put("frame", 		new InNode<Frame>(new Frame()));
+		contentIn.put("group", 		new InNode<DeviceGroup>(new DeviceGroup()));
 
-		contentOut.put("frame", 	new OutNode(this, new Frame()));
+		contentOut.put("frame", 	new OutNode<Frame>(this, new Frame()));
 	}
 
 	public void tick(){

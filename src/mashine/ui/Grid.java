@@ -61,30 +61,38 @@ public class Grid{
 
 			p.fill(100,255,218); // #64FFDA
 			int i = 1;
-			for(InNode a : b.getContentInNodes().values()){	 
-				p.ellipse(b.x()*gridSize, (i+b.y())*gridSize, gridSize/2, gridSize/2);
+
+			for(InNode a : b.getContentInNodes().values()){
+				drawNode(a, b.x(), i+b.y());
 				checkClickedNode(b.x(), i+b.y(), gmousex, gmousey, 1);
 				i++;
+				MaShine.println(a.getClassName()+": "+a.get());
 			}
+
 			i = 1;
-			for(InNode a : b.getControlInNodes().values()){	 
-				p.ellipse((i+b.x())*gridSize, b.y()*gridSize, gridSize/2, gridSize/2);
+
+			for(InNode a : b.getControlInNodes().values()){
+				drawNode(a,i+ b.x(), b.y()); 
 				checkClickedNode(i+b.x(), b.y(), gmousex, gmousey, 1);
 				i++;
+				MaShine.println(a.getClassName()+": "+a.get());
 			}
 			
-			p.fill(255,255,0); // #FFFF00
 			i = 1;
-			for(OutNode a : b.getContentOutNodes().values()){ 
-				p.ellipse((b.x()+b.w())*gridSize, (i+b.y())*gridSize, gridSize/2, gridSize/2);
-				checkClickedNode(b.x()+b.w(), i+b.y(), gmousex, gmousey, 2);
+
+			for(OutNode a : b.getContentOutNodes().values()){
+				drawNode(a, b.x()+b.w(), b.h()+b.y()-i);
+				checkClickedNode(b.x()+b.w(), b.h()+b.y()-i, gmousex, gmousey, 2);
 				i++;
+				MaShine.println(a.getClassName()+": "+a.get());
 			}
 			i = 1;
-			for(OutNode a : b.getControlOutNodes().values()){ 
-				p.ellipse((i+b.x())*gridSize, (b.h()+b.y())*gridSize, gridSize/2, gridSize/2);
-				checkClickedNode(i+b.x(), b.h()+b.y(), gmousex, gmousey, 2);
+			for(OutNode a : b.getControlOutNodes().values()){
+
+				drawNode(a, b.w()+b.x()-i, b.h()+b.y());
+				checkClickedNode(b.w()+b.x()-i, b.h()+b.y(), gmousex, gmousey, 2);
 				i++;
+				MaShine.println(a.getClassName()+": "+a.get());
 			}
 		}
 
@@ -98,7 +106,39 @@ public class Grid{
 		p.popMatrix();
 	}
 
-	private void checkClickedNode(int x, int y, int gx, int gy, int t){
+	private void drawNode(Node n, int x, int y){
+		p.stroke(38,50,56); // #263238
+		p.strokeWeight(4);
+
+		if(n instanceof InNode){
+			p.fill(100,255,218); // #64FFDA
+		}else{
+			p.fill(255,255,0); // #FFFF00
+		}
+		p.rectMode(p.RADIUS);
+
+		p.strokeJoin(p.ROUND);
+		if(n.getClassName().equals("Number")){
+			p.ellipse(x*gridSize, y*gridSize, gridSize/2.5f, gridSize/2.5f);
+		}else if(n.getClassName().equals("Boolean")){
+			p.rect(x*gridSize, y*gridSize, gridSize/5, gridSize/5);
+		}else if(n.getClassName().equals("Frame")){
+			p.triangle((x-0.15f)*gridSize, (y-0.25f)*gridSize, (x-0.15f)*gridSize, (y+0.25f)*gridSize, (x+0.23f)*gridSize, y*gridSize);
+		}else if(n.getClassName().equals("Sequence")){
+			p.triangle((x-0.15f)*gridSize, (y-0.25f)*gridSize, (x-0.15f)*gridSize, (y+0.25f)*gridSize, (x+0.23f)*gridSize, y*gridSize);
+			p.ellipse((x-0.1f)*gridSize, y*gridSize, gridSize/6, gridSize/6);
+		}else if(n.getClassName().equals("DeviceGroup")){
+			p.rect(x*gridSize, y*gridSize, gridSize/5, gridSize/5);
+			p.strokeWeight(3);
+			p.line((x-0.25f)*gridSize, y*gridSize, (x+0.25f)*gridSize, y*gridSize);
+			p.line(x*gridSize, (y-0.25f)*gridSize, x*gridSize, (y+0.25f)*gridSize);
+			p.strokeWeight(4);
+		}
+
+		p.rectMode(p.CORNER);
+	}
+
+	void checkClickedNode(int x, int y, int gx, int gy, int t){
 		if(x == gx && y == gy && click){
 			if(t == 1){
 				start = new PVector(x,y);
@@ -202,14 +242,14 @@ public class Grid{
 					int x = (i == 0 ? current.x - 1 : (i == 2 ? current.x + 1 : current.x));
 					int y = (i == 3 ? current.y - 1 : (i == 1 ? current.y + 1 : current.y));
 			// process it :
-				if(
-					x < 0 ||
-					y < 0 ||
-					x > map.length -1 ||
-					y > map[0].length -1 ||
-					closed.containsKey(x+":"+y)
+					if(
+						x < 0 ||
+						y < 0 ||
+						x > map.length -1 ||
+						y > map[0].length -1 ||
+						closed.containsKey(x+":"+y)
 				){  // unreachable/treated block, end laps
-					// invalid (1:blocked,      middle segment a not on free space         middle segment on a starting point   )
+					// invalid (1:blocked,      middle segment a not on free space         end point on a starting point   )
 					}else if(map[x][y] == 1 || (x != x2 || y != y2) && map[x][y] != 0 ||  (x == x2 && y == y2) && map[x][y] == map[x1][y1]){
 					}else{
 						// heuristic score
@@ -269,8 +309,9 @@ public class Grid{
 					map[(int)Math.floor(bx-min.x)][(int)Math.floor(by-min.y)] = 1; // 1 BLOCKED
 					if(y == 0 && x != 0 && x <= b.topNodeCount()) map[(int)Math.floor(bx-min.x)][(int)Math.floor(by-min.y)] = 2; // 2 IN
 					if(x == 0 && y != 0 && y <= b.leftNodeCount()) map[(int)Math.floor(bx-min.x)][(int)Math.floor(by-min.y)] = 2; // 2 IN
-					if(x == b.w() && y != 0 && y <= b.rightNodeCount()) map[(int)Math.floor(bx-min.x)][(int)Math.floor(by-min.y)] = 3; // 3 OUT
-					if(y == b.h() && x != 0 && x <= b.bottomNodeCount()) map[(int)Math.floor(bx-min.x)][(int)Math.floor(by-min.y)] = 3; // 3 OUT
+					
+					if(x == b.w() && y != b.h() && y >= b.h() - b.rightNodeCount()) map[(int)Math.floor(bx-min.x)][(int)Math.floor(by-min.y)] = 3; // 3 OUT
+					if(y == b.h() && x != b.w() && x >= b.w() - b.bottomNodeCount()) map[(int)Math.floor(bx-min.x)][(int)Math.floor(by-min.y)] = 3; // 3 OUT
 				}
 			}
 		}

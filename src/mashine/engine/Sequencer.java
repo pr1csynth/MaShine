@@ -42,19 +42,19 @@ public class Sequencer extends Block{
 		
 		*/
 
-		controlIn.put("forward", 	new InNode(false));
-		controlIn.put("backward", 	new InNode(false));
-		controlIn.put("reset",	 	new InNode(false));
-		controlIn.put("loop",	 	new InNode(true));
+		controlIn.put("forward", 	new InNode<Boolean>(false));
+		controlIn.put("backward", 	new InNode<Boolean>(false));
+		controlIn.put("reset",	 	new InNode<Boolean>(false));
+		controlIn.put("loop",	 	new InNode<Boolean>(true));
 
-		contentIn.put("sequence", 	new InNode(new Sequence()));
+		contentIn.put("sequence", 	new InNode<Sequence>(new Sequence()));
 
-		controlOut.put("changed",	new OutNode(this, false));
-		controlOut.put("at_end",	new OutNode(this, false));
-		controlOut.put("seq_size",	new OutNode(this, 0));
-		controlOut.put("index",		new OutNode(this, 0));
+		controlOut.put("changed",	new OutNode<Boolean>(this, false));
+		controlOut.put("at_end",	new OutNode<Boolean>(this, false));
+		controlOut.put("seq_size",	new OutNode<Double>(this, 0.0));
+		controlOut.put("index",		new OutNode<Double>(this, 0.0));
 
-		contentOut.put("frame", 	new OutNode(this, new Frame()));
+		contentOut.put("frame", 	new OutNode<Frame>(this, new Frame()));
 	}
 
 	public void tick(){

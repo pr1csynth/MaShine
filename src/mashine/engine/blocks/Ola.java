@@ -43,14 +43,14 @@ public class Ola extends Block{
 		
 		*/
 
-		controlIn.put("reload", 	new InNode(false));
+		controlIn.put("reload", 	new InNode<Boolean>(false));
 
-		contentIn.put("frame", 		new InNode(new Frame()));
+		contentIn.put("frame", 		new InNode<Frame>(new Frame()));
 
-		controlOut.put("connected",	new OutNode(this, false));
-		controlOut.put("universes",	new OutNode(this, 0));
+		controlOut.put("connected",	new OutNode<Boolean>(this, false));
+		controlOut.put("universes",	new OutNode<Double>(this, 0.0));
 
-		contentOut.put("frame", 	new OutNode(this, new Frame()));
+		contentOut.put("frame", 	new OutNode<Frame>(this, new Frame()));
 	}
 
 	public void tick(){

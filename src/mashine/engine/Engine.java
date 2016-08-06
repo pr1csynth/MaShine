@@ -23,7 +23,8 @@ public class Engine extends Thread{
 	public Engine(){
 		blocks = new ArrayList<Block>();
 
-		blocks.add(new Ola());
+		//blocks.add(new Ola());
+		blocks.add(new Sequencer());
 
 		this.start();
 	}

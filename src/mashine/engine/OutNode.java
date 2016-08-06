@@ -1,20 +1,11 @@
 package mashine.engine;
 
-public class OutNode<T>{
+public class OutNode<T> extends Node<T>{
 
-	private T value;
 	private Block parent;
 	
 	public OutNode(Block parent, T value){
+		super(value);
 		this.parent = parent;
-		this.value = value;
-	}
-
-	public T get(){
-		return value;
-	}
-
-	public void set(T value){
-		this.value = value;
 	}
 }
