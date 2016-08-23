@@ -134,9 +134,9 @@ public class Inputs{
 		}
 	}
 
-	public void registerAction(String destination, Do action){	if(!actions.containsKey(destination)) actions.put(destination, action);}
-	public void registerState(String destination){  if(!states.contains(destination)) states.add(destination);}
-	public void registerRange(String destination){	if(!ranges.contains(destination)) ranges.add(destination);}
+	public void registerAction(String destination, Do action){ actions.put(destination, action);}
+	public void registerState(String destination){ states.add(destination);}
+	public void registerRange(String destination){ ranges.add(destination);}
 
 	public void link(String destination, String source){actionLinks.put(destination, source);}
 	public void range(String destination, String source){rangeLinks.put(destination, source);}
