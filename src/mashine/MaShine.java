@@ -21,7 +21,7 @@ import processing.event.MouseEvent;
 
 public class MaShine extends PApplet{
 
-	public static String VERSION = "0.1.1";
+	public static String VERSION = "0.1.2";
 
 	private static final String[] MAIN_WINDOW = new String[] { "mashine.MaShine" };
 	private String lastSavedTo = "";
