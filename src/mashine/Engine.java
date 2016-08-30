@@ -64,7 +64,7 @@ public class Engine{
 
 	public String addFilter(String type){
 		if(MaShine.bank.getFilter(type) != null){
-			filterIndex ++;
+			filterIndex = (int) Math.round(MaShine.m.random(0, 1023));
 			String name = "mixer.filter."+hex(filterIndex);
 			Filter f = new Filter(name, MaShine.bank.getFilter(type));
 			filters.add(f);
