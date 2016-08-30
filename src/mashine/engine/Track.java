@@ -56,7 +56,7 @@ public class Track implements Serializable{
 
 	public String addFilter(String type){
 		if(MaShine.bank.getFilter(type) != null){
-			filterIndex ++;
+			filterIndex = (int) Math.round(MaShine.m.random(0, 1023));
 			String name = "track."+this.name+".filter."+hex(filterIndex);
 			Filter f = new Filter(name, MaShine.bank.getFilter(type));
 			filters.add(f);
@@ -73,6 +73,6 @@ public class Track implements Serializable{
 	public void endTweak(){sequencer.endTweak();tweaked = false;}
 
 	public static String hex(int n) {
-		return String.format("%2s", Integer.toHexString(n)).replace(' ', '0');
+		return String.format("%5s", Integer.toHexString(n)).replace(' ', '0');
 	}
 }
