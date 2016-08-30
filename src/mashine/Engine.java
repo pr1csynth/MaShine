@@ -62,9 +62,9 @@ public class Engine{
 	public ArrayList<Track> getTracks(){return tracks;}
 	public ArrayList<Filter> getFilters(){return filters;}
 
-	public String addFilter(String scriptName){
-		if(MaShine.bank.getFilters().contains(scriptName)){
-			filterIndex ++;
+	public String addFilter(String type){
+		if(MaShine.bank.getFilter(type) != null){
+			filterIndex = (int) Math.round(MaShine.m.random(0, 1023));
 			String name = "mixer.filter."+hex(filterIndex);
 			Filter f = new Filter(name, scriptName);
 			filters.add(f);

@@ -21,7 +21,6 @@ import processing.event.MouseEvent;
 
 public class MaShine extends PApplet{
 
-
 	public static String VERSION = "devel";
 
 	private static final String[] MAIN_WINDOW = new String[] { "mashine.MaShine" };
